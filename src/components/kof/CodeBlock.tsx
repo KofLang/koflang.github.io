@@ -65,7 +65,7 @@ function tokenize(line: string): Token[] {
       i += ws[0].length;
       continue;
     }
-    push(rest[0], "");
+    push(rest.slice(0, 1), "");
     i += 1;
   }
   return tokens;
