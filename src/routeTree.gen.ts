@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as TargetsRouteImport } from './routes/targets'
+import { Route as WebRouteImport } from './routes/web'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const TargetsRoute = TargetsRouteImport.update({
   path: '/targets',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WebRoute = WebRouteImport.update({
+  id: '/web',
+  path: '/web',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/language': typeof LanguageRoute
   '/targets': typeof TargetsRoute
+  '/web': typeof WebRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/language': typeof LanguageRoute
   '/targets': typeof TargetsRoute
+  '/web': typeof WebRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/language': typeof LanguageRoute
   '/targets': typeof TargetsRoute
+  '/web': typeof WebRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/language' | '/targets'
+  fullPaths: '/' | '/language' | '/targets' | '/web'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/language' | '/targets'
-  id: '__root__' | '/' | '/language' | '/targets'
+  to: '/' | '/language' | '/targets' | '/web'
+  id: '__root__' | '/' | '/language' | '/targets' | '/web'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LanguageRoute: typeof LanguageRoute
   TargetsRoute: typeof TargetsRoute
+  WebRoute: typeof WebRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TargetsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/web': {
+      id: '/web'
+      path: '/web'
+      fullPath: '/web'
+      preLoaderRoute: typeof WebRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LanguageRoute: LanguageRoute,
   TargetsRoute: TargetsRoute,
+  WebRoute: WebRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
