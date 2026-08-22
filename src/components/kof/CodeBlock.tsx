@@ -55,6 +55,7 @@ function tokenize(line: string): Token[] {
     const punc = rest.match(/^[^A-Za-z0-9_\s"]+/);
     if (punc) {
       push(punc[0], "text-code-punc");
+
       i += punc[0].length;
       continue;
     }
