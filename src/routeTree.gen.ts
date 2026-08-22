@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocsRouteImport } from './routes/docs'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as TargetsRouteImport } from './routes/targets'
@@ -18,6 +19,11 @@ import { Route as WebRouteImport } from './routes/web'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LanguageRoute = LanguageRouteImport.update({
@@ -43,6 +49,7 @@ const WebRoute = WebRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
   '/language': typeof LanguageRoute
   '/roadmap': typeof RoadmapRoute
   '/targets': typeof TargetsRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
   '/language': typeof LanguageRoute
   '/roadmap': typeof RoadmapRoute
   '/targets': typeof TargetsRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
   '/language': typeof LanguageRoute
   '/roadmap': typeof RoadmapRoute
   '/targets': typeof TargetsRoute
@@ -65,14 +74,16 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/language' | '/roadmap' | '/targets' | '/web'
+  fullPaths: '/' | '/docs' | '/language' | '/roadmap' | '/targets' | '/web'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/language' | '/roadmap' | '/targets' | '/web'
-  id: '__root__' | '/' | '/language' | '/roadmap' | '/targets' | '/web'
+  to: '/' | '/docs' | '/language' | '/roadmap' | '/targets' | '/web'
+  id:
+    '__root__' | '/' | '/docs' | '/language' | '/roadmap' | '/targets' | '/web'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DocsRoute: typeof DocsRoute
   LanguageRoute: typeof LanguageRoute
   RoadmapRoute: typeof RoadmapRoute
   TargetsRoute: typeof TargetsRoute
@@ -86,6 +97,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/language': {
@@ -121,6 +139,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DocsRoute: DocsRoute,
   LanguageRoute: LanguageRoute,
   RoadmapRoute: RoadmapRoute,
   TargetsRoute: TargetsRoute,
