@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LanguageRouteImport } from './routes/language'
+import { Route as TargetsRouteImport } from './routes/targets'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const LanguageRoute = LanguageRouteImport.update({
   path: '/language',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TargetsRoute = TargetsRouteImport.update({
+  id: '/targets',
+  path: '/targets',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/language': typeof LanguageRoute
+  '/targets': typeof TargetsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/language': typeof LanguageRoute
+  '/targets': typeof TargetsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/language': typeof LanguageRoute
+  '/targets': typeof TargetsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/language'
+  fullPaths: '/' | '/language' | '/targets'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/language'
-  id: '__root__' | '/' | '/language'
+  to: '/' | '/language' | '/targets'
+  id: '__root__' | '/' | '/language' | '/targets'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LanguageRoute: typeof LanguageRoute
+  TargetsRoute: typeof TargetsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LanguageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/targets': {
+      id: '/targets'
+      path: '/targets'
+      fullPath: '/targets'
+      preLoaderRoute: typeof TargetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LanguageRoute: LanguageRoute,
+  TargetsRoute: TargetsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
