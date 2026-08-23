@@ -15,6 +15,7 @@ import { Route as DownloadRouteImport } from './routes/download'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
+import { Route as StandardLibraryRouteImport } from './routes/standard-library'
 import { Route as TargetsRouteImport } from './routes/targets'
 import { Route as WebRouteImport } from './routes/web'
 
@@ -48,6 +49,11 @@ const RoadmapRoute = RoadmapRouteImport.update({
   path: '/roadmap',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StandardLibraryRoute = StandardLibraryRouteImport.update({
+  id: '/standard-library',
+  path: '/standard-library',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TargetsRoute = TargetsRouteImport.update({
   id: '/targets',
   path: '/targets',
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
   '/roadmap': typeof RoadmapRoute
+  '/standard-library': typeof StandardLibraryRoute
   '/targets': typeof TargetsRoute
   '/web': typeof WebRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
   '/roadmap': typeof RoadmapRoute
+  '/standard-library': typeof StandardLibraryRoute
   '/targets': typeof TargetsRoute
   '/web': typeof WebRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
   '/roadmap': typeof RoadmapRoute
+  '/standard-library': typeof StandardLibraryRoute
   '/targets': typeof TargetsRoute
   '/web': typeof WebRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/language'
     | '/learn'
     | '/roadmap'
+    | '/standard-library'
     | '/targets'
     | '/web'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/language'
     | '/learn'
     | '/roadmap'
+    | '/standard-library'
     | '/targets'
     | '/web'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/language'
     | '/learn'
     | '/roadmap'
+    | '/standard-library'
     | '/targets'
     | '/web'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   LanguageRoute: typeof LanguageRoute
   LearnRoute: typeof LearnRoute
   RoadmapRoute: typeof RoadmapRoute
+  StandardLibraryRoute: typeof StandardLibraryRoute
   TargetsRoute: typeof TargetsRoute
   WebRoute: typeof WebRoute
 }
@@ -178,6 +191,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoadmapRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/standard-library': {
+      id: '/standard-library'
+      path: '/standard-library'
+      fullPath: '/standard-library'
+      preLoaderRoute: typeof StandardLibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/targets': {
       id: '/targets'
       path: '/targets'
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   LanguageRoute: LanguageRoute,
   LearnRoute: LearnRoute,
   RoadmapRoute: RoadmapRoute,
+  StandardLibraryRoute: StandardLibraryRoute,
   TargetsRoute: TargetsRoute,
   WebRoute: WebRoute,
 }
