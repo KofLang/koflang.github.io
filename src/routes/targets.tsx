@@ -9,12 +9,12 @@ export const Route = createFileRoute("/targets")({
       {
         name: "description",
         content:
-          "JVM, Native, Script e Web: um único frontend de linguagem, Kof IR e backends dedicados. Kof não é um transpiler.",
+          "JVM, Native e KofJS (web): um único frontend de linguagem, Kof IR e backends dedicados. Kof não é um transpiler. Script é runtime planejado.",
       },
       { property: "og:title", content: "Targets — Kof" },
       {
         property: "og:description",
-        content: "Kof IR para JVM bytecode, binário nativo, script e, futuramente, KofJS.",
+        content: "Kof IR para JVM bytecode, binário nativo e ES Modules (KofJS, alpha).",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "/targets" },
@@ -63,13 +63,16 @@ Native Backend
  ↓
 Executable`}</Ascii>
             <p className="mt-4">
-              O backend nativo gera código nativo diretamente. O GC nativo ainda está em
-              desenvolvimento.
+              O backend nativo gera ELF x86-64 diretamente (syscalls próprias, sem libc
+              obrigatória). O GC nativo ainda está em desenvolvimento.
             </p>
           </Card>
 
-          <Card title="Script" status="in-development">
-            Execução rápida para scripts e automações, usando exatamente a mesma linguagem.
+          <Card title="Script" status="planned">
+            Execução direta para scripts e automações, usando exatamente a mesma linguagem. O
+            runtime dedicado ainda não foi implementado — hoje,{" "}
+            <span className="font-mono">kof run</span> já cobre o fluxo compilando antes de
+            executar.
           </Card>
 
           <Card title="Web — KofJS" status="in-development">
@@ -77,12 +80,11 @@ Executable`}</Ascii>
  ↓
 KofJS (alpha)
  ↓
-JavaScript
- ↓
-Browser`}</Ascii>
-            Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules (ECMAScript 2022+)
-            executados na engine JS embarcada (GraalJS — sem Node.js nem runtime externo). Status
-            detalhado em docs/targets/KOFJS.md no repositório.
+ES Modules (ECMAScript 2022+)`}</Ascii>
+            Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules executados na engine JS
+            embarcada (GraalJS — sem Node.js nem runtime externo). Classes, herança, List, JSON,
+            exceções, kof.io e kof.time já funcionam; a plataforma web no browser é a próxima fase.
+            Status detalhado em docs/targets/KOFJS.md no repositório.
           </Card>
         </div>
       </Section>
@@ -120,7 +122,7 @@ Target`}</Ascii>
     String name
 )
 
-fun main() {
+main() {
     var user = User("Mel")
     println(user.name)
 }`}

@@ -57,7 +57,7 @@ const sections = [
   },
   {
     title: "Targets",
-    desc: "JVM, Native, Script e KofJS a partir de um único frontend.",
+    desc: "JVM, Native e KofJS a partir de um único frontend.",
     to: "/targets" as const,
   },
   { title: "Web", desc: "kof serve e a visão da plataforma web.", to: "/web" as const },
@@ -143,9 +143,15 @@ $ kof version`}
           <div className="grid gap-4 sm:grid-cols-2">
             <Card title="Compilador" status="available" />
             <Card title="CLI" status="available" />
-            <Card title="LSP" status="in-development" />
-            <Card title="Testes" status="in-development" />
-            <Card title="Formatador" status="planned" />
+            <Card title="Testes (kof test)" status="available" />
+            <Card title="Benchmarks (kof bench)" status="available" />
+            <Card title="LSP" status="in-development">
+              Diagnostics reais do frontend; hover e completion são o próximo passo.
+            </Card>
+            <Card title="Debugger (kof debug)" status="in-development">
+              MVP DAP sobre stdio no target JVM.
+            </Card>
+            <Card title="Formatador (kof fmt)" status="planned" />
             <Card title="Gerenciador de pacotes" status="planned" />
           </div>
         </div>

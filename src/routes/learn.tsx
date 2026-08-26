@@ -56,7 +56,7 @@ function LearnPage() {
         <div className="grid gap-4 lg:grid-cols-2">
           <CodeBlock
             filename="hello.kf"
-            code={`fun main() {
+            code={`main() {
     println("Hello from Kof")
 }`}
           />
@@ -77,11 +77,11 @@ $ kof check hello.kf`}
             <p className="mono-label mb-3">01 — funções tipadas</p>
             <CodeBlock
               filename="add.kf"
-              code={`fun add(Int a, Int b): Int {
+              code={`add(Int a, Int b): Int {
     return a + b
 }
 
-fun main() {
+main() {
     println(add(2, 3))
 }`}
             />
@@ -95,7 +95,7 @@ fun main() {
     String email
 )
 
-fun main() {
+main() {
     var user = User("Mel", "mel@example.com")
     println(user.name)
 }`}
@@ -105,13 +105,12 @@ fun main() {
             <p className="mono-label mb-3">03 — coleções</p>
             <CodeBlock
               filename="collections.kf"
-              code={`fun main() {
-    var users = new List<String>()
+              code={`main() {
+    var users = listOf("Mel", "Kof")
 
-    users.add("Mel")
-    users.add("Kof")
-
-    println(users.get(0))
+    for (var user in users) {
+        println(user)
+    }
 }`}
             />
           </div>

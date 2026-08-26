@@ -97,17 +97,17 @@ function LanguagePage() {
         <div className="grid gap-4 lg:grid-cols-2">
           <CodeBlock
             filename="hello.kf"
-            code={`fun main() {
+            code={`main() {
     println("Hello from Kof")
 }`}
           />
           <CodeBlock
             filename="add.kf"
-            code={`fun add(Int a, Int b): Int {
+            code={`add(Int a, Int b): Int {
     return a + b
 }
 
-fun main() {
+main() {
     println(add(2, 3))
 }`}
           />
@@ -118,20 +118,19 @@ fun main() {
     String email
 )
 
-fun main() {
+main() {
     var user = User("Mel", "mel@example.com")
     println(user.name)
 }`}
           />
           <CodeBlock
             filename="collections.kf"
-            code={`fun main() {
-    var users = new List<String>()
+            code={`main() {
+    var users = listOf("Mel", "Kof")
 
-    users.add("Mel")
-    users.add("Kof")
-
-    println(users.get(0))
+    for (var user in users) {
+        println(user)
+    }
 }`}
           />
         </div>
@@ -145,16 +144,18 @@ fun main() {
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            "classes",
+            "classes e primary constructor",
             "records",
             "inheritance",
             "interfaces",
             "constructors",
-            "exceptions",
+            "exceptions reais",
             "generics",
             "collections",
             "string operations",
             "control flow",
+            "lambdas com capturas",
+            "default parameters",
           ].map((f) => (
             <div
               key={f}
@@ -182,9 +183,9 @@ Kof Compiler
      ↓
 Kof IR
      ↓
- ┌───┼───────────┬───────────┐
- ↓   ↓           ↓           ↓
-JVM Native     Script       Web`}</Ascii>
+ ┌───┼───────────┐
+ ↓   ↓           ↓
+JVM Native     KofJS`}</Ascii>
       </Section>
     </main>
   );

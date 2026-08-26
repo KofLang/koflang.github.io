@@ -8,7 +8,7 @@ export const Route = createFileRoute("/standard-library")({
       {
         name: "description",
         content:
-          "A stdlib da Kof: coleções, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP e kof.log disponíveis; concorrência, async e security em construção.",
+          "A stdlib da Kof: coleções, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security e kof.log disponíveis; async e concorrência além da JVM em construção.",
       },
       { property: "og:title", content: "Standard Library — Kof" },
       {
@@ -30,7 +30,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "arquivos (kof.io)",
     status: "available",
-    note: "File, Path e Directory; texto UTF-8. JVM e Native.",
+    note: "File, Path e Directory; texto UTF-8 e erros consistentes. Nos três targets.",
   },
   {
     name: "JSON",
@@ -60,18 +60,18 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "configuração (kof.config)",
     status: "available",
-    note: "Arquivo > env > profile, tipado. CONF001 fora da JVM.",
+    note: "Arquivo > env > profile, tipado. JVM e Native (asm próprio); CONF001 no KofJS.",
   },
   { name: "tempo (kof.time)", status: "available", note: "now() em todos os targets." },
   {
     name: "interface (kof.ui)",
     status: "available",
-    note: "Window, widgets, bind e layout; renderização DOM via KofJS no webview nativo ou browser.",
+    note: "Window, widgets, bind e layout; renderização DOM via KofJS no webview nativo (WebKitGTK) ou browser.",
   },
   {
     name: "segurança (kof.security)",
-    status: "in-development",
-    note: "Passwords, crypto, JWT e secrets na JVM; parcial nos demais targets.",
+    status: "available",
+    note: "v1 nos três targets: PBKDF2 (600k), SHA-256/512, HMAC, JWT HS256 e secrets — constant-time, secure by default; no Native, asm x86-64 sem libc.",
   },
   {
     name: "concorrência (spawn)",
@@ -93,6 +93,11 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     name: "cliente HTTP",
     status: "available",
     note: "http.get, http.post e http.status na JVM; HTTP002 nos demais targets.",
+  },
+  {
+    name: "processos (kof.process)",
+    status: "available",
+    note: "Execução de processos externos (kof.process + kof_process_run).",
   },
   { name: "rede (além do HTTP)", status: "planned", note: "Camada de rede além do cliente HTTP." },
 ];

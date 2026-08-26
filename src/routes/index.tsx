@@ -24,7 +24,7 @@ const heroCode = `class User(
     String email
 )
 
-fun main() {
+main() {
     var user = User("Mel", "mel@example.com")
     println(user.name)
 }`;
@@ -92,23 +92,21 @@ Executável`,
   },
   {
     name: "Script",
-    status: "in-development",
-    desc: "Execução rápida para scripts e automações usando exatamente a mesma linguagem.",
+    status: "planned",
+    desc: "Execução direta para scripts e automações usando exatamente a mesma linguagem. O runtime dedicado ainda não foi implementado — hoje o mesmo resultado vem de kof run, que compila e executa.",
     pipeline: `Kof
  ↓
-Runtime Kof`,
+Runtime Kof (planejado)`,
   },
   {
     name: "Web — KofJS",
     status: "in-development",
-    desc: "Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules executados na engine JS embarcada. Ainda não é um target maduro.",
+    desc: "Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules (ECMAScript 2022+) executados na engine JS embarcada (GraalJS). A plataforma web no browser é a próxima fase.",
     pipeline: `Kof
  ↓
 KofJS (alpha)
  ↓
-JavaScript
- ↓
-Browser`,
+JavaScript`,
   },
 ];
 
@@ -122,9 +120,10 @@ const stdlibChips: { name: string; status: Status }[] = [
   { name: "logs (kof.log)", status: "available" },
   { name: "configuração (kof.config)", status: "available" },
   { name: "tempo (kof.time)", status: "available" },
+  { name: "UI (kof.ui)", status: "available" },
+  { name: "segurança (kof.security)", status: "available" },
   { name: "concorrência (spawn)", status: "in-development" },
   { name: "async", status: "in-development" },
-  { name: "segurança (kof.security)", status: "in-development" },
   { name: "ORM (kof.orm)", status: "available" },
   { name: "mensageria (kof.mq)", status: "available" },
   { name: "cliente HTTP (http.get)", status: "available" },
@@ -134,8 +133,13 @@ function ArchDiagram() {
   const rows: { backend: string; artifact: string; world: string; status: Status }[] = [
     { backend: "Backend JVM", artifact: ".class", world: "JVM", status: "available" },
     { backend: "Backend nativo", artifact: "Binário", world: "OS/CPU", status: "available" },
-    { backend: "Script", artifact: "Runtime", world: "Interativo", status: "in-development" },
-    { backend: "KofJS", artifact: "ES Modules", world: "Browser", status: "in-development" },
+    { backend: "Script", artifact: "Runtime", world: "Interativo", status: "planned" },
+    {
+      backend: "KofJS",
+      artifact: "ES Modules",
+      world: "JS engine / Browser",
+      status: "in-development",
+    },
   ];
 
   return (
@@ -188,7 +192,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.0.14-alpha</span>
+              <span className="text-signal">v0.1.0-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -203,8 +207,8 @@ function HomePage() {
             </h1>
 
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
-              Menos código. Mais intenção. Uma linguagem moderna, estaticamente tipada e compilada
-              para JVM, Native, Script e Web.
+              Menos código. Mais intenção. Uma linguagem moderna, estaticamente tipada, que compila
+              direto para JVM, binário nativo e web (KofJS, em alpha).
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -485,7 +489,7 @@ software`}</Ascii>
     String name
 )
 
-fun main() {
+main() {
     var user = User("Mel")
     println(user.name)
 }`}
@@ -761,22 +765,26 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH, hoje na fase 0.0.x-alpha, onde o PATCH é o pontinho da vergonha."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a linguagem acabou de sair da fase 0.0.x-alpha e está na 0.1.0-beta."
       >
         <div className="grid gap-4 lg:grid-cols-3">
           <Card title="Concluído" status="available">
             Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
-            backends JVM, Native e KofJS (alpha), classes, records, herança, interfaces, generics,
-            lambdas, exceções, coleções, kof build/run/serve/test/debug/bench, kof.orm, kof.mq,
-            cliente HTTP e releases multiplataforma (Linux, macOS, Windows).
+            backends JVM e Native (estáveis) e KofJS (alpha), classes, records, herança, interfaces,
+            generics, lambdas com capturas, exceções reais, coleções, kof
+            build/run/serve/test/debug/bench, kof.web, kof.db + kof.orm, kof.mq, cliente HTTP,
+            kof.security nos três targets, kof.ui e releases multiplataforma (Linux, macOS,
+            Windows).
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            Biblioteca padrão, servidor HTTP, JSON, async, concorrência, GC nativo, MySQL/MariaDB
-            via wire protocol, LSP, debugger, KofJS.
+            Biblioteca padrão, async, concorrência além da JVM (spawn nativo), GC nativo,
+            MySQL/MariaDB via wire protocol, ponto flutuante SSE no Native, LSP além de diagnostics,
+            debugger além do MVP JVM e a plataforma web no browser.
           </Card>
           <Card title="Planejado" status="planned">
-            Gerenciador de pacotes, registry, especificação completa da linguagem, conformance
-            suite, plataforma web completa, ecossistema completo.
+            KofAndroid, KofScript (runtime de execução direta), gerenciador de pacotes, registry,
+            especificação completa da linguagem, conformance suite, auto-hospedagem do compilador e
+            plataforma web completa.
           </Card>
         </div>
         <Link

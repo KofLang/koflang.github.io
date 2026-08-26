@@ -51,13 +51,18 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "kof run",
       "kof serve",
       "kof test",
-      "kof debug (MVP)",
+      "kof debug (MVP, JVM)",
       "kof bench",
-      "kof.db — SQLite nativo",
+      "kof.web — rotas e middleware (JVM)",
+      "kof.db — JDBC + SQLite nativo",
+      "kof.orm — entity, CRUD, migrate, MongoDB (JVM)",
       "kof.log nativo",
-      "kof.orm (JVM)",
       "kof.mq — pub/sub (JVM)",
       "cliente HTTP (JVM)",
+      "kof.security v1 (JVM, Native e JS)",
+      "kof.ui — widgets com render KofJS",
+      "spawn na JVM (virtual threads)",
+      "otimizador de IR + kof bench no CI",
       "releases multiplataforma",
     ],
   },
@@ -66,27 +71,31 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     title: "Em desenvolvimento",
     items: [
       "Standard Library",
-      "Servidor HTTP",
-      "JSON",
       "Async",
-      "Concurrency",
+      "Concurrency — spawn no Native (CONC001)",
       "Native GC",
-      "MySQL/MariaDB (wire protocol)",
-      "LSP",
-      "Debugger",
-      "KofJS (alpha)",
+      "MySQL/MariaDB nativo (wire protocol)",
+      "Ponto flutuante SSE no Native (FLT001)",
+      "JSON de objetos no Native (JSN002)",
+      "LSP — hover e completion",
+      "Debugger — além do MVP JVM",
+      "KofJS — plataforma web no browser",
     ],
   },
   {
     status: "planned",
     title: "Planejado",
     items: [
-      "package manager",
-      "registry",
+      "KofScript — runtime de execução direta",
+      "KofAndroid",
+      "kof fmt",
+      "package manager (kof init, kofdeps, registry)",
       "complete language specification",
       "conformance suite",
+      "query DSL tipada para o ORM",
+      "módulos multi-arquivo",
       "full web platform",
-      "complete ecosystem",
+      "auto-hospedagem (compilador escrito em Kof)",
     ],
   },
 ];
@@ -123,7 +132,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A versão atual está na fase 0.0.x-alpha."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A versão atual é a 0.1.0-beta — a linguagem saiu da fase 0.0.x-alpha, mas o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">

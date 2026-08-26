@@ -60,8 +60,9 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.0.14-alpha, com artefatos para
-          Linux x86_64, macOS e Windows). Nenhum link de build inexistente é publicado aqui.
+          Os downloads apontam para as releases oficiais no GitHub (0.1.0-beta, com artefatos para
+          Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
+          aqui.
         </p>
       </Section>
 
@@ -97,7 +98,7 @@ function DownloadPage() {
               A JVM utilizada pelo tooling vem embutida na distribuição oficial.
             </p>
           </Card>
-          <Card title="Targets planejados na distribuição">
+          <Card title="Targets da distribuição">
             <ul className="mt-1 space-y-2">
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">JVM</span>
@@ -109,7 +110,7 @@ function DownloadPage() {
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">Script</span>
-                <StatusBadge status="in-development" />
+                <StatusBadge status="planned" />
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">KofJS</span>
@@ -132,10 +133,10 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.0.14-alpha
+Kof 0.1.0-beta
 Tooling API: 21
 Target: JVM
-JVM: bundled OpenJDK
+JVM: bundled OpenJDK (Temurin 21)
 Installation: ...`}
         />
       </Section>

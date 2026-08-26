@@ -64,11 +64,13 @@ $ kof serve app.kf --port 8080`}
           />
           <div className="grid gap-4">
             <Card title="kof serve" status="available">
-              Serve uma aplicação Kof diretamente a partir do arquivo fonte.
+              Serve uma aplicação Kof diretamente a partir do arquivo fonte. Na JVM, cada conexão
+              roda em virtual thread — sem servlet container, sem Spring.
             </Card>
-            <Card title="HTTP / JSON na stdlib" status="in-development">
-              Capacidades de HTTP e JSON estão sendo construídas dentro da standard library e do
-              runtime.
+            <Card title="HTTP e JSON na stdlib" status="available">
+              web.app(), rotas com path params, query, headers, middleware app.use e JSON tipado na
+              JVM; gaps no Native são diagnosticados em compile-time (JSN002) — nunca
+              silenciosamente.
             </Card>
           </div>
         </div>
@@ -78,15 +80,15 @@ $ kof serve app.kf --port 8080`}
         index="03"
         eyebrow="Objetivo"
         title="Frontend, backend, database, auth, messaging e async com pouquíssimos arquivos de código de negócio."
-        lead="Esse é o objetivo de longo prazo da plataforma, e ele ainda não está entregue. O que existe hoje é o compilador, os backends JVM e Native, e o início da camada web."
+        lead="Esse é o objetivo de longo prazo da plataforma, e ele ainda não está entregue. O que existe hoje: backends JVM e Native estáveis, KofJS em alpha e o começo real da camada web na JVM."
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Card title="HTTP deve ser simples" status="in-development" />
-          <Card title="Banco deve ser simples" status="in-development" />
-          <Card title="Mensageria deve ser simples" status="planned" />
+          <Card title="HTTP deve ser simples" status="available" />
+          <Card title="Banco deve ser simples" status="available" />
+          <Card title="Mensageria deve ser simples" status="available" />
           <Card title="Assincronismo deve ser simples" status="in-development" />
           <Card title="Concorrência deve ser simples" status="in-development" />
-          <Card title="Segurança deve ser simples" status="planned" />
+          <Card title="Segurança deve ser simples" status="available" />
         </div>
       </Section>
 
