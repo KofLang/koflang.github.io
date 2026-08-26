@@ -1,0 +1,72 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      # Sites <owner>.github.io são servidos da raiz; projetos comuns,
+      # sob /<repo>/. O build ajusta base e basepath a partir disso.
+      - name: Calcular base path
+        run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          if [[ "$repo_name" == *.github.io ]]; then
+            echo "PAGES_BASE=/" >> "$GITHUB_ENV"
+          else
+            echo "PAGES_BASE=/$repo_name/" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build estático
+        run: npm run build
+        env:
+          GITHUB_PAGES_BASE: ${{ env.PAGES_BASE }}
+
+      # O prerender grava os HTML na raiz de dist/client; para sites de
+      # projeto (/<repo>/) o artefato precisa espelhar esse subcaminho.
+      - name: Aninhar artefato ao subcaminho
+        if: env.PAGES_BASE != '/'
+        run: |
+          subpath="${PAGES_BASE#/}"
+          subpath="${subpath%/}"
+          mkdir -p "dist/pages/$subpath"
+          mv dist/client/* "dist/pages/$subpath/"
+          mv dist/client/.nojekyll dist/pages/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ env.PAGES_BASE == '/' && 'dist/client' || 'dist/pages' }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/kof/CodeBlock";
-import { Ascii, Card, LEARN_DIR, Section, TRAINING } from "@/components/kof/primitives";
+import { Ascii, Card, CURSO, LEARN_DIR, Section, TRAINING } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/learn")({
   head: () => ({
@@ -27,9 +27,29 @@ export const Route = createFileRoute("/learn")({
 function LearnPage() {
   return (
     <main>
+      <a
+        href={CURSO}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="rule-x block bg-surface transition-colors hover:bg-surface-2"
+      >
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-6 sm:px-8">
+          <div>
+            <p className="mono-label text-signal">Curso gratuito completo</p>
+            <p className="mt-1 text-lg font-semibold tracking-tight">
+              Aprenda Kof do zero ao avançado, de graça — fundamentos, estruturas de dados, banco,
+              segurança, web e mais.
+            </p>
+          </div>
+          <span className="rounded-sm border border-signal bg-signal px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary-foreground">
+            Acessar o curso →
+          </span>
+        </div>
+      </a>
+
       <Section
         index="01"
-        eyebrow="Learn"
+        eyebrow="Aprender"
         title="Comece pelo menor programa possível."
         lead="Kof é fácil de começar de propósito. Um arquivo, uma função main, sem projeto, sem configuração, sem cerimônia."
       >

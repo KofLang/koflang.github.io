@@ -4,13 +4,15 @@ export const GITHUB = "https://github.com/KofLang/Kof4j";
 export const RELEASES = `${GITHUB}/releases`;
 export const TRAINING = `${GITHUB}/tree/main/training`;
 export const LEARN_DIR = `${GITHUB}/tree/main/learn`;
+export const EDITOR = "https://github.com/KofLang/Kof-Editor";
+export const CURSO = "https://github.com/lunalully/curso-completo-de-kof";
 
 export type Status = "available" | "in-development" | "planned";
 
 const statusText: Record<Status, string> = {
-  available: "Available",
-  "in-development": "In development",
-  planned: "Planned",
+  available: "Disponível",
+  "in-development": "Em desenvolvimento",
+  planned: "Planejado",
 };
 
 export function StatusBadge({ status }: { status: Status }) {
@@ -82,9 +84,7 @@ export function Ascii({
   className?: string;
 }) {
   return (
-    <figure
-      className={`overflow-hidden rounded-md border border-border bg-surface ${className}`}
-    >
+    <figure className={`overflow-hidden rounded-md border border-border bg-surface ${className}`}>
       {label && (
         <figcaption className="border-b border-border bg-surface-2/60 px-3 py-2 mono-label">
           {label}

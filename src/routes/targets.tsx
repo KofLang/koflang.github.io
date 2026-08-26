@@ -30,7 +30,7 @@ function TargetsPage() {
       <Section
         index="01"
         eyebrow="Targets"
-        title="One language. Multiple worlds."
+        title="Uma linguagem. Vários mundos."
         lead="O mesmo frontend de linguagem alimenta todos os backends. O código não muda porque o target mudou."
       >
         <div className="grid gap-4 lg:grid-cols-2">
@@ -48,16 +48,13 @@ JVM Backend
  ↓
 JVM`}</Ascii>
             <p className="mt-4">
-              O backend JVM gera bytecode diretamente. Java é uma plataforma de
-              interoperabilidade, não uma linguagem intermediária.
+              O backend JVM gera bytecode diretamente. Java é uma plataforma de interoperabilidade,
+              não uma linguagem intermediária.
             </p>
           </Card>
 
           <Card title="Native" status="available">
-            <p>
-              Binários nativos sem exigir que o programador gerencie memória
-              manualmente.
-            </p>
+            <p>Binários nativos sem exigir que o programador gerencie memória manualmente.</p>
             <Ascii className="mt-4">{`Kof
  ↓
 Kof IR
@@ -72,20 +69,20 @@ Executable`}</Ascii>
           </Card>
 
           <Card title="Script" status="in-development">
-            Execução rápida para scripts e automações, usando exatamente a mesma
-            linguagem.
+            Execução rápida para scripts e automações, usando exatamente a mesma linguagem.
           </Card>
 
-          <Card title="Web — KofJS" status="planned">
+          <Card title="Web — KofJS" status="in-development">
             <Ascii className="mb-4">{`Kof
  ↓
-KofJS
+KofJS (alpha)
  ↓
 JavaScript
  ↓
 Browser`}</Ascii>
-            KofJS ainda não existe como backend pronto. Está listado aqui como direção
-            declarada do projeto, não como capacidade disponível.
+            Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules (ECMAScript 2022+)
+            executados na engine JS embarcada (GraalJS — sem Node.js nem runtime externo). Status
+            detalhado em docs/targets/KOFJS.md no repositório.
           </Card>
         </div>
       </Section>
@@ -112,8 +109,8 @@ Target`}</Ascii>
 
       <Section
         index="03"
-        eyebrow="Memory"
-        title="You write code. The runtime handles memory."
+        eyebrow="Memória"
+        title="Você escreve código. O runtime cuida da memória."
         lead="O código Kof não deve mudar apenas porque foi compilado para Native. Nada de malloc, free, ponteiros ou lifetimes manuais."
       >
         <div className="grid gap-4 lg:grid-cols-2">
@@ -133,8 +130,8 @@ fun main() {
               Utiliza o garbage collector da JVM.
             </Card>
             <Card title="Native GC" status="in-development">
-              Native terá gerenciamento de memória próprio. A abstração de memória
-              pertence à plataforma, não ao usuário.
+              Native terá gerenciamento de memória próprio. A abstração de memória pertence à
+              plataforma, não ao usuário.
             </Card>
           </div>
         </div>

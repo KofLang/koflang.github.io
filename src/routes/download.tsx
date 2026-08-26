@@ -14,7 +14,8 @@ export const Route = createFileRoute("/download")({
       { property: "og:title", content: "Download — Kof" },
       {
         property: "og:description",
-        content: "Install Kof. That's it. Distribuição oficial em github.com/KofLang/Kof4j/releases.",
+        content:
+          "Instale o Kof. Só isso. Distribuição oficial em github.com/KofLang/Kof4j/releases.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "/download" },
@@ -36,7 +37,7 @@ function DownloadPage() {
       <Section
         index="01"
         eyebrow="Download"
-        title="Install Kof. That's it."
+        title="Instale o Kof. Só isso."
         lead="Kof é distribuída como uma plataforma autocontida. O usuário não precisa instalar Java separadamente para utilizar a distribuição oficial."
       >
         <div className="grid gap-4 sm:grid-cols-3">
@@ -59,8 +60,8 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub. Nenhum link de build
-          inexistente é publicado aqui.
+          Os downloads apontam para as releases oficiais no GitHub (0.0.14-alpha, com artefatos para
+          Linux x86_64, macOS e Windows). Nenhum link de build inexistente é publicado aqui.
         </p>
       </Section>
 
@@ -112,7 +113,7 @@ function DownloadPage() {
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">KofJS</span>
-                <StatusBadge status="planned" />
+                <StatusBadge status="in-development" />
               </li>
             </ul>
           </Card>
@@ -131,7 +132,7 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.0.x-alpha
+Kof 0.0.14-alpha
 Tooling API: 21
 Target: JVM
 JVM: bundled OpenJDK

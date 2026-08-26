@@ -22,9 +22,9 @@ export function GithubStats() {
   });
 
   const items = [
-    { label: "Stars", value: data ? String(data.stargazers_count) : "—" },
+    { label: "Estrelas", value: data ? String(data.stargazers_count) : "—" },
     { label: "Forks", value: data ? String(data.forks_count) : "—" },
-    { label: "Open issues", value: data ? String(data.open_issues_count) : "—" },
+    { label: "Issues abertas", value: data ? String(data.open_issues_count) : "—" },
     {
       label: "Último push",
       value: data

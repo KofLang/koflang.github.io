@@ -8,12 +8,13 @@ export const Route = createFileRoute("/standard-library")({
       {
         name: "description",
         content:
-          "A stdlib da Kof em evolução: collections e strings disponíveis; HTTP, JSON, database, async e concorrência em desenvolvimento.",
+          "A stdlib da Kof: coleções, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP e kof.log disponíveis; concorrência, async e security em construção.",
       },
       { property: "og:title", content: "Standard Library — Kof" },
       {
         property: "og:description",
-        content: "Complexidade que pode ser resolvida pela plataforma não deveria virar dependência.",
+        content:
+          "Complexidade que pode ser resolvida pela plataforma não deveria virar dependência.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "/standard-library" },
@@ -24,20 +25,76 @@ export const Route = createFileRoute("/standard-library")({
 });
 
 const capabilities: { name: string; status: Status; note: string }[] = [
-  { name: "collections", status: "available", note: "Listas e estruturas básicas." },
-  { name: "string operations", status: "available", note: "Operações de texto na linguagem." },
-  { name: "HTTP", status: "in-development", note: "Servir e consumir HTTP a partir da plataforma." },
-  { name: "JSON", status: "in-development", note: "Serialização como capacidade nativa." },
-  { name: "database", status: "in-development", note: "Acesso a dados sem montar um ORM." },
-  { name: "concurrency", status: "in-development", note: "Concorrência como parte do runtime." },
-  { name: "async", status: "in-development", note: "Assincronismo sem framework externo." },
-  { name: "testing", status: "in-development", note: "Testes acompanhando o tooling oficial." },
-  { name: "serialization", status: "in-development", note: "Formato-agnóstico, parte da stdlib." },
-  { name: "filesystem", status: "in-development", note: "Acesso a arquivos padronizado." },
-  { name: "time", status: "in-development", note: "Datas e durações na stdlib." },
-  { name: "messaging", status: "planned", note: "Mensageria como capacidade da plataforma." },
-  { name: "networking", status: "planned", note: "Camada de rede além do HTTP." },
-  { name: "security", status: "planned", note: "Autenticação e primitivas de segurança." },
+  { name: "coleções", status: "available", note: "List<T>, listOf e estruturas básicas." },
+  { name: "strings", status: "available", note: "Concat, comparação e API completa." },
+  {
+    name: "arquivos (kof.io)",
+    status: "available",
+    note: "File, Path e Directory; texto UTF-8. JVM e Native.",
+  },
+  {
+    name: "JSON",
+    status: "available",
+    note: "Encode/decode tipado; objetos no JVM, arrays tipados incluídos.",
+  },
+  {
+    name: "HTTP (kof.web)",
+    status: "available",
+    note: "web.app(), rotas com path params, middleware e servidor embutido no runtime. JVM.",
+  },
+  {
+    name: "banco de dados (kof.db)",
+    status: "available",
+    note: "JDBC com query tipada e transaction {} na JVM; SQLite nativo via .so direto (MySQL WIP). Gap DB001 no KofJS.",
+  },
+  {
+    name: "ORM (kof.orm)",
+    status: "available",
+    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM; validado em MariaDB 11 e PostgreSQL 16, com MongoDB. Gaps ORM001/ORM002 nos demais.",
+  },
+  {
+    name: "logs (kof.log)",
+    status: "available",
+    note: "Níveis, JSON estruturado e requestId. JVM e Native; LOG001 no KofJS.",
+  },
+  {
+    name: "configuração (kof.config)",
+    status: "available",
+    note: "Arquivo > env > profile, tipado. CONF001 fora da JVM.",
+  },
+  { name: "tempo (kof.time)", status: "available", note: "now() em todos os targets." },
+  {
+    name: "interface (kof.ui)",
+    status: "available",
+    note: "Window, widgets, bind e layout; renderização DOM via KofJS no webview nativo ou browser.",
+  },
+  {
+    name: "segurança (kof.security)",
+    status: "in-development",
+    note: "Passwords, crypto, JWT e secrets na JVM; parcial nos demais targets.",
+  },
+  {
+    name: "concorrência (spawn)",
+    status: "in-development",
+    note: "Virtual threads na JVM com join implícito; Native reporta CONC001.",
+  },
+  { name: "async", status: "in-development", note: "Assincronismo como parte do runtime." },
+  {
+    name: "testes",
+    status: "available",
+    note: 'Blocos test "nome" { } + assert; kof test reporta PASS/FAIL por teste (jvm, native e js).',
+  },
+  {
+    name: "mensageria (kof.mq)",
+    status: "available",
+    note: "Pub/sub em memória com filas limitadas (subscribe, publish, queue, push, pop). JVM; MQ001 nos demais.",
+  },
+  {
+    name: "cliente HTTP",
+    status: "available",
+    note: "http.get, http.post e http.status na JVM; HTTP002 nos demais targets.",
+  },
+  { name: "rede (além do HTTP)", status: "planned", note: "Camada de rede além do cliente HTTP." },
 ];
 
 function StdlibPage() {
@@ -46,7 +103,7 @@ function StdlibPage() {
       <Section
         index="01"
         eyebrow="Standard Library"
-        title="What if building software didn't require an entire ecosystem of ceremony?"
+        title="E se construir software não exigisse um ecossistema inteiro de cerimônia?"
         lead="Kof pretende tornar operações comuns parte da própria plataforma. Nada abaixo é apresentado como pronto sem estar marcado como tal."
       >
         <div className="grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-2">
@@ -65,7 +122,7 @@ function StdlibPage() {
       <Section
         index="02"
         eyebrow="Filosofia"
-        title="Complexity belongs in the platform."
+        title="Complexidade pertence à plataforma."
         lead="Não queremos esconder complexidade atrás de abstrações infinitas. Queremos eliminar complexidade desnecessária."
       >
         <div className="grid gap-4 lg:grid-cols-2">

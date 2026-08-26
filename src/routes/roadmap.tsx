@@ -26,7 +26,7 @@ export const Route = createFileRoute("/roadmap")({
 const groups: { status: Status; title: string; items: string[] }[] = [
   {
     status: "available",
-    title: "Completed",
+    title: "Concluído",
     items: [
       "Compiler foundation",
       "Lexer",
@@ -50,27 +50,37 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "kof build",
       "kof run",
       "kof serve",
+      "kof test",
+      "kof debug (MVP)",
+      "kof bench",
+      "kof.db — SQLite nativo",
+      "kof.log nativo",
+      "kof.orm (JVM)",
+      "kof.mq — pub/sub (JVM)",
+      "cliente HTTP (JVM)",
+      "releases multiplataforma",
     ],
   },
   {
     status: "in-development",
-    title: "In development",
+    title: "Em desenvolvimento",
     items: [
       "Standard Library",
-      "HTTP",
+      "Servidor HTTP",
       "JSON",
-      "Database",
       "Async",
       "Concurrency",
       "Native GC",
-      "Tooling",
+      "MySQL/MariaDB (wire protocol)",
+      "LSP",
+      "Debugger",
+      "KofJS (alpha)",
     ],
   },
   {
     status: "planned",
-    title: "Planned",
+    title: "Planejado",
     items: [
-      "KofJS",
       "package manager",
       "registry",
       "complete language specification",
@@ -94,17 +104,12 @@ function RoadmapPage() {
           {groups.map((group) => (
             <div key={group.title} className="rounded-md border border-border bg-surface">
               <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-                <h3 className="font-mono text-sm uppercase tracking-widest">
-                  {group.title}
-                </h3>
+                <h3 className="font-mono text-sm uppercase tracking-widest">{group.title}</h3>
                 <StatusBadge status={group.status} />
               </div>
               <ul className="divide-y divide-border">
                 {group.items.map((item) => (
-                  <li
-                    key={item}
-                    className="px-4 py-2.5 font-mono text-sm text-muted-foreground"
-                  >
+                  <li key={item} className="px-4 py-2.5 font-mono text-sm text-muted-foreground">
                     {item}
                   </li>
                 ))}
@@ -116,7 +121,7 @@ function RoadmapPage() {
 
       <Section
         index="02"
-        eyebrow="Versioning"
+        eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
         lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A versão atual está na fase 0.0.x-alpha."
       >
@@ -124,17 +129,16 @@ function RoadmapPage() {
           <div className="rounded-md border border-border bg-surface p-5">
             <p className="font-mono text-sm text-muted-foreground">MAJOR.MINOR.PATCH</p>
             <p className="mt-4 text-sm text-muted-foreground">
-              O PATCH é, por enquanto, o pontinho da vergonha: pequenas correções, ajustes
-              e estabilização enquanto a linguagem ainda está na fase inicial. Ele sobe
-              bastante. Faz parte.
+              O PATCH é, por enquanto, o pontinho da vergonha: pequenas correções, ajustes e
+              estabilização enquanto a linguagem ainda está na fase inicial. Ele sobe bastante. Faz
+              parte.
             </p>
           </div>
           <div className="rounded-md border border-border bg-surface p-5">
             <p className="mono-label">Objetivo de automação</p>
             <p className="mt-4 text-sm text-muted-foreground">
-              Cada commit em <span className="font-mono">main</span> deve futuramente
-              disparar automaticamente a atualização de versão e release conforme as
-              regras do projeto.
+              Cada commit em <span className="font-mono">main</span> deve futuramente disparar
+              automaticamente a atualização de versão e release conforme as regras do projeto.
             </p>
             <a
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"

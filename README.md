@@ -15,6 +15,7 @@ Kof é uma linguagem de programação real em desenvolvimento ativo. O site prec
 Não invente funcionalidades que não existem.
 
 Quando alguma feature estiver em desenvolvimento, deixe isso explicitamente claro.
+
 1. IDENTIDADE DA KOF
 
 Headline principal:
@@ -68,17 +69,16 @@ Kof possui:
 A ideia fundamental:
 
 Kof Source
-     ↓
+↓
 Kof Compiler
-     ↓
+↓
 Kof IR
-     ↓
- ┌───┼───────────┬───────────┐
- ↓   ↓           ↓           ↓
-JVM Native     Script       Web
+↓
+┌───┼───────────┬───────────┐
+↓ ↓ ↓ ↓
+JVM Native Script Web
 
-A linguagem não muda quando o target muda.
-2. POSICIONAMENTO
+A linguagem não muda quando o target muda. 2. POSICIONAMENTO
 
 O site deve explicar imediatamente:
 Kof não é um transpiler
@@ -90,35 +90,34 @@ Kof → Java → javac → JVM
 Mas:
 
 Kof
- ↓
+↓
 Compiler
- ↓
+↓
 Kof IR
- ↓
+↓
 Backend
- ↓
+↓
 Target
 
 Para JVM:
 
 Kof
- ↓
+↓
 Kof Compiler
- ↓
+↓
 Kof IR
- ↓
+↓
 JVM Backend
- ↓
+↓
 .class
- ↓
+↓
 JVM
 
 O backend JVM gera bytecode diretamente.
 
 Java é uma plataforma/ecossistema de interoperabilidade, não uma linguagem intermediária.
 
-Native gera código nativo diretamente.
-3. A GRANDE IDEIA
+Native gera código nativo diretamente. 3. A GRANDE IDEIA
 
 Uma seção visual chamada:
 "O problema não é programação. É a quantidade de coisas que precisamos fazer para programar."
@@ -169,8 +168,7 @@ A filosofia:
 
 Não queremos esconder complexidade atrás de abstrações infinitas.
 
-Queremos eliminar complexidade desnecessária.
-4. HUMAN FIRST
+Queremos eliminar complexidade desnecessária. 4. HUMAN FIRST
 
 Criar uma seção:
 Human first.
@@ -206,13 +204,14 @@ public final class User {
     public String email() {
         return email;
     }
+
 }
 
 versus:
 
 class User(
-    String name,
-    String email
+String name,
+String email
 )
 
 Mensagem:
@@ -256,8 +255,7 @@ A mensagem de marketing:
 
     Menos tokens para expressar a mesma intenção.
 
-Não prometer benchmarks de tokens ou superioridade de LLM sem dados reais.
-6. MULTIPLE TARGETS
+Não prometer benchmarks de tokens ou superioridade de LLM sem dados reais. 6. MULTIPLE TARGETS
 
 Criar uma seção visual muito forte:
 One language. Multiple worlds.
@@ -266,11 +264,11 @@ Cards:
 JVM
 
 Kof
- ↓
+↓
 Kof IR
- ↓
+↓
 JVM bytecode
- ↓
+↓
 JVM
 
 Descrição:
@@ -280,11 +278,11 @@ Descrição:
 Native
 
 Kof
- ↓
+↓
 Kof IR
- ↓
+↓
 Native Backend
- ↓
+↓
 Executable
 
 Descrição:
@@ -301,17 +299,16 @@ Deixar claramente marcado como target em desenvolvimento caso ainda não esteja 
 Web
 
 Kof
- ↓
+↓
 KofJS
- ↓
+↓
 JavaScript
- ↓
+↓
 Browser
 
 Marcar como em desenvolvimento.
 
-Não fingir que KofJS já está pronto.
-7. MEMORY MANAGEMENT
+Não fingir que KofJS já está pronto. 7. MEMORY MANAGEMENT
 
 Criar uma seção:
 You write code. The runtime handles memory.
@@ -330,12 +327,12 @@ manual lifetime
 A mesma linguagem deve continuar sendo usada:
 
 class User(
-    String name
+String name
 )
 
 fun main() {
-    var user = User("Mel")
-    println(user.name)
+var user = User("Mel")
+println(user.name)
 }
 
 Tanto quanto possível, o mesmo código deve funcionar nos diferentes targets.
@@ -344,8 +341,7 @@ Native terá gerenciamento de memória próprio.
 
 JVM utiliza o GC da JVM.
 
-A abstração de memória pertence à plataforma, não ao usuário.
-8. ZERO CERIMÔNIA
+A abstração de memória pertence à plataforma, não ao usuário. 8. ZERO CERIMÔNIA
 
 Criar seção:
 What if building software didn't require an entire ecosystem of ceremony?
@@ -386,34 +382,22 @@ A ideia:
 
 Hoje:
 
-language
-+
-framework
-+
-ORM
-+
-HTTP library
-+
-JSON library
-+
-DI
-+
-messaging
-+
-async framework
-+
-testing framework
-+
-configuration framework
-+
+language +
+framework +
+ORM +
+HTTP library +
+JSON library +
+DI +
+messaging +
+async framework +
+testing framework +
+configuration framework +
 ...
 
 Kof:
 
-language
-+
-stdlib
-+
+language +
+stdlib +
 runtime
 
 Importante:
@@ -436,14 +420,14 @@ Build a web application without building a framework ecosystem first.
 Mostrar a visão:
 
 Kof Application
-       │
-       ├── HTTP
-       ├── JSON
-       ├── Database
-       ├── Authentication
-       ├── Messaging
-       ├── Async
-       └── Concurrency
+│
+├── HTTP
+├── JSON
+├── Database
+├── Authentication
+├── Messaging
+├── Async
+└── Concurrency
 
 A filosofia é:
 
@@ -472,8 +456,7 @@ com pouquíssimos arquivos de código de negócio.
 
 Não inventar APIs finais ainda.
 
-Apresentar como visão da plataforma.
-10. SPRING / HIBERNATE
+Apresentar como visão da plataforma. 10. SPRING / HIBERNATE
 
 Criar seção provocativa:
 We don't want to replace Spring with another Spring.
@@ -528,8 +511,7 @@ kof serve app.kf --port 8080
 
 Explicar que kof serve já existe e representa o começo da plataforma web.
 
-Não inventar framework de controllers.
-12. TOOLING
+Não inventar framework de controllers. 12. TOOLING
 
 Criar seção:
 A language should ship with its tools.
@@ -607,8 +589,7 @@ Não inventar links de releases inexistentes.
 
 Quando houver release real, apontar para:
 
-https://github.com/KofLang/Kof4j/releases
-14. KOF INFO
+https://github.com/KofLang/Kof4j/releases 14. KOF INFO
 
 Mostrar:
 
@@ -624,8 +605,7 @@ Target: JVM
 JVM: bundled OpenJDK
 Installation: ...
 
-Não inventar output exato se não existir no projeto.
-15. VERSIONAMENTO
+Não inventar output exato se não existir no projeto. 15. VERSIONAMENTO
 
 Criar seção pequena:
 Versioning
@@ -638,10 +618,8 @@ Mas o projeto possui atualmente releases Alpha.
 
 Regra de evolução:
 
-Major releases
-    >
-Major fixes
-    >
+Major releases >
+Major fixes >
 Bugfixes
 
 A versão atual está na fase:
@@ -654,8 +632,7 @@ O PATCH é atualmente o "pontinho da vergonha":
 
 Explicar isso com humor, mas sem transformar o site em meme.
 
-O objetivo é que cada commit em main possa futuramente disparar automaticamente a atualização da versão/release conforme as regras do projeto.
-16. OPEN SOURCE
+O objetivo é que cada commit em main possa futuramente disparar automaticamente a atualização da versão/release conforme as regras do projeto. 16. OPEN SOURCE
 
 Criar seção:
 Open source compiler. Your software is yours.
@@ -676,8 +653,7 @@ https://github.com/KofLang/Kof4j
 
 Link de releases:
 
-https://github.com/KofLang/Kof4j/releases
-17. GITHUB
+https://github.com/KofLang/Kof4j/releases 17. GITHUB
 
 Adicionar CTAs:
 
@@ -699,8 +675,7 @@ apontando para o repositório.
 
 Contribute
 
-apontando para o GitHub.
-18. DOCUMENTAÇÃO
+apontando para o GitHub. 18. DOCUMENTAÇÃO
 
 Criar navegação para:
 
@@ -724,8 +699,7 @@ Criar navegação para:
 
     Contributing
 
-A documentação deve ser tratada como parte da linguagem, não como conteúdo secundário.
-19. LLM TRAINING
+A documentação deve ser tratada como parte da linguagem, não como conteúdo secundário. 19. LLM TRAINING
 
 Adicionar uma área:
 Teach your tools Kof.
@@ -754,8 +728,7 @@ Mensagem:
 
 Link para:
 
-https://github.com/KofLang/Kof4j/tree/main/training
-20. LEARNING
+https://github.com/KofLang/Kof4j/tree/main/training 20. LEARNING
 
 Também apresentar:
 
@@ -766,13 +739,12 @@ como trilha para humanos.
 Diferença:
 
 learn/
-    → humanos aprendendo Kof
+→ humanos aprendendo Kof
 
 training/
-    → ferramentas e LLMs aprendendo Kof
+→ ferramentas e LLMs aprendendo Kof
 
-Isso é importante para a identidade do projeto.
-21. ROADMAP
+Isso é importante para a identidade do projeto. 21. ROADMAP
 
 Criar uma página/seção de roadmap.
 
@@ -859,54 +831,53 @@ Planned
 
     complete ecosystem
 
-O roadmap deve ser alimentado futuramente pelo próprio repositório.
-22. EXEMPLOS DE CÓDIGO
+O roadmap deve ser alimentado futuramente pelo próprio repositório. 22. EXEMPLOS DE CÓDIGO
 
 O site precisa ter um editor/terminal visual com snippets Kof.
 
 Exemplo:
 
 class User(
-    String name,
-    String email
+String name,
+String email
 )
 
 fun main() {
-    var user = User("Mel", "mel@example.com")
-    println(user.name)
+var user = User("Mel", "mel@example.com")
+println(user.name)
 }
 
 Outro:
 
 fun add(Int a, Int b): Int {
-    return a + b
+return a + b
 }
 
 fun main() {
-    println(add(2, 3))
+println(add(2, 3))
 }
 
 Outro:
 
 fun main() {
-    var users = new List<String>()
+var users = new List<String>()
 
     users.add("Mel")
     users.add("Kof")
 
     println(users.get(0))
+
 }
 
 Outro:
 
 fun main() {
-    println("Hello from Kof")
+println("Hello from Kof")
 }
 
 O editor deve ter syntax highlighting para .kf.
 
-Não precisa executar código no browser.
-23. DESIGN
+Não precisa executar código no browser. 23. DESIGN
 
 Quero visual de linguagem de programação moderna.
 
@@ -958,8 +929,7 @@ Preferência:
 
     sem "AI purple gradient startup bullshit".
 
-A interface deve parecer uma ferramenta de engenharia.
-24. HERO
+A interface deve parecer uma ferramenta de engenharia. 24. HERO
 
 Hero extremamente forte.
 
@@ -979,8 +949,7 @@ Get Kof
 Read the Docs
 View on GitHub
 
-Ao lado, mostrar código Kof real.
-25. PERSONALIDADE
+Ao lado, mostrar código Kof real. 25. PERSONALIDADE
 
 O site pode ter humor ácido ocasional.
 
@@ -996,8 +965,7 @@ Exemplo:
 
 Mas não exagerar.
 
-A página deve continuar parecendo um projeto técnico sério.
-26. PRINCÍPIOS
+A página deve continuar parecendo um projeto técnico sério. 26. PRINCÍPIOS
 
 Criar uma seção:
 The Kof Philosophy
@@ -1025,8 +993,7 @@ No unnecessary magic
 
 Abstração boa reduz complexidade real.
 
-Abstração ruim apenas esconde complexidade.
-27. MÉTRICAS
+Abstração ruim apenas esconde complexidade. 27. MÉTRICAS
 
 Não inventar números.
 
@@ -1042,8 +1009,7 @@ Se possível, consumir dinamicamente informações públicas do GitHub:
 
     última atualização.
 
-Se integração dinâmica for complexa, usar valores estáticos apenas quando confirmados.
-28. ARQUITETURA VISUAL
+Se integração dinâmica for complexa, usar valores estáticos apenas quando confirmados. 28. ARQUITETURA VISUAL
 
 Criar um diagrama interativo:
 
@@ -1065,8 +1031,7 @@ Criar um diagrama interativo:
        ↓             ↓             ↓
       JVM          Binary        Browser
 
-Mostrar que o frontend é único.
-29. ARQUITETURA TÉCNICA REAL
+Mostrar que o frontend é único. 29. ARQUITETURA TÉCNICA REAL
 
 O site deve usar informações reais do repositório.
 
@@ -1076,8 +1041,7 @@ O README atual do projeto define Kof como linguagem geral, fortemente e estatica
 
 O site deve manter essa linha.
 
-Sempre que possível, consultar o GitHub oficial para verificar o estado atual antes de mostrar uma feature como "available".
-30. RESPONSIVIDADE
+Sempre que possível, consultar o GitHub oficial para verificar o estado atual antes de mostrar uma feature como "available". 30. RESPONSIVIDADE
 
 Precisa funcionar muito bem em:
 
@@ -1087,8 +1051,7 @@ Precisa funcionar muito bem em:
 
     mobile.
 
-O código é prioridade no desktop, mas snippets precisam ser legíveis no celular.
-31. ACESSIBILIDADE
+O código é prioridade no desktop, mas snippets precisam ser legíveis no celular. 31. ACESSIBILIDADE
 
 Implementar:
 
@@ -1210,8 +1173,7 @@ O visitante deve sair pensando:
 
 E então:
 
-"E aparentemente querem eliminar uma quantidade absurda de boilerplate enquanto fazem isso."
-35. OBJETIVO DO SITE
+"E aparentemente querem eliminar uma quantidade absurda de boilerplate enquanto fazem isso." 35. OBJETIVO DO SITE
 
 O site precisa cumprir três objetivos simultaneamente:
 Desenvolvedor
@@ -1229,23 +1191,23 @@ Curioso
 O resultado final deve parecer o site de uma linguagem que pretende crescer para um ecossistema completo:
 
 Language
-   ↓
+↓
 Compiler
-   ↓
+↓
 Runtime
-   ↓
+↓
 Standard Library
-   ↓
+↓
 Tooling
-   ↓
+↓
 Web
-   ↓
+↓
 Database
-   ↓
+↓
 Messaging
-   ↓
+↓
 Concurrency
-   ↓
+↓
 Ecosystem
 
 Tudo isso mantendo a mesma premissa:
@@ -1254,19 +1216,9 @@ Menos código. Mais intenção.
 E a assinatura:
 Uma linguagem. Um compilador. Vários mundos
 
-This project was built with [Lovable](https://lovable.dev).
+## Desenvolvimento
 
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/4f92ea07-909f-4477-b0e5-f55c317c3c7a).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Você precisa de Node.js e npm — [instale com nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
 git clone <this-repository-url>

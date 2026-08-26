@@ -58,23 +58,23 @@ function LanguagePage() {
         lead="Kof é uma linguagem geral, fortemente tipada e estaticamente tipada, criada para reduzir drasticamente a complexidade necessária para construir software moderno."
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <Card title="Strong types">
+          <Card title="Tipagem forte">
             Erros importantes devem ser encontrados em compile-time, não em produção.
           </Card>
-          <Card title="Static typing">
-            Tipos são verificados pelo compilador; o sistema de tipos é parte do frontend
-            único da linguagem.
+          <Card title="Tipagem estática">
+            Tipos são verificados pelo compilador; o sistema de tipos é parte do frontend único da
+            linguagem.
           </Card>
-          <Card title="Human first">
-            A linguagem é projetada primeiro para seres humanos: fácil de ler, escrever,
-            aprender e manter.
+          <Card title="Humano primeiro">
+            A linguagem é projetada primeiro para seres humanos: fácil de ler, escrever, aprender e
+            manter.
           </Card>
         </div>
       </Section>
 
       <Section
         index="02"
-        eyebrow="Human first"
+        eyebrow="Humano primeiro"
         title="Boilerplate não é uma feature."
         lead="Se o compilador consegue entender a intenção sem exigir vinte linhas de cerimônia, vinte linhas de cerimônia não deveriam existir."
       >
@@ -175,11 +175,7 @@ fun main() {
         </div>
       </Section>
 
-      <Section
-        index="05"
-        eyebrow="One frontend"
-        title="A linguagem não muda quando o target muda."
-      >
+      <Section index="05" eyebrow="One frontend" title="A linguagem não muda quando o target muda.">
         <Ascii label="frontend único">{`Kof Source
      ↓
 Kof Compiler

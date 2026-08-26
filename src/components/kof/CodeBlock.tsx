@@ -1,15 +1,51 @@
 import { useMemo, useState, type ReactNode } from "react";
 
 const KEYWORDS = new Set([
-  "fun", "class", "var", "val", "return", "if", "else", "while", "for", "new",
-  "interface", "record", "extends", "implements", "import", "package", "try",
-  "catch", "finally", "throw", "public", "private", "final", "static", "this",
-  "true", "false", "null",
+  "fun",
+  "class",
+  "var",
+  "val",
+  "return",
+  "if",
+  "else",
+  "while",
+  "for",
+  "new",
+  "interface",
+  "record",
+  "extends",
+  "implements",
+  "import",
+  "package",
+  "try",
+  "catch",
+  "finally",
+  "throw",
+  "public",
+  "private",
+  "final",
+  "static",
+  "this",
+  "true",
+  "false",
+  "null",
 ]);
 
 const TYPES = new Set([
-  "String", "Int", "Long", "Double", "Float", "Boolean", "Char", "Void",
-  "List", "Map", "Set", "User", "Object", "Exception",
+  "String",
+  "Int",
+  "Long",
+  "Double",
+  "Float",
+  "Boolean",
+  "Char",
+  "Void",
+  "List",
+  "Map",
+  "Set",
+  "User",
+  "Object",
+  "Exception",
 ]);
 
 type Token = { text: string; cls: string };
@@ -98,9 +134,7 @@ export function CodeBlock({
   };
 
   return (
-    <div
-      className={`overflow-hidden rounded-md border border-border bg-surface ${className}`}
-    >
+    <div className={`overflow-hidden rounded-md border border-border bg-surface ${className}`}>
       <div className="flex items-center justify-between gap-2 border-b border-border bg-surface-2/60 px-3 py-2">
         <span className="mono-label truncate">
           {filename ?? (language === "shell" ? "terminal" : "example.kf")}

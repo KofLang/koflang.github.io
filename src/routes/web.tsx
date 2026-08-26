@@ -30,7 +30,7 @@ function WebPage() {
       <Section
         index="01"
         eyebrow="Web"
-        title="Build a web application without building a framework ecosystem first."
+        title="Construa uma aplicação web sem construir antes um ecossistema de frameworks."
         lead="A visão: HTTP, banco, mensageria, assincronismo e segurança como capacidades da plataforma — não como pilhas de dependências montadas manualmente em todo projeto."
       >
         <Ascii label="visão da plataforma">{`Kof Application
@@ -43,8 +43,8 @@ function WebPage() {
        ├── Async
        └── Concurrency`}</Ascii>
         <p className="mt-6 max-w-2xl text-sm text-muted-foreground">
-          Nada disso é apresentado aqui como API final. As assinaturas concretas serão
-          definidas conforme a standard library e o runtime evoluírem.
+          Nada disso é apresentado aqui como API final. As assinaturas concretas serão definidas
+          conforme a standard library e o runtime evoluírem.
         </p>
       </Section>
 
@@ -67,8 +67,8 @@ $ kof serve app.kf --port 8080`}
               Serve uma aplicação Kof diretamente a partir do arquivo fonte.
             </Card>
             <Card title="HTTP / JSON na stdlib" status="in-development">
-              Capacidades de HTTP e JSON estão sendo construídas dentro da standard
-              library e do runtime.
+              Capacidades de HTTP e JSON estão sendo construídas dentro da standard library e do
+              runtime.
             </Card>
           </div>
         </div>
@@ -93,8 +93,8 @@ $ kof serve app.kf --port 8080`}
       <Section
         index="04"
         eyebrow="Provocação"
-        title="We don't want to replace Spring with another Spring."
-        lead="Kof não quer criar “Kof Spring”. Nem “Kof Hibernate”. Nem uma camada de abstração em cima de outra camada de abstração. A pergunta é: por que essa complexidade precisa existir em primeiro lugar?"
+        title="Não queremos substituir o Spring por outro Spring."
+        lead="Kof não quer criar um “Kof Spring”. Nem um “Kof Hibernate”. Nem uma camada de abstração em cima de outra camada de abstração. A pergunta é: por que essa complexidade precisa existir em primeiro lugar?"
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <Ascii label="hoje">{`Spring

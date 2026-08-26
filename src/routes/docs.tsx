@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/kof/CodeBlock";
-import { Ascii, Card, GITHUB, Section, TRAINING } from "@/components/kof/primitives";
+import { Ascii, Card, CURSO, EDITOR, GITHUB, Section, TRAINING } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/docs")({
   head: () => ({
@@ -9,7 +9,7 @@ export const Route = createFileRoute("/docs")({
       {
         name: "description",
         content:
-          "Documentação da Kof: getting started, instalação, linguagem, standard library, compilador, targets, web, runtime, LLM training e contributing.",
+          "Documentação da Kof: primeiros passos, curso gratuito, instalação, linguagem, biblioteca padrão, compilador, targets, web, runtime, treinamento para LLMs e contribuição.",
       },
       { property: "og:title", content: "Documentation — Kof" },
       {
@@ -25,16 +25,54 @@ export const Route = createFileRoute("/docs")({
 });
 
 const sections = [
-  { title: "Getting Started", desc: "Instalar, compilar e rodar o primeiro programa Kof.", href: GITHUB },
-  { title: "Installation", desc: "Distribuição autocontida com compiler, runtime e OpenJDK embutido.", to: "/download" as const },
-  { title: "Language", desc: "Sintaxe, tipos, classes, generics e controle de fluxo.", to: "/language" as const },
-  { title: "Standard Library", desc: "Coleções, strings, e as capacidades em construção.", to: "/standard-library" as const },
-  { title: "Compiler", desc: "Lexer, parser, AST, análise semântica, símbolos e Kof IR.", href: GITHUB },
-  { title: "Targets", desc: "JVM, Native, Script e KofJS a partir de um único frontend.", to: "/targets" as const },
+  {
+    title: "Primeiros passos",
+    desc: "Instalar, compilar e rodar o primeiro programa Kof.",
+    href: GITHUB,
+  },
+  {
+    title: "Curso gratuito",
+    desc: "Curso completo e gratuito da linguagem, do zero ao avançado.",
+    href: CURSO,
+  },
+  {
+    title: "Instalação",
+    desc: "Distribuição autocontida com compilador, runtime e OpenJDK embutido.",
+    to: "/download" as const,
+  },
+  {
+    title: "Linguagem",
+    desc: "Sintaxe, tipos, classes, generics e controle de fluxo.",
+    to: "/language" as const,
+  },
+  {
+    title: "Biblioteca padrão",
+    desc: "Coleções, strings, e as capacidades em construção.",
+    to: "/standard-library" as const,
+  },
+  {
+    title: "Compilador",
+    desc: "Lexer, parser, AST, análise semântica, símbolos e Kof IR.",
+    href: GITHUB,
+  },
+  {
+    title: "Targets",
+    desc: "JVM, Native, Script e KofJS a partir de um único frontend.",
+    to: "/targets" as const,
+  },
   { title: "Web", desc: "kof serve e a visão da plataforma web.", to: "/web" as const },
   { title: "Runtime", desc: "Execução, memória e o que pertence à plataforma.", href: GITHUB },
-  { title: "LLM Training", desc: "Material estruturado em /training para ferramentas automatizadas.", href: TRAINING },
-  { title: "Contributing", desc: "Como contribuir com o compilador e a linguagem.", href: GITHUB },
+  {
+    title: "Treinamento para LLMs",
+    desc: "Material estruturado em /training para ferramentas automatizadas.",
+    href: TRAINING,
+  },
+  {
+    title: "Editor oficial",
+    desc: "O editor de texto da linguagem: github.com/KofLang/Kof-Editor.",
+    href: EDITOR,
+  },
+  { title: "Contribuir", desc: "Como contribuir com o compilador e a linguagem.", href: GITHUB },
 ];
 
 function DocsPage() {
@@ -57,7 +95,11 @@ function DocsPage() {
               </>
             );
             return s.to ? (
-              <Link key={s.title} to={s.to} className="group bg-surface p-5 transition-colors hover:bg-surface-2">
+              <Link
+                key={s.title}
+                to={s.to}
+                className="group bg-surface p-5 transition-colors hover:bg-surface-2"
+              >
                 {body}
               </Link>
             ) : (
@@ -77,8 +119,8 @@ function DocsPage() {
 
       <Section
         index="02"
-        eyebrow="Tooling"
-        title="A language should ship with its tools."
+        eyebrow="Ferramentas"
+        title="Uma linguagem deve vir com as suas ferramentas."
         lead="A CLI da Kof acompanha a linguagem. Ferramentas ainda não disponíveis estão marcadas como tal."
       >
         <div className="grid gap-4 lg:grid-cols-2">
@@ -90,25 +132,37 @@ function DocsPage() {
 $ kof run
 $ kof serve
 $ kof check
+$ kof test
+$ kof debug
+$ kof bench
 $ kof info
 $ kof lsp
+$ kof install
 $ kof version`}
           />
           <div className="grid gap-4 sm:grid-cols-2">
-            <Card title="Compiler" status="available" />
+            <Card title="Compilador" status="available" />
             <Card title="CLI" status="available" />
             <Card title="LSP" status="in-development" />
-            <Card title="Test tooling" status="in-development" />
-            <Card title="Formatter" status="planned" />
-            <Card title="Package manager" status="planned" />
+            <Card title="Testes" status="in-development" />
+            <Card title="Formatador" status="planned" />
+            <Card title="Gerenciador de pacotes" status="planned" />
           </div>
         </div>
+        <a
+          href={EDITOR}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="mt-6 inline-block rounded-md border border-signal/40 bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
+        >
+          Editor oficial da linguagem (Kof-Editor) →
+        </a>
       </Section>
 
       <Section
         index="03"
-        eyebrow="LLM Training"
-        title="Teach your tools Kof."
+        eyebrow="Treinamento para LLMs"
+        title="Ensine as suas ferramentas a falar Kof."
         lead="Kof não quer depender de modelos adivinhando como a linguagem funciona. O repositório mantém material estruturado para que ferramentas automatizadas aprendam sintaxe, semântica e padrões corretamente."
       >
         <div className="grid gap-4 lg:grid-cols-2">
@@ -120,15 +174,14 @@ $ kof version`}
 ├── migration/
 └── examples/`}</Ascii>
           <div className="grid gap-4">
-            <Card title="Built for humans. Naturally friendly to machines.">
-              Kof não é uma “AI language”. A filosofia continua human-first. Mas sintaxe
-              consistente, semântica explícita e baixo boilerplate têm uma consequência:
-              a linguagem também fica mais fácil de compreender por ferramentas
-              automatizadas.
+            <Card title="Feita para humanos. Naturalmente amigável às máquinas.">
+              Kof não é uma “AI language”. A filosofia continua humana primeiro. Mas sintaxe
+              consistente, semântica explícita e baixo boilerplate têm uma consequência: a linguagem
+              também fica mais fácil de compreender por ferramentas automatizadas.
             </Card>
             <Card title="Menos tokens para expressar a mesma intenção.">
-              Sem benchmarks inventados: o projeto não publica números de tokens ou
-              comparações de desempenho de LLM sem dados reais.
+              Sem benchmarks inventados: o projeto não publica números de tokens ou comparações de
+              desempenho de LLM sem dados reais.
             </Card>
             <a
               href={TRAINING}

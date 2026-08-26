@@ -1,16 +1,21 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
-import logo from "@/assets/kof.png.asset.json";
-import { GITHUB, RELEASES } from "./primitives";
+import logo from "@/assets/kof.png";
+import { CURSO, EDITOR, GITHUB, RELEASES } from "./primitives";
 
 const NAV = [
-  { to: "/language", label: "Language" },
-  { to: "/learn", label: "Learn" },
+  { to: "/language", label: "Linguagem" },
+  { to: "/learn", label: "Aprender" },
   { to: "/docs", label: "Docs" },
   { to: "/targets", label: "Targets" },
   { to: "/web", label: "Web" },
   { to: "/roadmap", label: "Roadmap" },
 ] as const;
+
+const EXTERNAL_NAV = [
+  { href: CURSO, label: "Curso gratuito" },
+  { href: GITHUB, label: "GitHub" },
+];
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -19,7 +24,7 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center gap-6 px-5 py-3 sm:px-8">
         <Link to="/" className="flex items-center gap-2.5" aria-label="Kof — página inicial">
-          <img src={logo.url} alt="" aria-hidden="true" className="h-6 w-6 invert" />
+          <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
           <span className="font-mono text-sm font-bold tracking-[0.2em]">KOF</span>
         </Link>
 
@@ -34,14 +39,17 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-          <a
-            href={GITHUB}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="rounded-sm px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            GitHub
-          </a>
+          {EXTERNAL_NAV.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="rounded-sm px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {item.label}
+            </a>
+          ))}
         </nav>
 
         <div className="ml-auto flex items-center gap-2 lg:ml-0">
@@ -49,7 +57,7 @@ export function Header() {
             to="/download"
             className="rounded-sm border border-signal bg-signal px-3.5 py-1.5 font-mono text-xs uppercase tracking-widest text-primary-foreground transition-opacity hover:opacity-90"
           >
-            Get Kof
+            Baixar Kof
           </Link>
           <button
             type="button"
@@ -77,14 +85,17 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <a
-              href={GITHUB}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="rounded-sm px-2 py-2 text-sm text-muted-foreground hover:text-foreground"
-            >
-              GitHub
-            </a>
+            {EXTERNAL_NAV.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="rounded-sm px-2 py-2 text-sm text-muted-foreground hover:text-foreground"
+              >
+                {item.label}
+              </a>
+            ))}
           </div>
         </nav>
       )}
@@ -98,7 +109,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:grid-cols-2 sm:px-8 lg:grid-cols-4">
         <div className="sm:col-span-2">
           <div className="flex items-center gap-2.5">
-            <img src={logo.url} alt="" aria-hidden="true" className="h-6 w-6 invert" />
+            <img src={logo} alt="" aria-hidden="true" className="h-6 w-auto" />
             <span className="font-mono text-sm font-bold tracking-[0.2em]">KOF</span>
           </div>
           <p className="mt-4 max-w-sm text-sm text-muted-foreground">
@@ -113,23 +124,43 @@ export function Footer() {
           <h2 className="mono-label">Projeto</h2>
           <ul className="mt-4 space-y-2 text-sm">
             <li>
-              <a className="text-muted-foreground hover:text-foreground" href={GITHUB} target="_blank" rel="noreferrer noopener">
-                GitHub
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={GITHUB}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                GitHub (linguagem)
               </a>
             </li>
             <li>
-              <a className="text-muted-foreground hover:text-foreground" href={RELEASES} target="_blank" rel="noreferrer noopener">
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={EDITOR}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Editor de texto
+              </a>
+            </li>
+            <li>
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={RELEASES}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 Releases
               </a>
             </li>
             <li>
-              <a className="text-muted-foreground hover:text-foreground" href={GITHUB} target="_blank" rel="noreferrer noopener">
-                Contributing
-              </a>
-            </li>
-            <li>
-              <a className="text-muted-foreground hover:text-foreground" href={`${GITHUB}/blob/main/LICENSE`} target="_blank" rel="noreferrer noopener">
-                License — GPLv3
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={`${GITHUB}/blob/main/LICENSE`}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Licença — GPLv3
               </a>
             </li>
           </ul>
@@ -138,10 +169,36 @@ export function Footer() {
         <div>
           <h2 className="mono-label">Site</h2>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link className="text-muted-foreground hover:text-foreground" to="/docs">Documentation</Link></li>
-            <li><Link className="text-muted-foreground hover:text-foreground" to="/download">Download</Link></li>
-            <li><Link className="text-muted-foreground hover:text-foreground" to="/roadmap">Roadmap</Link></li>
-            <li><Link className="text-muted-foreground hover:text-foreground" to="/about">About</Link></li>
+            <li>
+              <Link className="text-muted-foreground hover:text-foreground" to="/docs">
+                Documentação
+              </Link>
+            </li>
+            <li>
+              <Link className="text-muted-foreground hover:text-foreground" to="/download">
+                Download
+              </Link>
+            </li>
+            <li>
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={CURSO}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Curso gratuito
+              </a>
+            </li>
+            <li>
+              <Link className="text-muted-foreground hover:text-foreground" to="/roadmap">
+                Roadmap
+              </Link>
+            </li>
+            <li>
+              <Link className="text-muted-foreground hover:text-foreground" to="/about">
+                Sobre
+              </Link>
+            </li>
           </ul>
         </div>
       </div>

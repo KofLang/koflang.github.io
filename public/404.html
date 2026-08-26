@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Página não encontrada — Kof</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-content: center;
+        gap: 12px;
+        text-align: center;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        background: #0a0a0a;
+        color: #fafafa;
+      }
+      a {
+        color: #8b5cf6;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>404</h1>
+    <p>Página não encontrada.</p>
+    <p><a href="/">Voltar para a página inicial</a></p>
+    <script>
+      // Rotas estáticas são geradas como diretórios (/rota/index.html).
+      // O GitHub Pages não redireciona /rota -> /rota/, então fazemos isso aqui.
+      (function () {
+        var path = location.pathname;
+        if (!path.endsWith("/")) {
+          location.replace(path + "/" + location.search + location.hash);
+        }
+      })();
+    </script>
+  </body>
+</html>
