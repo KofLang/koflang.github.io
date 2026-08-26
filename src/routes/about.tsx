@@ -30,7 +30,7 @@ function AboutPage() {
         index="01"
         eyebrow="About"
         title="Estamos construindo uma linguagem de verdade."
-        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira release estável, a 0.1.0, já saiu — e este site se compromete a não transformar isso em promessa vazia."
+        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira estável (0.1.0) já saiu e o dia a dia segue na 0.1.1-alpha — e este site se compromete a não transformar isso em promessa vazia."
       >
         <blockquote className="rounded-md border-l-2 border-signal bg-surface p-5 text-base leading-relaxed">
           Algumas pessoas olham para um problema e escrevem uma biblioteca. Outras escrevem um
