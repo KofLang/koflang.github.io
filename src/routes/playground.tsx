@@ -261,9 +261,15 @@ function PlaygroundPage() {
           ))}
         </div>
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-2 lg:items-start">
+        <div className="mt-6 grid gap-4 lg:grid-cols-2">
           <div className="min-w-0">
-            <CodeBlock code={activeMod.code} filename={activeMod.file} />
+            <div className="h-[360px] sm:h-[420px]">
+              <CodeBlock
+                code={activeMod.code}
+                filename={activeMod.file}
+                className="h-full max-h-none sm:max-h-none lg:max-h-none"
+              />
+            </div>
             <p className="mt-2 font-mono text-xs text-muted-foreground">{activeMod.desc}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               <a
@@ -279,13 +285,13 @@ function PlaygroundPage() {
               </span>
             </div>
           </div>
-          <div className="flex max-h-[60vh] min-w-0 flex-col overflow-hidden rounded-md border border-border bg-surface sm:max-h-[520px] lg:max-h-[560px]">
+          <div className="flex h-[360px] min-w-0 flex-col overflow-hidden rounded-md border border-border bg-surface sm:h-[420px]">
             <div className="flex shrink-0 items-center justify-between border-b border-border bg-surface-2/60 px-3 py-2">
               <span className="mono-label">preview — {activeMod.id}</span>
               <span className="mono-label text-signal">kof-runtime.mjs</span>
             </div>
             <div className="flex-1 overflow-auto overscroll-contain bg-[#282a36] p-0">
-              <div className="min-h-[280px] min-w-0">
+              <div className="min-h-full min-w-0">
                 <ModPreview />
               </div>
             </div>
@@ -315,9 +321,15 @@ function PlaygroundPage() {
             </button>
           ))}
         </div>
-        <div className="mt-6 grid gap-4 lg:grid-cols-2 lg:items-start">
+        <div className="mt-6 grid gap-4 lg:grid-cols-2">
           <div className="min-w-0">
-            <CodeBlock code={activeEx.code} filename={activeEx.file} />
+            <div className="h-[360px] sm:h-[420px]">
+              <CodeBlock
+                code={activeEx.code}
+                filename={activeEx.file}
+                className="h-full max-h-none sm:max-h-none lg:max-h-none"
+              />
+            </div>
             <p className="mt-2 font-mono text-xs text-muted-foreground">{activeEx.desc}</p>
             <a
               href={`https://github.com/KofLang/kof-ui-widgets/blob/main/${activeEx.file}`}
@@ -328,13 +340,13 @@ function PlaygroundPage() {
               Ver no GitHub →
             </a>
           </div>
-          <div className="flex max-h-[60vh] min-w-0 flex-col overflow-hidden rounded-md border border-border bg-surface sm:max-h-[520px] lg:max-h-[560px]">
+          <div className="flex h-[360px] min-w-0 flex-col overflow-hidden rounded-md border border-border bg-surface sm:h-[420px]">
             <div className="flex shrink-0 items-center justify-between border-b border-border bg-surface-2/60 px-3 py-2">
               <span className="mono-label">preview — {activeEx.id}</span>
               <span className="mono-label text-signal">App("{activeEx.id}") — Theme.dark()</span>
             </div>
             <div className="flex-1 overflow-auto overscroll-contain bg-[#282a36] p-0 text-[#f8f8f2]">
-              <div className="min-h-[340px] min-w-0">
+              <div className="min-h-full min-w-0">
                 {(() => {
                   const P = examplePreviewMap[activeEx.id] ?? HelloPreview;
                   return <P />;
