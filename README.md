@@ -4,7 +4,7 @@
 >
 > Site oficial da linguagem de programação [Kof](https://github.com/KofLang/Kof4j).
 
-Publicação: <https://koflang.github.io/Kof-Lang/>
+Publicação: <https://koflang.github.io/>
 
 ## Sobre
 
@@ -25,7 +25,7 @@ Você precisa de Node.js e npm — instale com
 [nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
-git clone https://github.com/KofLang/Kof-Lang.git
+git clone https://github.com/KofLang/koflang.github.io.git
 cd Kof-Lang
 npm i
 npm run dev   # http://localhost:8080
