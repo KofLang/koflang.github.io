@@ -1,0 +1,199 @@
+// 08-datetime.kf — calendário, date picker e time picker.
+//
+// Sem biblioteca de datas além de kof.time now(): dia-da-semana é
+// calculado com o algoritmo de Sakamoto (puro, testável contra âncoras).
+// Relógio ao vivo fica de fora: now() devolve Long e não há conversão
+// Long→Int na plataforma (gap UIW020, docs/gaps.md).
+
+record PickerParts(Int root)
+
+// ---- dia da semana (0=domingo .. 6=sábado) ----------------------------------------
+
+dayOfWeek(Int year, Int month, Int day): Int {
+    var t = monthOffsets()
+    var y = year
+    if (month < 3) {
+        y = y - 1
+    }
+    var sum = y + y / 4 - y / 100 + y / 400 + t.get(month - 1) + day
+    return sum % 7
+}
+
+monthOffsets(): List<Int> {
+    var t = listOf<Int>()
+    t.add(0)
+    t.add(3)
+    t.add(2)
+    t.add(5)
+    t.add(0)
+    t.add(3)
+    t.add(5)
+    t.add(1)
+    t.add(4)
+    t.add(6)
+    t.add(2)
+    t.add(4)
+    return t
+}
+
+isLeapYear(Int year): Bool {
+    if (year % 400 == 0) {
+        return true
+    }
+    if (year % 100 == 0) {
+        return false
+    }
+    return year % 4 == 0
+}
+
+daysInMonth(Int year, Int month): Int {
+    if (month == 2) {
+        if (isLeapYear(year)) {
+            return 29
+        }
+        return 28
+    }
+    if (month == 4 || month == 6 || month == 9 || month == 11) {
+        return 30
+    }
+    return 31
+}
+
+// ---- Calendar -------------------------------------------------------------------------
+
+Calendar(Int year, Int month): Int {
+    var l = Label(monthGrid(year, month))
+    Int h = l
+    return h
+}
+
+// grade pura: cabeçalho D S T Q Q S S + semanas, domingo primeiro.
+monthGrid(Int year, Int month): String {
+    var out = monthName(month) + " " + year + "\n"
+    out = out + "D  S  T  Q  Q  S  S\n"
+
+    var first = dayOfWeek(year, month, 1)
+    var total = daysInMonth(year, month)
+
+    var cell = 0
+    while (cell < first) {
+        out = out + "   "
+        cell = cell + 1
+    }
+
+    var d = 1
+    while (d <= total) {
+        var label = padStart(str(d), 2)
+        out = out + label
+        if (cell % 7 == 6 || d == total) {
+            out = out + "\n"
+        } else {
+            out = out + " "
+        }
+        cell = cell + 1
+        d = d + 1
+    }
+    return out
+}
+
+monthName(Int month): String {
+    if (month == 1) { return "jan" }
+    if (month == 2) { return "fev" }
+    if (month == 3) { return "mar" }
+    if (month == 4) { return "abr" }
+    if (month == 5) { return "mai" }
+    if (month == 6) { return "jun" }
+    if (month == 7) { return "jul" }
+    if (month == 8) { return "ago" }
+    if (month == 9) { return "set" }
+    if (month == 10) { return "out" }
+    if (month == 11) { return "nov" }
+    return "dez"
+}
+
+// ---- DatePicker ---------------------------------------------------------------------------
+
+class DateState {
+    static Int year = 2026
+    static Int month = 8
+    static Int day = 24
+}
+
+// transições puras de mês (testáveis).
+prevMonth(Int m): Int {
+    if (m == 1) {
+        return 12
+    }
+    return m - 1
+}
+
+nextMonth(Int m): Int {
+    if (m == 12) {
+        return 1
+    }
+    return m + 1
+}
+
+DatePicker(): PickerParts {
+    var theme = Theme.dark()
+    var view = Label(monthGrid(DateState.year, DateState.month))
+
+    var prevM = Button("‹", () -> {
+        DateState.month = prevMonth(DateState.month)
+        if (DateState.month == 12) {
+            DateState.year = DateState.year - 1
+        }
+        view.setText(monthGrid(DateState.year, DateState.month))
+    })
+    var nextM = Button("›", () -> {
+        DateState.month = nextMonth(DateState.month)
+        if (DateState.month == 1) {
+            DateState.year = DateState.year + 1
+        }
+        view.setText(monthGrid(DateState.year, DateState.month))
+    })
+
+    Int pmh = prevM
+    Int nmh = nextM
+    Int strip = Row(listOf(pmh, nmh))
+    var col = Column(listOf(strip, view))
+    var box = View(Style(theme.surface(), Palette.white, 12, 8))
+    box.bind(col)
+    Int bh = box
+    return PickerParts(bh)
+}
+
+// ---- TimePicker ------------------------------------------------------------------------------
+
+class TimeState {
+    static Int hour = 9
+    static Int minute = 0
+}
+
+TimePicker(): PickerParts {
+    var theme = Theme.dark()
+    var view = Label(timeLabel())
+
+    var upH = Button("+1h", () -> {
+        TimeState.hour = wrapNext(TimeState.hour, 24)
+        view.setText(timeLabel())
+    })
+    var upM = Button("+15m", () -> {
+        TimeState.minute = wrapNext(TimeState.minute + 14, 60)
+        view.setText(timeLabel())
+    })
+
+    Int uh = upH
+    Int um = upM
+    Int actions = Row(listOf(uh, um))
+    var col = Column(listOf(view, actions))
+    var box = View(Style(theme.surface(), Palette.white, 12, 8))
+    box.bind(col)
+    Int bh = box
+    return PickerParts(bh)
+}
+
+timeLabel(): String {
+    return padStart(str(TimeState.hour), 2) + ":" + padStart(str(TimeState.minute), 2)
+}
+

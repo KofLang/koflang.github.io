@@ -1,0 +1,17 @@
+// hello.kf — o menor app com kof-ui-widgets
+//
+//   scripts/run-example.sh hello
+//
+// ou, na mão:
+//   cat src/kof-ui-widgets.kf examples/hello.kf > .build/hello.kf
+//   kof run .build/hello.kf --target=js
+
+main() {
+    var w = App("Olá")
+    w.bind(Column(listOf(
+        Heading("Olá, Kof"),
+        Text("Este app é feito de intenções, não de mecanismos."),
+        Badge("alpha")
+    )))
+    w.show()
+}

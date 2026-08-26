@@ -1,0 +1,55 @@
+// 01-typography.kf — texto nos três níveis + variações.
+//
+// Link clicável é primitivo da plataforma desde o update:
+//   Link("documentação", "https://kof.dev")   // texto + url
+//
+// Padrão do Kof: cada intenção é um construtor que devolve o handle pronto.
+
+Heading(String text): Int {
+    var l = Label(text)
+    l.fontSize = 26
+    l.bold = true
+    Int h = l
+    return h
+}
+
+Subheading(String text): Int {
+    var l = Label(text)
+    l.fontSize = 18
+    l.bold = true
+    Int h = l
+    return h
+}
+
+Text(String text): Int {
+    var l = Label(text)
+    Int h = l
+    return h
+}
+
+Muted(String text): Int {
+    var l = Label(text)
+    l.fontSize = 13
+    l.color = Palette.gray
+    Int h = l
+    return h
+}
+
+Code(String text): Int {
+    var l = Label(text)
+    l.color = Palette.cyan
+    Int f = Font("monospace", 13)
+    l.setFont(f)
+    Int h = l
+    return h
+}
+
+Quote(String text): Int {
+    var theme = Theme.dark()
+    var bar = View(Style(theme.primary(), Palette.transparent, 2, 2))
+    var l = Label(text)
+    l.color = Palette.gray
+    bar.bind(l)
+    Int h = bar
+    return h
+}

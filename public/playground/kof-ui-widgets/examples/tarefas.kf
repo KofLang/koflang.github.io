@@ -1,0 +1,57 @@
+// tarefas.kf — estado interativo: o padrão da biblioteca
+//
+// Lambdas capturam cópias; o estado mutável vive em campos estáticos;
+// handles TIPADOS criados ANTES da ação são capturados e rebindados.
+// As cópias Int servem só para montar listas de layout.
+//
+//   scripts/run-example.sh tarefas
+
+class Estado {
+    static Int total = 0
+    static Int feitas = 0
+}
+
+main() {
+    var w = App("Tarefas")
+
+    var resumo = Text(progressBar(0, 0))
+    var lista = Column(listOf<String>())
+    var campo = Input("o que precisa ser feito?")
+    var cap = Muted("adicionar")
+
+    Int capH = cap
+    Int campoH = campo
+    Int resumoH = resumo
+
+    var addBtn = Button("+ adicionar", () -> {
+        var tarefa = campo.text()
+        if (!isBlank(tarefa)) {
+            Estado.total = Estado.total + 1
+            lista.bind(Text("[ ] " + tarefa))
+            resumo.setText(progressBar(Estado.feitas, Estado.total))
+        }
+    })
+    var doneBtn = Button("✓ concluir última", () -> {
+        if (Estado.feitas < Estado.total) {
+            Estado.feitas = Estado.feitas + 1
+            resumo.setText(progressBar(Estado.feitas, Estado.total))
+        }
+    })
+
+    Int addH = addBtn
+    Int doneH = doneBtn
+    Int formRow = Row(listOf(campoH, addH))
+    Int actions = Row(listOf(addH, doneH))
+
+    w.bind(Column(listOf(
+        Heading("Tarefas"),
+        resumoH,
+        VSpace(8),
+        capH,
+        formRow,
+        actions,
+        Divider(),
+        lista
+    )))
+    w.show()
+}

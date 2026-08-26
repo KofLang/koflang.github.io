@@ -1,0 +1,115 @@
+// 03-forms.kf — campos de formulário e validação.
+//
+// A plataforma não tem evento de teclado: o valor do Input é lido quando
+// a ação roda (clique). TextField sincroniza para fora via botão ↻ e via
+// leitura direta do input capturado no seu próprio escopo.
+//
+// Multi-instância: cada TextField criado compartilha TextFieldState
+// (limite alpha documentado). Para campos independentes, crie os Inputs
+// direto e leia com input.text() — docs/learn/04-forms.md mostra a receita.
+
+class TextFieldState {
+    static String value = ""
+}
+
+record TextFieldParts(Int root, Int refresh)
+
+TextField(String caption, String placeholder): TextFieldParts {
+    var theme = Theme.dark()
+    var cap = Muted(caption)
+    var inp = Input(placeholder)
+    var hint = Label("")
+    hint.fontSize = 12
+    hint.color = Palette.gray
+
+    Int capH = cap
+    Int inpH = inp
+    var field = Column(listOf(capH, inpH))
+    var box = View(Style(theme.surface(), Palette.white, 12, 8))
+    box.bind(field)
+    box.bind(hint)
+
+    box.bind(Button("↻ salvar valor", () -> {
+        TextFieldState.value = inp.text()
+        hint.setText("valor salvo")
+    }))
+
+    Int rootH = box
+    return TextFieldParts(rootH, rootH)
+}
+
+// ---- Validação (pura — testável em todos os alvos) ---------------------------
+
+isBlank(String s): Bool {
+    return s == ""
+}
+
+minLength(String s, Int n): Bool {
+    return s.length >= n
+}
+
+maxLength(String s, Int n): Bool {
+    return s.length <= n
+}
+
+isEmail(String s): Bool {
+    if (s.length < 5) {
+        return false
+    }
+    if (!s.contains("@")) {
+        return false
+    }
+    if (!s.contains(".")) {
+        return false
+    }
+    if (s.charAt(0) == '@') {
+        return false
+    }
+    var at = indexOf(s, "@")
+    var dot = indexOf(s, ".")
+    return at < dot && at > 0 && dot < s.length - 1
+}
+
+isNumber(String s): Bool {
+    if (s.length == 0) {
+        return false
+    }
+    var i = 0
+    while (i < s.length) {
+        var c = s.charAt(i)
+        if (c < '0' || c > '9') {
+            return false
+        }
+        i = i + 1
+    }
+    return true
+}
+
+indexOf(String s, String needle): Int {
+    var n = needle.length
+    if (n == 0 || n > s.length) {
+        return -1
+    }
+    var i = 0
+    while (i <= s.length - n) {
+        if (s.substring(i, i + n) == needle) {
+            return i
+        }
+        i = i + 1
+    }
+    return -1
+}
+
+// resumo de validação: lista de erros -> texto para o label do formulário.
+validationSummary(List<String> errors): String {
+    if (errors.size == 0) {
+        return "✓ tudo certo"
+    }
+    var out = "✕ corrija " + errors.size + " campo(s):"
+    var i = 0
+    while (i < errors.size) {
+        out = out + "\n• " + errors.get(i)
+        i = i + 1
+    }
+    return out
+}

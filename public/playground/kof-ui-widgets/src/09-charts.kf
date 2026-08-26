@@ -1,0 +1,151 @@
+// 09-charts.kf — gráficos em texto: sparkline, barras, linha, donut e gauge.
+//
+// Tudo função pura: entra List<Int>/Int, sai String pronta para qualquer
+// Label. 100% testável por valor exato em qualquer alvo.
+
+// ---- Sparkline -----------------------------------------------------------------------
+
+// "▁▂▃▄▅▆▇█" — tendência numa linha.
+Sparkline(List<Int> values): Int {
+    var l = Label(sparkline(values))
+    Int h = l
+    return h
+}
+
+sparkline(List<Int> values): String {
+    if (values.size == 0) {
+        return ""
+    }
+    var min = values.get(0)
+    var max = values.get(0)
+    var i = 1
+    while (i < values.size) {
+        if (values.get(i) < min) {
+            min = values.get(i)
+        }
+        if (values.get(i) > max) {
+            max = values.get(i)
+        }
+        i = i + 1
+    }
+    var out = ""
+    i = 0
+    while (i < values.size) {
+        out = out + levelChar(values.get(i), min, max)
+        i = i + 1
+    }
+    return out
+}
+
+levelChar(Int v, Int min, Int max): String {
+    var levels = listOf("▁", "▂", "▃", "▄", "▅", "▆", "▇", "█")
+    if (max == min) {
+        return levels.get(4)
+    }
+    var pos = (v - min) * 7 / (max - min)
+    return levels.get(clamp(pos, 0, 7))
+}
+
+// ---- Barras horizontais ------------------------------------------------------------------
+
+HBar(Int value, Int max, Int width): String {
+    var filled = ratioFill(value, max, width)
+    return repeat("█", filled) + repeat("░", width - filled)
+}
+
+// proporção pura com clamp (compartilhada por todas as barras).
+ratioFill(Int value, Int max, Int width): Int {
+    if (max <= 0) {
+        return 0
+    }
+    return clamp(value * width / max, 0, width)
+}
+
+progressBar(Int value, Int max): String {
+    return HBar(value, max, 20) + " " + value + "/" + max
+}
+
+// ---- Gráfico de colunas ----------------------------------------------------------------------
+
+BarsChart(List<String> labels, List<Int> values, Int height): Int {
+    var l = Label(barsText(labels, values, height))
+    Int h = l
+    return h
+}
+
+barsText(List<String> labels, List<Int> values, Int height): String {
+    if (values.size == 0) {
+        return EmptyState.EMPTY_TEXT
+    }
+    var max = values.get(0)
+    var i = 1
+    while (i < values.size) {
+        if (values.get(i) > max) {
+            max = values.get(i)
+        }
+        i = i + 1
+    }
+
+    // de cima para baixo: linha por nível
+    var row = height
+    var out = ""
+    while (row >= 1) {
+        var c = 0
+        while (c < values.size) {
+            var h = ratioFill(values.get(c), max, height)
+            if (h >= row) {
+                out = out + " █ "
+            } else {
+                out = out + "   "
+            }
+            c = c + 1
+        }
+        if (row > 1) {
+            out = out + "\n"
+        }
+        row = row - 1
+    }
+
+    // rodapé de rótulos
+    out = out + "\n"
+    var li = 0
+    while (li < labels.size && li < values.size) {
+        out = out + " " + substringN(labels.get(li), 0, 1) + " "
+        li = li + 1
+    }
+    return out
+}
+
+// ---- Donut / Gauge -------------------------------------------------------------------------------
+
+Donut(Int percent): Int {
+    var l = Label(donutText(percent))
+    l.fontSize = 20
+    l.bold = true
+    Int h = l
+    return h
+}
+
+donutText(Int percent): String {
+    var p = clamp(percent, 0, 100)
+    var frames = listOf("○", "◔", "◑", "◕", "●")
+    var idx = p * 4 / 100
+    return frames.get(idx) + " " + p + "%"
+}
+
+Gauge(Int value, Int max): Int {
+    var l = Label(gaugeText(value, max))
+    Int h = l
+    return h
+}
+
+gaugeText(Int value, Int max): String {
+    return "[" + HBar(value, max, 10) + "] " + ratioPercent(value, max) + "%"
+}
+
+ratioPercent(Int value, Int max): Int {
+    if (max <= 0) {
+        return 0
+    }
+    return clamp(value * 100 / max, 0, 100)
+}

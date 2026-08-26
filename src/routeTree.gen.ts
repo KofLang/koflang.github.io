@@ -15,6 +15,7 @@ import { Route as DocsRouteImport } from './routes/docs'
 import { Route as DownloadRouteImport } from './routes/download'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as LearnRouteImport } from './routes/learn'
+import { Route as PlaygroundRouteImport } from './routes/playground'
 import { Route as RoadmapRouteImport } from './routes/roadmap'
 import { Route as StandardLibraryRouteImport } from './routes/standard-library'
 import { Route as TargetsRouteImport } from './routes/targets'
@@ -50,6 +51,11 @@ const LearnRoute = LearnRouteImport.update({
   path: '/learn',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlaygroundRoute = PlaygroundRouteImport.update({
+  id: '/playground',
+  path: '/playground',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RoadmapRoute = RoadmapRouteImport.update({
   id: '/roadmap',
   path: '/roadmap',
@@ -78,6 +84,7 @@ export interface FileRoutesByFullPath {
   '/download': typeof DownloadRoute
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
+  '/playground': typeof PlaygroundRoute
   '/roadmap': typeof RoadmapRoute
   '/standard-library': typeof StandardLibraryRoute
   '/targets': typeof TargetsRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/download': typeof DownloadRoute
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
+  '/playground': typeof PlaygroundRoute
   '/roadmap': typeof RoadmapRoute
   '/standard-library': typeof StandardLibraryRoute
   '/targets': typeof TargetsRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/download': typeof DownloadRoute
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
+  '/playground': typeof PlaygroundRoute
   '/roadmap': typeof RoadmapRoute
   '/standard-library': typeof StandardLibraryRoute
   '/targets': typeof TargetsRoute
@@ -117,6 +126,7 @@ export interface FileRouteTypes {
     | '/download'
     | '/language'
     | '/learn'
+    | '/playground'
     | '/roadmap'
     | '/standard-library'
     | '/targets'
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/download'
     | '/language'
     | '/learn'
+    | '/playground'
     | '/roadmap'
     | '/standard-library'
     | '/targets'
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/download'
     | '/language'
     | '/learn'
+    | '/playground'
     | '/roadmap'
     | '/standard-library'
     | '/targets'
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   DownloadRoute: typeof DownloadRoute
   LanguageRoute: typeof LanguageRoute
   LearnRoute: typeof LearnRoute
+  PlaygroundRoute: typeof PlaygroundRoute
   RoadmapRoute: typeof RoadmapRoute
   StandardLibraryRoute: typeof StandardLibraryRoute
   TargetsRoute: typeof TargetsRoute
@@ -204,6 +217,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/playground': {
+      id: '/playground'
+      path: '/playground'
+      fullPath: '/playground'
+      preLoaderRoute: typeof PlaygroundRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/roadmap': {
       id: '/roadmap'
       path: '/roadmap'
@@ -242,6 +262,7 @@ const rootRouteChildren: RootRouteChildren = {
   DownloadRoute: DownloadRoute,
   LanguageRoute: LanguageRoute,
   LearnRoute: LearnRoute,
+  PlaygroundRoute: PlaygroundRoute,
   RoadmapRoute: RoadmapRoute,
   StandardLibraryRoute: StandardLibraryRoute,
   TargetsRoute: TargetsRoute,

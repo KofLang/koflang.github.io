@@ -1,0 +1,42 @@
+// perfil.kf — formulário, choices e overlays trabalhando juntos
+//
+//   scripts/run-example.sh perfil
+
+class PerfilState {
+    static String nome = ""
+}
+
+main() {
+    var w = App("Perfil")
+
+    var campoNome = TextField("Nome", "como te chamam?")
+    var emailCheck = Checkbox("mostrar email público")
+    var notif = ToggleSwitch("notificações")
+    var plano = RadioGroup(listOf("free", "pro", "enterprise"))
+    var nota = Rating("experiência até agora")
+    Int salvar = Button("salvar", () -> {
+        PerfilState.nome = TextFieldState.value
+        MessageDialog("perfil", "salvo para: " + PerfilState.nome)
+    })
+
+    w.bind(Column(listOf(
+        Breadcrumbs(listOf("conta", "perfil")),
+        AvatarRow(),
+        campoNome.root(),
+        emailCheck.root(),
+        notif.root(),
+        plano.root(),
+        nota.root(),
+        Alert("info", "alterações só saem quando você salvar"),
+        salvar
+    )))
+    w.show()
+}
+
+AvatarRow(): Int {
+    Int avatar = Avatar("mel silva").root()
+    Int name = Subheading("mel")
+    Int handle = Muted("@mel")
+    Int ids = Column(listOf(name, handle))
+    return Row(listOf(avatar, ids))
+}

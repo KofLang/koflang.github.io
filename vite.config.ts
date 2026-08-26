@@ -25,6 +25,7 @@ const staticPages = [
   "/download",
   "/language",
   "/learn",
+  "/playground",
   "/roadmap",
   "/standard-library",
   "/targets",

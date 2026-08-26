@@ -1,0 +1,275 @@
+// 07-data.kf — tabela, árvore, lista, timeline, stat card, avatar e vazio.
+//
+// A plataforma não tem grid de verdade: tabelas e árvores são texto bem
+// alinhado (padEnd/padStart do core) com larguras calculadas. A intenção
+// permanece — "mostre estes dados tabulares" — e o alinhamento é nosso.
+
+record StatCardParts(Int root)
+record AvatarParts(Int root)
+
+// ---- DataTable ---------------------------------------------------------------------
+
+// Cada linha traz as células separadas por ";": "Mel;dev;ativo".
+DataTable(String headersCsv, List<String> rows): Int {
+    var l = Label(tableText(headersCsv, rows))
+    l.color = Palette.white
+    Int f = Font("monospace", 13)
+    l.setFont(f)
+    Int h = l
+    return h
+}
+
+tableText(String headersCsv, List<String> rows): String {
+    var headers = split(headersCsv, ";")
+    if (headers.size == 0) {
+        return ""
+    }
+    var widths = columnWidths(headers, rows)
+
+    var out = tableRow(headers, widths)
+    out = out + "\n" + repeat("─", totalWidth(widths))
+    var r = 0
+    while (r < rows.size) {
+        out = out + "\n" + tableRow(split(rows.get(r), ";"), widths)
+        r = r + 1
+    }
+    return out
+}
+
+columnWidths(String headersCsv, List<String> rows): List<Int> {
+    var headers = split(headersCsv, ";")
+    var w = listOf<Int>()
+    var c = 0
+    while (c < headers.size) {
+        var max = headers.get(c).length
+        var r = 0
+        while (r < rows.size) {
+            var cellLen = cellLength(rows.get(r), c)
+            if (cellLen > max) {
+                max = cellLen
+            }
+            r = r + 1
+        }
+        w.add(max + 2)
+        c = c + 1
+    }
+    return w
+}
+
+cellLength(String row, Int col): Int {
+    var cells = split(row, ";")
+    if (col >= cells.size) {
+        return 0
+    }
+    return cells.get(col).length
+}
+
+tableRow(List<String> cells, List<Int> widths): String {
+    var out = ""
+    var c = 0
+    while (c < cells.size && c < widths.size) {
+        out = out + padEnd(cells.get(c), widths.get(c))
+        c = c + 1
+    }
+    return out
+}
+
+totalWidth(List<Int> widths): Int {
+    var t = 0
+    var i = 0
+    while (i < widths.size) {
+        t = t + widths.get(i)
+        i = i + 1
+    }
+    return t
+}
+
+// split próprio: a plataforma não tem String.split.
+split(String s, String sep): List<String> {
+    var parts = listOf<String>()
+    var rest = s
+    while (rest.contains(sep)) {
+        var idx = indexOf(rest, sep)
+        parts.add(substringN(rest, 0, idx))
+        rest = substringN(rest, idx + sep.length, rest.length)
+    }
+    parts.add(rest)
+    return parts
+}
+
+// ---- TreeView -------------------------------------------------------------------------
+
+TreeView(List<String> paths): Int {
+    var l = Label(treeText(paths))
+    Int h = l
+    return h
+}
+
+treeText(List<String> paths): String {
+    if (paths.size == 0) {
+        return "(vazio)"
+    }
+    var out = treeLine(paths.get(0))
+    var i = 1
+    while (i < paths.size) {
+        out = out + "\n" + treeLine(paths.get(i))
+        i = i + 1
+    }
+    return out
+}
+
+treeLine(String path): String {
+    var depth = countChar(path, "/")
+    var name = path
+    var slash = lastIndexOf(path, "/")
+    if (slash >= 0) {
+        name = substringN(path, slash + 1, path.length)
+    }
+    var indent = repeat("  ", depth)
+    return indent + "• " + name
+}
+
+lastIndexOf(String s, String needle): Int {
+    var n = needle.length
+    if (n == 0 || n > s.length) {
+        return -1
+    }
+    var i = s.length - n
+    while (i >= 0) {
+        if (s.substring(i, i + n) == needle) {
+            return i
+        }
+        i = i - 1
+    }
+    return -1
+}
+
+// ---- ListView ------------------------------------------------------------------------------
+
+ListView(List<String> items, Bool numbered): Int {
+    var l = Label(listText(items, numbered))
+    Int h = l
+    return h
+}
+
+listText(List<String> items, Bool numbered): String {
+    if (items.size == 0) {
+        return EmptyState.EMPTY_TEXT
+    }
+    var out = ""
+    var i = 0
+    while (i < items.size) {
+        var bullet = "• "
+        if (numbered) {
+            bullet = str(i + 1) + ". "
+        }
+        if (i > 0) {
+            out = out + "\n"
+        }
+        out = out + bullet + items.get(i)
+        i = i + 1
+    }
+    return out
+}
+
+// ---- Timeline ---------------------------------------------------------------------------------
+
+Timeline(List<String> events): Int {
+    var l = Label(timelineText(events))
+    Int h = l
+    return h
+}
+
+timelineText(List<String> events): String {
+    if (events.size == 0) {
+        return EmptyState.EMPTY_TEXT
+    }
+    var out = "○ " + events.get(0)
+    var i = 1
+    while (i < events.size) {
+        out = out + "\n│\n○ " + events.get(i)
+        i = i + 1
+    }
+    return out
+}
+
+// ---- StatCard -----------------------------------------------------------------------------------
+
+StatCard(String label, String value, String trend): StatCardParts {
+    var theme = Theme.dark()
+    var big = Label(value)
+    big.fontSize = 30
+    big.bold = true
+
+    var trendColor = Palette.gray
+    if (trend.startsWith("+")) {
+        trendColor = Palette.green
+    }
+    if (trend.startsWith("-")) {
+        trendColor = ErrorColor()
+    }
+    var tr = Label(trend)
+    tr.color = trendColor
+    tr.fontSize = 12
+
+    var box = View(Style(theme.surface(), Palette.white, 14, 10))
+    box.bind(Column(listOf(Muted(label), big, tr)))
+    Int bh = box
+    return StatCardParts(bh)
+}
+
+// ---- Avatar ----------------------------------------------------------------------------------------
+
+Avatar(String name): AvatarParts {
+    var initials = Label(avatarInitials(name))
+    initials.bold = true
+    var box = View(Style(avatarColor(name), Palette.white, 8, 999))
+    box.bind(initials)
+    Int bh = box
+    return AvatarParts(bh)
+}
+
+avatarInitials(String name): String {
+    var trimmed = trimSpaces(name)
+    if (trimmed.length == 0) {
+        return "?"
+    }
+    var first = substringN(trimmed, 0, 1)
+    var space = indexOf(trimmed, " ")
+    if (space < 0) {
+        return first
+    }
+    var second = substringN(trimmed, space + 1, space + 2)
+    return first + second
+}
+
+avatarColor(String name): Int {
+    var options = listOf(Palette.purple, Palette.blue, Palette.green, Palette.orange)
+    var idx = clamp(name.length, 0, options.size - 1)
+    return options.get(idx)
+}
+
+trimSpaces(String s): String {
+    var start = 0
+    while (start < s.length && s.charAt(start) == ' ') {
+        start = start + 1
+    }
+    var end = s.length
+    while (end > start && s.charAt(end - 1) == ' ') {
+        end = end - 1
+    }
+    return s.substring(start, end)
+}
+
+// ---- Empty -------------------------------------------------------------------------------------------
+
+class EmptyState {
+    static String EMPTY_TEXT = "nada por aqui ainda"
+}
+
+Empty(): Int {
+    var l = Label(EmptyState.EMPTY_TEXT)
+    l.color = Palette.gray
+    Int h = l
+    return h
+}

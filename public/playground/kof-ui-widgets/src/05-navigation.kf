@@ -1,0 +1,284 @@
+// 05-navigation.kf — tabs, accordion, paginação, breadcrumbs, navbar, busca.
+//
+// Navegação sem rotas da plataforma: estado estático + transições puras +
+// rebind de labels capturados. O conteúdo é texto (List<String>) — a troca
+// de "página" é a troca do texto do corpo.
+
+// ---- Tabs ------------------------------------------------------------------------
+
+record TabParts(Int root)
+
+Tabs(List<String> titles, List<String> pages): TabParts {
+    var theme = Theme.dark()
+    var active = 0
+    var body = Label(tabBody(titles, pages, 0))
+
+    var b0 = Button(titles.get(0), () -> {
+        active = 0
+        body.setText(tabBody(titles, pages, 0))
+    })
+    var items = listOf(b0)
+    if (titles.size > 1) {
+        var b1 = Button(titles.get(1), () -> {
+            active = 1
+            body.setText(tabBody(titles, pages, 1))
+        })
+        items.add(b1)
+    }
+    if (titles.size > 2) {
+        var b2 = Button(titles.get(2), () -> {
+            active = 2
+            body.setText(tabBody(titles, pages, 2))
+        })
+        items.add(b2)
+    }
+    if (titles.size > 3) {
+        var b3 = Button(titles.get(3), () -> {
+            active = 3
+            body.setText(tabBody(titles, pages, 3))
+        })
+        items.add(b3)
+    }
+
+    Int stripH = Row(items)
+    var box = View(Style(theme.surface(), Palette.white, 12, 8))
+    box.bind(stripH)
+    box.bind(body)
+    Int bh = box
+    return TabParts(bh)
+}
+
+// transição pura: corpo = "▸ título\n\nconteúdo".
+tabBody(List<String> titles, List<String> pages, Int index): String {
+    if (titles.size == 0 || pages.size == 0) {
+        return ""
+    }
+    var i = clamp(index, 0, titles.size - 1)
+    var content = ""
+    if (i < pages.size) {
+        content = pages.get(i)
+    }
+    return "▸ " + titles.get(i) + "\n\n" + content
+}
+
+// ---- Accordion ----------------------------------------------------------------------
+
+record AccordionParts(Int root)
+
+Accordion(String title, String content): AccordionParts {
+    var theme = Theme.dark()
+    var open = true
+    var mark = Label(accordionMark(true))
+    var body = Label(accordionBody(content, true))
+    var btn = Button(title, () -> {
+        open = flip(open)
+        mark.setText(accordionMark(open))
+        body.setText(accordionBody(content, open))
+    })
+    Int mh = mark
+    Int bh2 = btn
+    Int head = Row(listOf(mh, bh2))
+    var col = Column(listOf(head, body))
+    var box = View(Style(theme.surface(), Palette.white, 8, 8))
+    box.bind(col)
+    Int bh = box
+    return AccordionParts(bh)
+}
+
+accordionMark(Bool open): String {
+    if (open) {
+        return "▾"
+    }
+    return "▸"
+}
+
+accordionBody(String content, Bool open): String {
+    if (open) {
+        return content
+    }
+    return ""
+}
+
+// ---- Pagination -----------------------------------------------------------------------
+
+class PageState {
+    static Int page = 1
+}
+
+record PagerParts(Int root)
+
+Pagination(Int total): PagerParts {
+    var info = Label(pagerLabel(PageState.page, total))
+    var prev = Button("‹ prev", () -> {
+        PageState.page = prevPage(PageState.page, total)
+        info.setText(pagerLabel(PageState.page, total))
+    })
+    var next = Button("next ›", () -> {
+        PageState.page = nextPage(PageState.page, total)
+        info.setText(pagerLabel(PageState.page, total))
+    })
+    Int ph = prev
+    Int ih = info
+    Int nh = next
+    var row = Row(listOf(ph, ih, nh))
+    Int rh = row
+    return PagerParts(rh)
+}
+
+// transições puras: limita em [1, total]; total 0 trava na página 1.
+nextPage(Int page, Int total): Int {
+    if (total <= 0) {
+        return 1
+    }
+    return clamp(page + 1, 1, total)
+}
+
+prevPage(Int page, Int total): Int {
+    if (total <= 0) {
+        return 1
+    }
+    return clamp(page - 1, 1, total)
+}
+
+pagerLabel(Int page, Int total): String {
+    if (total <= 0) {
+        return "sem páginas"
+    }
+    return "página " + padStart(str(page), 3) + " / " + total
+}
+
+str(Int v): String {
+    return "" + v
+}
+
+// ---- Breadcrumbs -------------------------------------------------------------------------
+
+Breadcrumbs(List<String> parts): Int {
+    var l = Label(join(parts, "  ›  "))
+    l.color = Palette.gray
+    Int h = l
+    return h
+}
+
+// ---- Navbar ---------------------------------------------------------------------------------
+
+class NavState {
+    static String route = "home"
+}
+
+record NavParts(Int root)
+
+Navbar(List<String> routes): NavParts {
+    var status = Label("→ " + NavState.route)
+
+    var b0 = Button(routes.get(0), () -> {
+        NavState.route = routes.get(0)
+        status.setText("→ " + routes.get(0))
+    })
+    var items = listOf(b0)
+    if (routes.size > 1) {
+        var b1 = Button(routes.get(1), () -> {
+            NavState.route = routes.get(1)
+            status.setText("→ " + routes.get(1))
+        })
+        items.add(b1)
+    }
+    if (routes.size > 2) {
+        var b2 = Button(routes.get(2), () -> {
+            NavState.route = routes.get(2)
+            status.setText("→ " + routes.get(2))
+        })
+        items.add(b2)
+    }
+    if (routes.size > 3) {
+        var b3 = Button(routes.get(3), () -> {
+            NavState.route = routes.get(3)
+            status.setText("→ " + routes.get(3))
+        })
+        items.add(b3)
+    }
+
+    Int navstrip = Row(items)
+    Int div = Divider()
+    Int st = status
+    var col = Column(listOf(navstrip, div, st))
+    Int h = col
+    return NavParts(h)
+}
+
+navRoute(): String {
+    return NavState.route
+}
+
+// ---- Search / command palette ------------------------------------------------------------------
+
+class SearchState {
+    static String query = ""
+    static Int matches = 0
+}
+
+record SearchParts(Int root)
+
+SearchBox(List<String> dataset, String placeholder): SearchParts {
+    var theme = Theme.dark()
+    var inp = Input(placeholder)
+    var results = Label("digite para buscar em " + dataset.size + " itens")
+
+    var go = Button("buscar ⌕", () -> {
+        SearchState.query = inp.text()
+        SearchState.matches = countMatches(dataset, SearchState.query)
+        results.setText(searchReport(dataset, SearchState.query))
+    })
+    var clearBtn = Button("✕", () -> {
+        SearchState.query = ""
+        inp.setText("")
+        results.setText("busca limpa")
+    })
+
+    Int inh = inp
+    Int gh = go
+    Int ch = clearBtn
+    Int actions = Row(listOf(gh, ch))
+    var col = Column(listOf(inh, actions, results))
+    var box = View(Style(theme.surface(), Palette.white, 12, 8))
+    box.bind(col)
+    Int bh = box
+    return SearchParts(bh)
+}
+
+// quantos itens contêm a query (case exato; plataforma não tem case-fold).
+countMatches(List<String> dataset, String query): Int {
+    if (isBlank(query)) {
+        return 0
+    }
+    var n = 0
+    var i = 0
+    while (i < dataset.size) {
+        if (dataset.get(i).contains(query)) {
+            n = n + 1
+        }
+        i = i + 1
+    }
+    return n
+}
+
+searchReport(List<String> dataset, String query): String {
+    var n = countMatches(dataset, query)
+    if (n == 0) {
+        return "nada para \"" + ellipsis(query, 24) + "\""
+    }
+    var out = str(n) + " resultado(s):"
+    var shown = 0
+    var i = 0
+    while (i < dataset.size && shown < 5) {
+        if (dataset.get(i).contains(query)) {
+            out = out + "\n• " + ellipsis(dataset.get(i), 40)
+            shown = shown + 1
+        }
+        i = i + 1
+    }
+    if (n > shown) {
+        out = out + "\n… +" + (n - shown) + " mais"
+    }
+    return out
+}

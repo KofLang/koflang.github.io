@@ -1,0 +1,32 @@
+// files.kf — file picker com preview via kof.io (JVM/Native)
+//
+//   kof run "$(scripts/build.sh examples/files.kf)" --target=jvm
+//
+// A leitura de arquivos no alvo JS é gap da plataforma — o picker abre,
+// mas o carregar reporta o erro no preview.
+
+main() {
+    var w = App("Arquivos")
+
+    var picker = FilePicker("abrir arquivo de texto")
+
+    var historico = ListView(listOf("VERSION", "README.md"), true)
+    Int tree = TreeView(listOf(
+        "src/00-core.kf",
+        "src/04-choices.kf",
+        "docs/gaps.md",
+        "examples/dashboard.kf"
+    ))
+
+    w.bind(Column(listOf(
+        Heading("Arquivos"),
+        picker.root(),
+        VSpace(8),
+        Subheading("recentes"),
+        historico.root(),
+        VSpace(8),
+        Subheading("projeto"),
+        tree
+    )))
+    w.show()
+}

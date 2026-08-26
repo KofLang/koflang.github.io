@@ -1,0 +1,80 @@
+// 02-layout.kf — containers com nome: seção, painel, respiro, divisor.
+
+Section(String title): Int {
+    var theme = Theme.dark()
+    var t = Subheading(title)
+    var col = Column(listOf(t))
+    var box = View(Style(theme.surface(), Palette.white, 16, 12))
+    box.bind(col)
+    Int h = box
+    return h
+}
+
+Panel(Int content): Int {
+    var theme = Theme.dark()
+    var box = View(Style(theme.surface(), Palette.white, 16, 12))
+    box.bind(content)
+    Int h = box
+    return h
+}
+
+Card(String title): Int {
+    var theme = Theme.dark()
+    var titulo = Heading(title)
+    var box = View(Style(theme.surface(), Palette.white, 16, 12))
+    box.bind(titulo)
+    Int h = box
+    return h
+}
+
+// espaço vertical entre blocos (a plataforma não tem gap: é um label vazio).
+VSpace(Int px): Int {
+    var l = Label("")
+    l.fontSize = clamp(px, 4, 120)
+    Int h = l
+    return h
+}
+
+HSpace(Int px): Int {
+    var l = Label(" ")
+    l.fontSize = clamp(px, 4, 120)
+    Int h = l
+    return h
+}
+
+Divider(): Int {
+    var theme = Theme.dark()
+    var box = View(Style(theme.primary(), Palette.transparent, 1, 1))
+    box.bind(Label(" "))
+    Int h = box
+    return h
+}
+
+Badge(String text): Int {
+    var l = Label(text)
+    l.fontSize = 12
+    var box = View(Style(Color.rgba(255, 255, 255, 24), Palette.white, 4, 999))
+    box.bind(l)
+    Int h = box
+    return h
+}
+
+Tag(String text, Int color): Int {
+    var l = Label(text)
+    l.fontSize = 12
+    l.color = color
+    var box = View(Style(Color.rgba(255, 255, 255, 16), color, 4, 999))
+    box.bind(l)
+    Int h = box
+    return h
+}
+
+Chip(String text): Int {
+    var theme = Theme.dark()
+    var l = Label(text + " ✕")
+    l.fontSize = 12
+    var box = View(Style(theme.surface(), Palette.white, 6, 999))
+    box.bind(l)
+    Int h = box
+    return h
+}

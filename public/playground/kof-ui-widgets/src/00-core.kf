@@ -1,0 +1,147 @@
+// 00-core.kf — fundação: App, tema, e helpers puros de texto/número.
+//
+// Tudo aqui é composição dos primitivos do kof.ui ou funções puras.
+// As funções puras são o coração testável da biblioteca: cada componente
+// interativo delega a transição de estado para uma delas.
+
+// ---- App --------------------------------------------------------------------
+
+// "abra o app" — janela pronta: tema escuro do Kof, tamanho civilizado.
+App(String title): Int {
+    var w = Window(title)
+    w.size(960, 640)
+    w.theme = Theme.dark()
+    Int wh = w
+    return wh
+}
+
+// ---- Cores semânticas (atalhos do tema escuro) ------------------------------
+
+SurfaceColor(): Int {
+    Int c = Theme.dark().surface()
+    return c
+}
+
+ErrorColor(): Int {
+    Int c = Theme.dark().error()
+    return c
+}
+
+PrimaryColor(): Int {
+    Int c = Theme.dark().primary()
+    return c
+}
+
+TextColor(): Int {
+    Int c = Theme.dark().text()
+    return c
+}
+
+// ---- Texto puro -------------------------------------------------------------
+
+// repete `piece` n vezes — base de barras, skeletons e grids.
+repeat(String piece, Int n): String {
+    var out = ""
+    var i = 0
+    while (i < n) {
+        out = out + piece
+        i = i + 1
+    }
+    return out
+}
+
+// completa com espaços à direita até `width` (tabelas, colunas).
+padEnd(String s, Int width): String {
+    var out = s
+    while (out.length < width) {
+        out = out + " "
+    }
+    return out
+}
+
+// completa com espaços à esquerda até `width` (números alinhados).
+padStart(String s, Int width): String {
+    var out = s
+    while (out.length < width) {
+        out = " " + out
+    }
+    return out
+}
+
+// trunca com reticências quando passa de `width`.
+ellipsis(String s, Int width): String {
+    if (s.length <= width) {
+        return s
+    }
+    if (width < 2) {
+        return substringN(s, 0, width)
+    }
+    return substringN(s, 0, width - 1) + "…"
+}
+
+// substring segura: corta nos limites, nunca estoura.
+substringN(String s, Int start, Int end): String {
+    if (s.length == 0) {
+        return ""
+    }
+    var a = clamp(start, 0, s.length)
+    var b = clamp(end, 0, s.length)
+    if (b <= a) {
+        return ""
+    }
+    return s.substring(a, b)
+}
+
+// conta ocorrências de um caractere (um char = string de 1).
+countChar(String s, String ch): Int {
+    var n = 0
+    var i = 0
+    while (i < s.length) {
+        if (s.charAt(i) == ch.charAt(0)) {
+            n = n + 1
+        }
+        i = i + 1
+    }
+    return n
+}
+
+// junta uma lista com separador (breadcrumbs, menus).
+join(List<String> parts, String sep): String {
+    if (parts.size == 0) {
+        return ""
+    }
+    var out = parts.get(0)
+    var i = 1
+    while (i < parts.size) {
+        out = out + sep + parts.get(i)
+        i = i + 1
+    }
+    return out
+}
+
+// ---- Números puros ------------------------------------------------------------
+
+clamp(Int v, Int min, Int max): Int {
+    if (v < min) {
+        return min
+    }
+    if (v > max) {
+        return max
+    }
+    return v
+}
+
+// wrap-around: avança voltando ao início (carrosséis, relógios).
+wrapNext(Int i, Int n): Int {
+    if (n <= 0) {
+        return 0
+    }
+    return (i + 1) % n
+}
+
+wrapPrev(Int i, Int n): Int {
+    if (n <= 0) {
+        return 0
+    }
+    return (i - 1 + n) % n
+}

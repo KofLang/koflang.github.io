@@ -1,0 +1,66 @@
+// 10-io.kf — file picker com preview.
+//
+// Combina Input (caminho) + botão carregar + preview via kof.io.
+// kof.io roda em JVM e Native; no alvo JS é gap da plataforma (o resto do
+// componente funciona: a leitura reporta o erro no preview).
+
+class FilePickerState {
+    static String loadedPath = ""
+}
+
+record FilePickerParts(Int root)
+
+FilePicker(String label): FilePickerParts {
+    var theme = Theme.dark()
+    var cap = Muted(label)
+    var pathInput = Input("caminho/do/arquivo.txt")
+    var preview = Label("nenhum arquivo carregado")
+    preview.color = Palette.gray
+
+    var load = Button("carregar ⤓", () -> {
+        var p = trimSpaces(pathInput.text())
+        if (isBlank(p)) {
+            preview.setText("✕ informe um caminho")
+        } else {
+            var target = Path(p)
+            if (target.exists()) {
+                FilePickerState.loadedPath = p
+                preview.setText(filePreview(target.readText()))
+            } else {
+                preview.setText("✕ não existe: " + ellipsis(p, 40))
+            }
+        }
+    })
+
+    Int loadH = load
+    Int aloneRow = Row(listOf(loadH))
+    Int capH = cap
+    Int pathH = pathInput
+    Int divH = Divider()
+    Int prevH = preview
+    var layout = Column(listOf(capH, pathH, aloneRow, divH, prevH))
+    var box = View(Style(theme.surface(), Palette.white, 12, 8))
+    box.bind(layout)
+    Int bh = box
+    return FilePickerParts(bh)
+}
+
+filePreview(String content): String {
+    if (isBlank(content)) {
+        return "(arquivo vazio)"
+    }
+    var lines = split(content, "\n")
+    var shown = 0
+    var out = ""
+    while (shown < lines.size && shown < 5) {
+        if (shown > 0) {
+            out = out + "\n"
+        }
+        out = out + "│ " + ellipsis(lines.get(shown), 48)
+        shown = shown + 1
+    }
+    if (lines.size > 5) {
+        out = out + "\n… +" + (lines.size - 5) + " linhas"
+    }
+    return out
+}
