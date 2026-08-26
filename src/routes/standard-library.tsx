@@ -8,7 +8,7 @@ export const Route = createFileRoute("/standard-library")({
       {
         name: "description",
         content:
-          "A stdlib da Kof: coleções, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security e kof.log disponíveis; async e concorrência além da JVM em construção.",
+          "A stdlib da Kof: coleções com Map/Set, enum, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security, kof.validation e kof.observability disponíveis; async e concorrência além da JVM em construção.",
       },
       { property: "og:title", content: "Standard Library — Kof" },
       {
@@ -49,7 +49,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "HTTP (kof.web)",
     status: "available",
-    note: "web.app(), rotas com path params, middleware e servidor embutido no runtime. JVM.",
+    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS.",
   },
   {
     name: "banco de dados (kof.db)",
@@ -80,7 +80,17 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "segurança (kof.security)",
     status: "available",
-    note: "v1 nos três targets: PBKDF2 (600k), SHA-256/512, HMAC, JWT HS256 e secrets — constant-time, secure by default; no Native, asm x86-64 sem libc.",
+    note: "v1 + G9 nos três targets: PBKDF2 (600k), SHA-256/512, HMAC, JWT HS256, secrets, rate limit (security.rateLimit), sessões e API keys — constant-time, secure by default; no Native, asm x86-64 sem libc.",
+  },
+  {
+    name: "validação (kof.validation)",
+    status: "available",
+    note: "13 predicados (required, notBlank, isEmail, isUrl, inRange, min/max...) nos três targets; violação vira diagnóstico VAL001.",
+  },
+  {
+    name: "observabilidade (kof.observability)",
+    status: "available",
+    note: "health/readiness/liveness, contadores e gauges (counter/gauge/increment) e requestId/correlationId nos três targets.",
   },
   {
     name: "concorrência (spawn)",

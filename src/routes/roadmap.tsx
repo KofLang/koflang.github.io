@@ -60,6 +60,10 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "kof.mq — pub/sub (JVM)",
       "cliente HTTP (JVM)",
       "kof.security v1 (JVM, Native e JS)",
+      "web security G9 — rateLimit, sessões e API keys (3 targets)",
+      "TLS/HTTPS — web.listenSecure na JVM (WEB002 fora dela)",
+      "kof.validation — 13 predicados (3 targets)",
+      "kof.observability — health, métricas e request IDs (3 targets)",
       "kof.ui — widgets com render KofJS",
       "spawn na JVM (virtual threads)",
       "await de spawn — handle tipado (JVM)",
@@ -135,7 +139,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A versão atual é a 0.1.0-beta — a linguagem saiu da fase 0.0.x-alpha, mas o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.1.x e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">
