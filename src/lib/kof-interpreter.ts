@@ -8,45 +8,92 @@ export type KofResult = { output: string; error?: string };
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function stripTypes(code: string): string {
-  // remove anotações de tipo: var x: Int, param: String, func(): Int, class Foo(String name)
-  // mantém só o nome
   let s = code;
-  // tipos após :
+  // 1) remove tipo de retorno: ): Type
+  s = s.replace(
+    /\)\s*:\s*(String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\b/g,
+    ")",
+  );
+  // 2) remove anotação : Type  (var x: Int, param: String)
   s = s.replace(
     /:\s*(String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\b/g,
     "",
   );
-  // primary constructor params: class User(String name, Int age)
-  // já coberto acima
+  // 3) remove tipo prefixado em declaração sem var/val:  Int wh = w  -> let wh = w
+  s = s.replace(
+    /(^|[;{\n])\s*(String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\s+(\w+)\s*=/gm,
+    "$1let $3 =",
+  );
+  // 4) remove tipo prefixado em params e resto:  Int v, String s  -> v, s
+  //    (após 3, ainda sobram casos como `f(Int n)` sem `=` )
+  s = s.replace(
+    /\b(?:String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\s+(?=[a-zA-Z_]\w*\b)/g,
+    "",
+  );
   return s;
 }
 
-function extractMainBody(code: string): string {
-  // se tem main() { ... } extrai o corpo, senão usa tudo
-  const mainMatch = code.match(/main\s*\(\s*\)\s*\{([\s\S]*)\}/);
-  if (mainMatch) {
-    // pega o conteúdo até o último } correspondente - simplificado
-    // conta chaves
-    const start = code.indexOf("main");
-    const brace = code.indexOf("{", start);
-    let depth = 0;
-    let end = brace;
-    for (let i = brace; i < code.length; i++) {
-      if (code[i] === "{") depth++;
-      else if (code[i] === "}") {
-        depth--;
-        if (depth === 0) {
-          end = i;
-          break;
+function transformListOf(js: string): string {
+  let out = "";
+  let i = 0;
+  while (i < js.length) {
+    if (js.startsWith("listOf", i) && (i === 0 || !/[A-Za-z0-9_]/.test(js[i - 1]))) {
+      let j = i + 6;
+      while (j < js.length && /\s/.test(js[j])) j++;
+      // suporta listOf<Int>(...)  - pula <...>
+      if (j < js.length && js[j] === "<") {
+        let d = 1;
+        j++;
+        while (j < js.length && d > 0) {
+          if (js[j] === "<") d++;
+          else if (js[j] === ">") d--;
+          j++;
         }
+        while (j < js.length && /\s/.test(js[j])) j++;
+      }
+      if (j < js.length && js[j] === "(") {
+        let depth = 1;
+        const start = j + 1;
+        let k = start;
+        while (k < js.length && depth > 0) {
+          if (js[k] === "(") depth++;
+          else if (js[k] === ")") depth--;
+          k++;
+        }
+        const inner = js.slice(start, k - 1);
+        out += "[" + transformListOf(inner) + "]";
+        i = k;
+        continue;
       }
     }
-    const body = code.slice(brace + 1, end);
-    // prefixa código fora do main (funções auxiliares, classes)
-    const before = code.slice(0, start);
-    const after = code.slice(end + 1);
-    // mantém funções auxiliares + body
-    return before + "\n" + body + "\n" + after;
+    out += js[i];
+    i++;
+  }
+  return out;
+}
+
+function extractMainBody(code: string): string {
+  const start = code.indexOf("main");
+  if (start !== -1) {
+    const brace = code.indexOf("{", start);
+    if (brace !== -1) {
+      let depth = 0;
+      let end = brace;
+      for (let i = brace; i < code.length; i++) {
+        if (code[i] === "{") depth++;
+        else if (code[i] === "}") {
+          depth--;
+          if (depth === 0) {
+            end = i;
+            break;
+          }
+        }
+      }
+      const body = code.slice(brace + 1, end);
+      const before = code.slice(0, start);
+      const after = code.slice(end + 1);
+      return before + "\n" + body + "\n" + after;
+    }
   }
   return code;
 }
@@ -63,64 +110,47 @@ export function runKof(raw: string): KofResult {
     let code = raw.trim();
     if (!code) return { output: "", error: "código vazio" };
 
-    // remove package/import (não usados no playground)
     code = code.replace(/^\s*(package|import)\s+.*$/gm, "");
 
-    // extrai main
     let js = extractMainBody(code);
     js = stripTypes(js);
+    js = transformListOf(js);
 
-    // normaliza Kof -> JS
     js = js
       .replace(/\bval\s+/g, "let ")
       .replace(/\bvar\s+/g, "let ")
-      // println/print
       .replace(/\bprintln\s*\(/g, "__kof_println(")
       .replace(/\bprint\s*\(/g, "__kof_print(")
-      // for (var x in list) -> for (let x of list)
       .replace(/for\s*\(\s*let\s+(\w+)\s+in\s+/g, "for (let $1 of ")
-      // listOf(...) -> [...]
-      .replace(/\blistOf\s*\(\s*\)/g, "[]")
-      .replace(/\blistOf\s*\(/g, "[")
-      // fecha listOf antigo: já virou [
-      // .size -> .length (List)
       .replace(/\.size\b/g, ".length")
-      // .length já é string length também, mantém
-      // string helpers: s.contains -> s.includes
       .replace(/\.contains\s*\(/g, ".includes(")
-      // assert -> if (!cond) throw
       .replace(
         /\bassert\s*\(\s*([^,)]+)(?:,\s*("[^"]*"|'[^']*'))?\s*\)/g,
         'if(!($1)) throw new Error($2 || "assert falhou")',
       )
-      // classes/records/enum ignorados no subset console - remove declaração mas mantém uso simples
       .replace(/\bclass\s+\w+[\s\S]*?\{[\s\S]*?\n\}/g, "/* class removida no subset */")
       .replace(/\brecord\s+\w+.*$/gm, "/* record */")
       .replace(/\benum\s+\w+.*$/gm, "/* enum */")
-      // Bool literals: true/false já compatível
-      // remove return types espectrais: func() { -> function func() {
-      .replace(/^(\s*)(\w+)\s*\(\s*\)\s*\{/gm, "$1function $2() {");
+      .replace(
+        /^(\s*)(?!if\b|while\b|for\b|switch\b|catch\b|return\b)(\w+)\s*\(([^)]*)\)\s*\{/gm,
+        "$1function $2($3) {",
+      );
 
-    // adapta println no corpo: se ainda tem main como function, chama
     const hasMainFn = /function\s+main\s*\(/.test(js);
     const execCode = `
       const __kof_println = println;
       const __kof_print = print;
-      // helpers Kof no browser
-      const listOf = (...a) => a;
       const List = Array;
       ${js}
       ${hasMainFn ? "\nif (typeof main === 'function') main();" : ""}
     `;
 
-    // executa em sandbox com Function (new Function é intencional — interpretador Kof no browser)
-    const fn = new Function("println", "print", "listOf", "out", execCode);
-    fn(println, print, (...a: any[]) => a, out);
+    const fn = new Function("println", "print", execCode);
+    fn(println, print);
 
     return { output: out.join("\n") };
   } catch (e: any) {
     const msg = e?.message ?? String(e);
-    // junta output parcial + erro
     const partial = out.join("\n");
     return { output: partial, error: msg };
   }
