@@ -62,6 +62,9 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "kof.security v1 (JVM, Native e JS)",
       "kof.ui — widgets com render KofJS",
       "spawn na JVM (virtual threads)",
+      "await de spawn — handle tipado (JVM)",
+      "enum nos 3 targets + switch exaustivo (SEM031)",
+      "Map/Set nos 3 targets — COL001 fechado",
       "otimizador de IR + kof bench no CI",
       "releases multiplataforma",
     ],
@@ -72,7 +75,8 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     items: [
       "Standard Library",
       "Async",
-      "Concurrency — spawn no Native (CONC001)",
+      "Concurrency — spawn no Native (CONC001), spawn-expr/await no JS (CONC003)",
+      "KofAndroid — Fase 1: kof build --target android gera projeto Maven com host em Kof",
       "Native GC",
       "MySQL/MariaDB nativo (wire protocol)",
       "Ponto flutuante SSE no Native (FLT001)",
@@ -87,7 +91,6 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     title: "Planejado",
     items: [
       "KofScript — runtime de execução direta",
-      "KofAndroid",
       "kof fmt",
       "package manager (kof init, kofdeps, registry)",
       "complete language specification",

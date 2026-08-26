@@ -527,6 +527,43 @@ main() {
         </Link>
       </Section>
 
+      {/* ── Interlúdio ───────────────────────────────────────────────────── */}
+      <section className="rule-x">
+        <div className="mx-auto max-w-4xl px-5 pt-20 text-center sm:px-8">
+          <p className="mono-label">o motivo de tudo isso</p>
+          <h2 className="mt-6 text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
+            Quero que programar seja <span className="text-signal">divertido</span> de novo.
+          </h2>
+          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+            Em algum lugar entre o problema e a solução, a diversão se perdeu — trocada por
+            configuração, camadas e cerimônia. A Kof existe para devolver isso: o prazer de escrever
+            uma ideia e vê-la rodar de verdade.
+          </p>
+        </div>
+        <div className="mx-auto grid max-w-6xl gap-4 px-5 py-16 sm:px-8 lg:grid-cols-2">
+          <Card title="Porque cerimônia cansa.">
+            Ninguém brinca antes do primeiro DTO. Quando vinte linhas de ritual existem só para
+            agradar um framework, escrever código deixa de ser leve. Menos código, mesma capacidade
+            — é assim que a diversão volta.
+          </Card>
+          <Card title="Porque intenção flui.">
+            Você diz o que quer — <span className="font-mono">spawn tarefa()</span>,{" "}
+            <span className="font-mono">web.app()</span>,{" "}
+            <span className="font-mono">Window("Contador")</span> — e a plataforma decide o como,
+            por target e por convenção. Menos tradução, mais criação.
+          </Card>
+          <Card title="Porque confiança liberta.">
+            Erro claro em compile-time e gaps nomeados (CONC001, SEM031) — nunca surpresa silenciosa
+            em produção. Quem confia na rede embaixo experimenta mais, arrisca mais alto e se
+            diverte mais.
+          </Card>
+          <Card title="Porque mágica boa não esconde poder.">
+            O mesmo código rodando na JVM, num binário nativo ou no browser é o tipo de mágica que a
+            gente gosta: abstração boa reduz complexidade real — não disfarça ela.
+          </Card>
+        </div>
+      </section>
+
       {/* ── Web ──────────────────────────────────────────────────────────── */}
       <Section
         index="10"
@@ -771,20 +808,22 @@ $ kof version`}
           <Card title="Concluído" status="available">
             Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
             backends JVM e Native (estáveis) e KofJS (alpha), classes, records, herança, interfaces,
-            generics, lambdas com capturas, exceções reais, coleções, kof
+            generics, lambdas com capturas, exceções reais, coleções com Map/Set nos três targets
+            (COL001 fechado), enum com == por conteúdo e switch exaustivo (SEM031), kof
             build/run/serve/test/debug/bench, kof.web, kof.db + kof.orm, kof.mq, cliente HTTP,
             kof.security nos três targets, kof.ui e releases multiplataforma (Linux, macOS,
             Windows).
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            Biblioteca padrão, async, concorrência além da JVM (spawn nativo), GC nativo,
+            Biblioteca padrão, async, concorrência além da JVM (spawn no Native), GC nativo,
             MySQL/MariaDB via wire protocol, ponto flutuante SSE no Native, LSP além de diagnostics,
-            debugger além do MVP JVM e a plataforma web no browser.
+            debugger além do MVP JVM, a plataforma web no browser e o KofAndroid — Fase 1
+            implementada: kof build --target android gera o projeto Maven com host Activity em Kof.
           </Card>
           <Card title="Planejado" status="planned">
-            KofAndroid, KofScript (runtime de execução direta), gerenciador de pacotes, registry,
-            especificação completa da linguagem, conformance suite, auto-hospedagem do compilador e
-            plataforma web completa.
+            KofScript (runtime de execução direta), gerenciador de pacotes, registry, especificação
+            completa da linguagem, conformance suite, auto-hospedagem do compilador e plataforma web
+            completa.
           </Card>
         </div>
         <Link

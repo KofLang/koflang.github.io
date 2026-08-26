@@ -25,7 +25,16 @@ export const Route = createFileRoute("/standard-library")({
 });
 
 const capabilities: { name: string; status: Status; note: string }[] = [
-  { name: "coleções", status: "available", note: "List<T>, listOf e estruturas básicas." },
+  {
+    name: "coleções",
+    status: "available",
+    note: "List<T>, listOf, Map<K,V> e Set<T> nos três targets — no Native, asm próprio; COL001 fechado.",
+  },
+  {
+    name: "enum",
+    status: "available",
+    note: "values(), valueOf() e name() com == por conteúdo nos três targets; switch exaustivo verificado em compile-time (SEM031).",
+  },
   { name: "strings", status: "available", note: "Concat, comparação e API completa." },
   {
     name: "arquivos (kof.io)",
@@ -76,7 +85,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "concorrência (spawn)",
     status: "in-development",
-    note: "Virtual threads na JVM com join implícito; Native reporta CONC001.",
+    note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado (JVM). Native reporta CONC001; spawn-expr e await no JS reportam CONC003.",
   },
   { name: "async", status: "in-development", note: "Assincronismo como parte do runtime." },
   {
