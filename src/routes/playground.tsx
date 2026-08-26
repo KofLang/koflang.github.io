@@ -261,7 +261,7 @@ function PlaygroundPage() {
           ))}
         </div>
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <div className="mt-6 grid gap-4 lg:grid-cols-2 lg:items-start">
           <div className="min-w-0">
             <CodeBlock code={activeMod.code} filename={activeMod.file} />
             <p className="mt-2 font-mono text-xs text-muted-foreground">{activeMod.desc}</p>
@@ -279,15 +279,17 @@ function PlaygroundPage() {
               </span>
             </div>
           </div>
-          <div className="overflow-hidden rounded-md border border-border bg-surface">
-            <div className="flex items-center justify-between border-b border-border bg-surface-2/60 px-3 py-2">
+          <div className="flex max-h-[60vh] min-w-0 flex-col overflow-hidden rounded-md border border-border bg-surface sm:max-h-[520px] lg:max-h-[560px]">
+            <div className="flex shrink-0 items-center justify-between border-b border-border bg-surface-2/60 px-3 py-2">
               <span className="mono-label">preview — {activeMod.id}</span>
               <span className="mono-label text-signal">kof-runtime.mjs</span>
             </div>
-            <div className="bg-[#282a36] min-h-[280px]">
-              <ModPreview />
+            <div className="flex-1 overflow-auto overscroll-contain bg-[#282a36] p-0">
+              <div className="min-h-[280px] min-w-0">
+                <ModPreview />
+              </div>
             </div>
-            <div className="border-t border-border bg-surface-2/40 px-3 py-2 font-mono text-xs text-muted-foreground">
+            <div className="shrink-0 border-t border-border bg-surface-2/40 px-3 py-2 font-mono text-xs text-muted-foreground">
               Mesma intenção → mesmo pixel. Funções puras (ex: sparkline, monthGrid) testáveis sem
               janela.
             </div>
@@ -313,7 +315,7 @@ function PlaygroundPage() {
             </button>
           ))}
         </div>
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <div className="mt-6 grid gap-4 lg:grid-cols-2 lg:items-start">
           <div className="min-w-0">
             <CodeBlock code={activeEx.code} filename={activeEx.file} />
             <p className="mt-2 font-mono text-xs text-muted-foreground">{activeEx.desc}</p>
@@ -326,16 +328,18 @@ function PlaygroundPage() {
               Ver no GitHub →
             </a>
           </div>
-          <div className="overflow-hidden rounded-md border border-border bg-surface">
-            <div className="flex items-center justify-between border-b border-border bg-surface-2/60 px-3 py-2">
+          <div className="flex max-h-[60vh] min-w-0 flex-col overflow-hidden rounded-md border border-border bg-surface sm:max-h-[520px] lg:max-h-[560px]">
+            <div className="flex shrink-0 items-center justify-between border-b border-border bg-surface-2/60 px-3 py-2">
               <span className="mono-label">preview — {activeEx.id}</span>
               <span className="mono-label text-signal">App("{activeEx.id}") — Theme.dark()</span>
             </div>
-            <div className="bg-[#282a36] min-h-[340px] text-[#f8f8f2]">
-              {(() => {
-                const P = examplePreviewMap[activeEx.id] ?? HelloPreview;
-                return <P />;
-              })()}
+            <div className="flex-1 overflow-auto overscroll-contain bg-[#282a36] p-0 text-[#f8f8f2]">
+              <div className="min-h-[340px] min-w-0">
+                {(() => {
+                  const P = examplePreviewMap[activeEx.id] ?? HelloPreview;
+                  return <P />;
+                })()}
+              </div>
             </div>
           </div>
         </div>

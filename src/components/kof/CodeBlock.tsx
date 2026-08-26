@@ -134,8 +134,10 @@ export function CodeBlock({
   };
 
   return (
-    <div className={`overflow-hidden rounded-md border border-border bg-surface ${className}`}>
-      <div className="flex items-center justify-between gap-2 border-b border-border bg-surface-2/60 px-3 py-2">
+    <div
+      className={`flex max-h-[60vh] flex-col overflow-hidden rounded-md border border-border bg-surface sm:max-h-[520px] lg:max-h-[560px] ${className}`}
+    >
+      <div className="flex shrink-0 items-center justify-between gap-2 border-b border-border bg-surface-2/60 px-3 py-2">
         <span className="mono-label truncate">
           {filename ?? (language === "shell" ? "terminal" : "example.kf")}
         </span>
@@ -148,7 +150,7 @@ export function CodeBlock({
           {copied ? "copiado" : "copiar"}
         </button>
       </div>
-      <pre className="overflow-x-auto p-4 font-mono text-[13px] leading-6 sm:text-sm">
+      <pre className="flex-1 overflow-auto overscroll-contain p-4 font-mono text-[13px] leading-6 sm:text-sm">
         <code>
           {lines.map((line, idx) => (
             <div key={idx} className="flex">
