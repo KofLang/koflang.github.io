@@ -535,7 +535,7 @@ main() {
             Quero que programar seja <span className="text-signal">divertido</span> de novo.
           </h2>
           <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Em algum lugar entre o problema e a solução, a diversão se perdeu — trocada por
+            Em algum lugar entre o problema e a solução, a diversão se perdeu, trocada por
             configuração, camadas e cerimônia. A Kof existe para devolver isso: o prazer de escrever
             uma ideia e vê-la rodar de verdade.
           </p>
