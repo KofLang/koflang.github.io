@@ -194,7 +194,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.1.11-beta</span>
+              <span className="text-signal">v0.2.0-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -804,7 +804,7 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a primeira release estável, a 0.1.0, já saiu — o desenvolvimento segue em 0.1.x."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a primeira release estável, a 0.1.0, já saiu — o desenvolvimento segue em 0.2.x (0.2.0-beta, 27/08)."
       >
         <div className="grid gap-4 lg:grid-cols-3">
           <Card title="Concluído" status="available">
@@ -812,16 +812,18 @@ $ kof version`}
             backends JVM e Native (estáveis) e KofJS (alpha), classes, records, herança, interfaces,
             generics, lambdas com capturas, exceções reais, coleções com Map/Set nos três targets
             (COL001 fechado), enum com == por conteúdo e switch exaustivo (SEM031), kof
-            build/run/serve/test/debug/bench, kof.web, kof.db + kof.orm, kof.mq, cliente HTTP,
-            kof.security v1 + web security (rate limit, sessões, API keys) nos três targets, TLS via
-            web.listenSecure na JVM, kof.validation e kof.observability nos três targets, kof.ui e
-            releases multiplataforma (Linux, macOS, Windows).
+            build/run/serve/test/debug/bench, kof.web, kof.db + kof.orm, kof.mq, cliente HTTP
+            (JVM+JS), kof.security v1 + web security (rate limit, sessões, API keys) nos três
+            targets, TLS via web.listenSecure na JVM, kof.validation e kof.observability nos três
+            targets, kof.ui, GC nativo com free-list + kof_gc_collect, pattern matching, null safety
+            (String?), List map/filter/reduce e módulos multi-arquivo (0.2.0-beta),
+            KofScript/KofCcompiler e releases multiplataforma.
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            Biblioteca padrão, async, concorrência além da JVM (spawn no Native), GC nativo,
-            MySQL/MariaDB via wire protocol, ponto flutuante SSE no Native, LSP além de diagnostics,
-            debugger além do MVP JVM, a plataforma web no browser e o KofAndroid — Fase 1
-            implementada: kof build --target android gera o projeto Maven com host Activity em Kof.
+            Biblioteca padrão, async, concorrência além da JVM (spawn no Native), MySQL/MariaDB via
+            wire protocol (handshake 27/08), ponto flutuante SSE no Native, native.risc/arm
+            (placeholder → toolchain estável no riscv64), LSP além de diagnostics, debugger além do
+            MVP JVM, a plataforma web no browser e o KofAndroid — Fase 1 implementada.
           </Card>
           <Card title="Planejado" status="planned">
             KofScript (runtime de execução direta), gerenciador de pacotes, registry, especificação

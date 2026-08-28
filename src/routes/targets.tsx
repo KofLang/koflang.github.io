@@ -56,15 +56,16 @@ JVM`}</Ascii>
           <Card title="Native" status="available">
             <p>Binários nativos sem exigir que o programador gerencie memória manualmente.</p>
             <Ascii className="mt-4">{`Kof
- ↓
+  ↓
 Kof IR
- ↓
+  ↓
 Native Backend
- ↓
+  ↓
 Executable`}</Ascii>
             <p className="mt-4">
-              O backend nativo gera ELF x86-64 diretamente (syscalls próprias, sem libc
-              obrigatória). O GC nativo ainda está em desenvolvimento.
+              ELF x86-64 direto (syscalls, sem libc). GC com free-list{" "}
+              <span className="font-mono">kof_free_head</span> +{" "}
+              <span className="font-mono">kof_gc_collect</span> mark-sweep (27/08, 0.2.0-beta).
             </p>
           </Card>
 
@@ -174,9 +175,9 @@ main() {
             <Card title="JVM" status="available">
               Utiliza o garbage collector da JVM.
             </Card>
-            <Card title="Native GC" status="in-development">
-              Native terá gerenciamento de memória próprio. A abstração de memória pertence à
-              plataforma, não ao usuário.
+            <Card title="Native GC" status="available">
+              GC nativo com free-list e <span className="font-mono">kof_gc_collect</span>{" "}
+              (mark-sweep, 27/08, 0.2.0-beta). A abstração de memória pertence à plataforma.
             </Card>
           </div>
         </div>

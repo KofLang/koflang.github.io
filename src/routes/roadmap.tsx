@@ -74,6 +74,11 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "KofCcompiler — C subset → ELF x86_64 (kof c, nativo-only)",
       "kof.process — execução de processos externos",
       "LSP com hover/completion + diagnostics reais",
+      "Native GC — free-list kof_free_head + kof_gc_collect (mark-sweep 27/08)",
+      "Pattern matching — switch com tipos e destructuring (case String s, case Point(x,y)) nos 3 targets (0.2.0-beta)",
+      "Null safety básica — String? com ?-check em compile-time (0.2.0-beta)",
+      "Higher-order em coleções — List map/filter/reduce nos 3 targets (0.2.0-beta)",
+      "Módulos multi-arquivo — import a.b.C com fix para projetos grandes (a/b/C.kf) (0.2.0-beta)",
       "releases multiplataforma",
     ],
   },
@@ -85,14 +90,13 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "Async",
       "Concurrency — spawn no Native (CONC001), spawn-expr/await no JS (CONC003), AND001 no Android",
       "KofAndroid — Fase 1: kof build --target android gera projeto Maven com host em Kof",
-      "Native GC",
-      "MySQL/MariaDB nativo (wire protocol, auth scramble SHA-1 WIP)",
+      "MySQL/MariaDB nativo — handshake kof_db_mysql_scramble (wire protocol, 27/08; query/prepared pendentes)",
       "Ponto flutuante SSE no Native (FLT001)",
       "JSON de objetos no Native (JSN002)",
-      "native.risc (riscv64) e native.arm (aarch64) — ELF via cross-as/ld + qemu (placeholder)",
+      "native.risc (riscv64) toolchain estável + native.arm (aarch64) placeholder — ELF via cross-as/ld + qemu",
       "Debugger — além do MVP JVM (DAP sobre stdio já no JVM)",
       "KofJS — plataforma web no browser (ES Modules via GraalJS já em alpha)",
-      "Concorrência 0.1.x residual: await com timeout, cancelamento, select, canais tipados, scheduler/cron (G8)",
+      "Concorrência 0.2.x residual: await com timeout, cancelamento, select, canais tipados, scheduler/cron (G8)",
     ],
   },
   {
@@ -105,9 +109,7 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "complete language specification",
       "conformance suite",
       "query DSL tipada para o ORM (User.query { where age > 18 })",
-      "módulos multi-arquivo (visibilidade/import unificado, hoje só PKG004 parcial)",
       "full web platform (frontend declarativo + routing/forms/SSR)",
-      "pattern matching, null safety (Type?) e higher-order map/filter/reduce em List",
       "auto-hospedagem (compilador escrito em Kof)",
     ],
   },
@@ -145,7 +147,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.1.x e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.2.x (0.2.0-beta, 27/08) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">
