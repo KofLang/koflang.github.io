@@ -111,7 +111,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "cliente HTTP",
     status: "available",
-    note: "http.get, http.post e http.status na JVM; HTTP002 nos demais targets.",
+    note: "http.get, http.post e http.status na JVM e no JS via Java HttpClient interop (27/08); HTTP002 apenas no Native.",
   },
   {
     name: "processos (kof.process)",

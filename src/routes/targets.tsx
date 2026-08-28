@@ -68,23 +68,66 @@ Executable`}</Ascii>
             </p>
           </Card>
 
-          <Card title="Script" status="planned">
-            Execução direta para scripts e automações, usando exatamente a mesma linguagem. O
-            runtime dedicado ainda não foi implementado — hoje,{" "}
-            <span className="font-mono">kof run</span> já cobre o fluxo compilando antes de
-            executar.
+          <Card title="Script — KofScript" status="in-development">
+            <p>
+              Top-level <span className="font-mono">let/const</span> →{" "}
+              <span className="font-mono">KofScriptGlobals</span>, repl e{" "}
+              <span className="font-mono">--watch</span> já funcionam. Execução direta completa
+              ainda é planejada — hoje <span className="font-mono">kof run</span> cobre o fluxo
+              compilando antes de executar.
+            </p>
+            <Ascii className="mt-4">{`Kof
+  ↓
+KofScript
+  ↓
+KofScriptGlobals
+  ↓
+Runtime`}</Ascii>
           </Card>
 
           <Card title="Web — KofJS" status="in-development">
             <Ascii className="mb-4">{`Kof
- ↓
+  ↓
 KofJS (alpha)
- ↓
+  ↓
 ES Modules (ECMAScript 2022+)`}</Ascii>
             Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules executados na engine JS
             embarcada (GraalJS — sem Node.js nem runtime externo). Classes, herança, List, JSON,
-            exceções, kof.io e kof.time já funcionam; a plataforma web no browser é a próxima fase.
-            Status detalhado em docs/targets/KOFJS.md no repositório.
+            exceções, kof.io e kof.time já funcionam; <span className="font-mono">kof.http</span> no
+            JS via <span className="font-mono">Java HttpClient</span> interop (27/08) também. A
+            plataforma web no browser é a próxima fase. Status em docs/targets/KOFJS.md.
+          </Card>
+
+          <Card title="Native — riscv64 / aarch64" status="in-development">
+            <p>
+              <span className="font-mono">native.risc</span> (riscv64) e{" "}
+              <span className="font-mono">native.arm</span> (aarch64) — ELF via{" "}
+              <span className="font-mono">cross-as/ld + qemu</span> (placeholder, separado de{" "}
+              <span className="font-mono">native</span> x86-64).
+            </p>
+            <Ascii className="mt-4">{`Kof IR
+  ↓
+NativeBackend (riscv64/aarch64)
+  ↓
+ELF (cross)
+  ↓
+qemu`}</Ascii>
+          </Card>
+
+          <Card title="KofC — C subset" status="available">
+            <p>
+              <span className="font-mono">kof c</span> — subset de C (
+              <span className="font-mono">int</span> globals,{" "}
+              <span className="font-mono">void</span> funcs,{" "}
+              <span className="font-mono">if/while/*(int*)/&amp;</span>) → ELF x86-64 nativo-only.
+            </p>
+            <Ascii className="mt-4">{`C subset
+  ↓
+KofCcompiler
+  ↓
+ELF x86_64
+  ↓
+Native`}</Ascii>
           </Card>
         </div>
       </Section>
