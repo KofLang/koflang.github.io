@@ -119,9 +119,14 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     note: "get/set/ttl/delete/clear — ConcurrentHashMap (JVM), Map (JS). Disponível nos três targets.",
   },
   {
+    name: "formatador (kof fmt)",
+    status: "available",
+    note: "Parser real (KofFormatter), idempotente. kof fmt <file|dir> [-w] reescreve no lugar.",
+  },
+  {
     name: "processos (kof.process)",
     status: "available",
-    note: "Execução de processos externos (kof.process + kof_process_run).",
+    note: "process.run (bloqueia) e process.spawn (stdin/stdout vivos, F10) — JVM e JS; PROC001 no Native. process.exit(code) nos 3 targets.",
   },
   { name: "rede (além do HTTP)", status: "planned", note: "Camada de rede além do cliente HTTP." },
 ];

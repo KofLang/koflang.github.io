@@ -11,6 +11,7 @@ import {
   RELEASES,
   Section,
   StatusBadge,
+  THEME_MAKER,
   TRAINING,
   type Status,
 } from "@/components/kof/primitives";
@@ -153,6 +154,7 @@ const stdlibChips: { name: string; status: Status }[] = [
   { name: "ORM (kof.orm)", status: "available" },
   { name: "mensageria (kof.mq)", status: "available" },
   { name: "cliente HTTP (http.get)", status: "available" },
+  { name: "processos (process.run/spawn)", status: "available" },
 ];
 
 function ArchDiagram() {
@@ -220,7 +222,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.2.3-beta</span>
+              <span className="text-signal">v0.2.5-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -714,6 +716,7 @@ $ kof debug
 $ kof bench
 $ kof profile
 $ kof inspect
+$ kof fmt
 $ kof info
 $ kof lsp
 $ kof install
@@ -721,7 +724,7 @@ $ kof script
 $ kof repl
 $ kof c
 $ kof version`}
-/>
+          />
           <div className="grid content-start gap-4 sm:grid-cols-2">
             <Card title="Compilador" status="available" />
             <Card title="CLI" status="available" />
@@ -737,7 +740,9 @@ $ kof version`}
             </Card>
             <Card title="Profile (kof profile)" status="available" />
             <Card title="Inspect IR (kof inspect)" status="available" />
-            <Card title="Formatador (kof fmt)" status="planned" />
+            <Card title="Formatador (kof fmt)" status="available">
+              Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span> reescreve no lugar.
+            </Card>
             <Card title="Gerenciador de pacotes" status="planned" />
           </div>
         </div>
@@ -762,6 +767,14 @@ $ kof version`}
           className="mt-6 inline-block rounded-md border border-signal/40 bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
         >
           Conhecer o editor oficial da linguagem (Kof-Editor) →
+        </a>
+        <a
+          href={THEME_MAKER}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="mt-6 ml-4 inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest transition-colors hover:border-signal-dim hover:text-signal"
+        >
+          Theme Maker para o editor →
         </a>
       </Section>
 
@@ -839,27 +852,29 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.2.3-beta (30/08)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.2.5-beta (30/08)."
       >
         <div className="grid gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.2.3-beta)" status="available">
+          <Card title="Concluído (0.2.5-beta)" status="available">
             Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
             backends JVM e Native (x86_64 free-list GC + kof_gc_collect) e KofJS (alpha), classes,
             records, herança, interfaces, generics, lambdas com capturas, exceções reais, coleções
             com Map/Set nos três targets, enum com == por conteúdo e switch exaustivo (SEM031),
-            kof build/run/serve/test/debug/bench/profile/inspect, kof.web (status/headerSet), kof.db +
+            kof build/run/serve/test/debug/bench/profile/inspect/fmt, kof.web (status/headerSet), kof.db +
             kof.orm, kof.mq, cliente HTTP (JVM+JS), kof.security v1 + web security (rate limit, sessões,
             API keys) nos três targets, TLS via web.listenSecure na JVM, kof.validation e
             kof.observability nos três targets, kof.ui, pattern matching (case String s, Point(x,y),
             instanceof), null safety String?/Int?, List map/filter/reduce, imports multi-arquivo,
             KofScript (repl, watch), KofCcompiler, targets native.risc/native.arm (placeholder),
-            releases multiplataforma single-job.
+            process.run/process.spawn (stdin/stdout vivos), kof fmt (parser real, idempotente),
+            sobrecarga de construtores, widening de return, releases multiplataforma single-job.
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            Async/await nativo, concorrência além da JVM (spawn no Native CONC001), MySQL/MariaDB
-            via wire protocol (handshake SHA-1 27/08), ponto flutuante SSE no Native, native.risc/arm
-            (toolchain estável), LSP além de diagnostics (hover/completion), debugger além do MVP JVM
-            (DWARF Native, source maps JS), a plataforma web no browser, KofAndroid Fase 1.
+            Async/await nativo, concorrência além da JVM (spawn no Native CONC001), process.spawn
+            no Native (PROC001), MySQL/MariaDB via wire protocol (handshake SHA-1 27/08), ponto
+            flutuante SSE no Native, native.risc/arm (toolchain estável), LSP além de diagnostics
+            (hover/completion), debugger além do MVP JVM (DWARF Native, source maps JS), a plataforma
+            web no browser, KofAndroid Fase 1.
           </Card>
           <Card title="Planejado" status="planned">
             KofScript runtime dedicado, gerenciador de pacotes, registry, especificação completa da

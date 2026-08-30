@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/kof/CodeBlock";
-import { Ascii, Card, CURSO, EDITOR, GITHUB, Section, TRAINING } from "@/components/kof/primitives";
+import { Ascii, Card, CURSO, EDITOR, GITHUB, Section, THEME_MAKER, TRAINING } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/docs")({
   head: () => ({
@@ -72,6 +72,11 @@ const sections = [
     desc: "O editor de texto da linguagem: github.com/KofLang/Kof-Editor.",
     href: EDITOR,
   },
+  {
+    title: "Theme Maker",
+    desc: "Gerador de temas para o Kof Editor: github.com/KofLang/Kof-editor-theme-maker.",
+    href: THEME_MAKER,
+  },
   { title: "Contribuir", desc: "Como contribuir com o compilador e a linguagem.", href: GITHUB },
 ];
 
@@ -137,6 +142,7 @@ $ kof debug
 $ kof bench
 $ kof profile
 $ kof inspect
+$ kof fmt
 $ kof info
 $ kof lsp
 $ kof install
@@ -144,7 +150,7 @@ $ kof script
 $ kof repl
 $ kof c
 $ kof version`}
-/>
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <Card title="Compilador" status="available" />
             <Card title="CLI" status="available" />
@@ -158,7 +164,9 @@ $ kof version`}
             <Card title="Debugger (kof debug)" status="in-development">
               MVP DAP sobre stdio no target JVM.
             </Card>
-            <Card title="Formatador (kof fmt)" status="planned" />
+            <Card title="Formatador (kof fmt)" status="available">
+              Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span> reescreve no lugar.
+            </Card>
             <Card title="Gerenciador de pacotes" status="planned" />
           </div>
         </div>
@@ -169,6 +177,14 @@ $ kof version`}
           className="mt-6 inline-block rounded-md border border-signal/40 bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
         >
           Editor oficial da linguagem (Kof-Editor) →
+        </a>
+        <a
+          href={THEME_MAKER}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="mt-6 ml-4 inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest transition-colors hover:border-signal-dim hover:text-signal"
+        >
+          Theme Maker para o editor →
         </a>
       </Section>
 

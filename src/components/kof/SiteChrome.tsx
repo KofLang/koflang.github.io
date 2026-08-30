@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import logo from "@/assets/kof.png";
-import { CURSO, EDITOR, GITHUB, RELEASES } from "./primitives";
+import { CURSO, EDITOR, GITHUB, RELEASES, THEME_MAKER } from "./primitives";
 
 const NAV = [
   { to: "/language", label: "Linguagem" },
@@ -142,6 +142,16 @@ export function Footer() {
                 rel="noreferrer noopener"
               >
                 Editor de texto
+              </a>
+            </li>
+            <li>
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={THEME_MAKER}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Theme Maker
               </a>
             </li>
             <li>

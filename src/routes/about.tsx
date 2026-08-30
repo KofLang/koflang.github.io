@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Ascii, Card, CURSO, EDITOR, GITHUB, RELEASES, Section } from "@/components/kof/primitives";
+import { Ascii, Card, CURSO, EDITOR, GITHUB, RELEASES, Section, THEME_MAKER } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -30,7 +30,7 @@ function AboutPage() {
         index="01"
         eyebrow="About"
         title="Estamos construindo uma linguagem de verdade."
-        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira estável (0.1.0) já saiu e o dia a dia segue na 0.2.0-beta — e este site se compromete a não transformar isso em promessa vazia."
+        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira estável (0.1.0) já saiu e o dia a dia segue na 0.2.5-beta — e este site se compromete a não transformar isso em promessa vazia."
       >
         <blockquote className="rounded-md border-l-2 border-signal bg-surface p-5 text-base leading-relaxed">
           Algumas pessoas olham para um problema e escrevem uma biblioteca. Outras escrevem um
@@ -124,6 +124,17 @@ function AboutPage() {
               Editor de texto
             </h3>
             <p className="mt-2 text-sm text-muted-foreground">github.com/KofLang/Kof-Editor</p>
+          </a>
+          <a
+            href={THEME_MAKER}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="group rounded-md border border-border bg-surface p-5 transition-colors hover:border-signal"
+          >
+            <h3 className="font-mono text-sm font-semibold group-hover:text-signal">
+              Theme Maker
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground">github.com/KofLang/Kof-editor-theme-maker</p>
           </a>
           <a
             href={CURSO}

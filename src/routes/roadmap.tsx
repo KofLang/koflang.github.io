@@ -73,6 +73,10 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "KofScript — top-level let/const (KofScriptGlobals, repl, --watch)",
       "KofCcompiler — C subset → ELF x86_64 (kof c, nativo-only)",
       "kof.process — execução de processos externos",
+      "process.spawn — stdin/stdout vivos (F10, JVM/JS)",
+      "kof fmt — formatador via parser real (KofFormatter, idempotente)",
+      "sobrecarga de construtores",
+      "widening de return",
       "LSP com hover/completion + diagnostics reais",
       "Native GC — free-list kof_free_head + kof_gc_collect (mark-sweep 27/08)",
       "Pattern matching — switch com tipos e destructuring (case String s, case Point(x,y)) nos 3 targets (0.2.0-beta)",
@@ -104,7 +108,6 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     title: "Planejado",
     items: [
       "KofScript — runtime completo de execução direta (hoje só top-level let)",
-      "kof fmt",
       "package manager (kof init, kofdeps, registry)",
       "complete language specification",
       "conformance suite",
@@ -147,7 +150,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.2.x (0.2.0-beta, 27/08) e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.2.x (0.2.5-beta, 30/08) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">
