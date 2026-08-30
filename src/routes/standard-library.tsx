@@ -44,12 +44,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "JSON",
     status: "available",
-    note: "Encode/decode tipado; objetos no JVM, arrays tipados incluídos.",
+    note: "Encode/decode tipado; objetos no JVM/JS, arrays tipados incluídos.",
   },
   {
     name: "HTTP (kof.web)",
     status: "available",
-    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS.",
+    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS. Resposta rica: status(201, body) + headerSet('X', 'y').",
   },
   {
     name: "banco de dados (kof.db)",
@@ -71,7 +71,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     status: "available",
     note: "Arquivo > env > profile, tipado. JVM e Native (asm próprio); CONF001 no KofJS.",
   },
-  { name: "tempo (kof.time)", status: "available", note: "now() em todos os targets." },
+  { name: "tempo (kof.time)", status: "available", note: "now(), sleep, interval, scheduler every()/at() (JVM/JS). SCHED001 no Native." },
   {
     name: "interface (kof.ui)",
     status: "available",
@@ -94,8 +94,8 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   },
   {
     name: "concorrência (spawn)",
-    status: "in-development",
-    note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado (JVM). Native reporta CONC001; spawn-expr e await no JS reportam CONC003.",
+    status: "available",
+    note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado. poll/done/cancel/selectAny (0.2.0+). Native reporta CONC001; spawn no JS reporta CONC003.",
   },
   { name: "async", status: "in-development", note: "Assincronismo como parte do runtime." },
   {
@@ -111,7 +111,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "cliente HTTP",
     status: "available",
-    note: "http.get, http.post e http.status na JVM e no JS via Java HttpClient interop (27/08); HTTP002 apenas no Native.",
+    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout na JVM e no JS via Java HttpClient interop (27/08); HTTP002 apenas no Native.",
+  },
+  {
+    name: "cache (kof.cache)",
+    status: "available",
+    note: "get/set/ttl/delete/clear — ConcurrentHashMap (JVM), Map (JS). Disponível nos três targets.",
   },
   {
     name: "processos (kof.process)",

@@ -124,7 +124,7 @@ function DocsPage() {
         lead="A CLI da Kof acompanha a linguagem. Ferramentas ainda não disponíveis estão marcadas como tal."
       >
         <div className="grid gap-4 lg:grid-cols-2">
-          <CodeBlock
+<CodeBlock
             language="shell"
             filename="kof cli"
             showLineNumbers={false}
@@ -135,16 +135,23 @@ $ kof check
 $ kof test
 $ kof debug
 $ kof bench
+$ kof profile
+$ kof inspect
 $ kof info
 $ kof lsp
 $ kof install
+$ kof script
+$ kof repl
+$ kof c
 $ kof version`}
-          />
+/>
           <div className="grid gap-4 sm:grid-cols-2">
             <Card title="Compilador" status="available" />
             <Card title="CLI" status="available" />
             <Card title="Testes (kof test)" status="available" />
             <Card title="Benchmarks (kof bench)" status="available" />
+            <Card title="Profile (kof profile)" status="available" />
+            <Card title="Inspect IR (kof inspect)" status="available" />
             <Card title="LSP" status="in-development">
               Diagnostics reais do frontend; hover e completion são o próximo passo.
             </Card>

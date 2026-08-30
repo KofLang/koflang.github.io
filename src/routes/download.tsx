@@ -60,7 +60,7 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.2.0-beta, com artefatos para
+          Os downloads apontam para as releases oficiais no GitHub (0.2.3-beta, com artefatos para
           Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
           aqui.
         </p>
@@ -105,16 +105,24 @@ function DownloadPage() {
                 <StatusBadge status="available" />
               </li>
               <li className="flex items-center justify-between gap-3">
-                <span className="font-mono">Native</span>
+                <span className="font-mono">Native (x86_64)</span>
                 <StatusBadge status="available" />
               </li>
               <li className="flex items-center justify-between gap-3">
-                <span className="font-mono">Script</span>
-                <StatusBadge status="planned" />
+                <span className="font-mono">Native (riscv64/aarch64)</span>
+                <StatusBadge status="in-development" />
+              </li>
+              <li className="flex items-center justify-between gap-3">
+                <span className="font-mono">KofScript</span>
+                <StatusBadge status="available" />
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">KofJS</span>
                 <StatusBadge status="in-development" />
+              </li>
+              <li className="flex items-center justify-between gap-3">
+                <span className="font-mono">KofC</span>
+                <StatusBadge status="available" />
               </li>
             </ul>
           </Card>
@@ -127,18 +135,17 @@ function DownloadPage() {
         title="Diagnostique a instalação"
         lead="kof info existe para responder rapidamente qual versão, qual target e qual JVM estão em uso. O output abaixo é conceitual — o formato real é definido pela CLI instalada."
       >
-        <CodeBlock
+<CodeBlock
           language="shell"
           filename="terminal"
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.2.0-beta
+Kof 0.2.3-beta
 Tooling API: 21
 Target: JVM
 JVM: bundled OpenJDK (Temurin 21)
 Installation: ...`}
-        />
       </Section>
     </main>
   );

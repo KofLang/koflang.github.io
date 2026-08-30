@@ -157,6 +157,9 @@ main() {
             "control flow",
             "lambdas com capturas",
             "default parameters",
+            "pattern matching (case String s, Point(x,y), instanceof)",
+            "null safety (String?, Int? + narrowing)",
+            "List.map / filter / reduce",
           ].map((f) => (
             <div
               key={f}
@@ -177,16 +180,16 @@ main() {
         </div>
       </Section>
 
-      <Section index="05" eyebrow="One frontend" title="A linguagem não muda quando o target muda.">
+<Section index="05" eyebrow="One frontend" title="A linguagem não muda quando o target muda.">
         <Ascii label="frontend único">{`Kof Source
-     ↓
-Kof Compiler
-     ↓
-Kof IR
-     ↓
- ┌───┼───────────┐
- ↓   ↓           ↓
-JVM Native     KofJS`}</Ascii>
+      ↓
+ Kof Compiler
+      ↓
+ Kof IR
+      ↓
+  ┌───┬───┬───────┬────┬──────┐
+  ↓   ↓   ↓       ↓    ↓      ↓
+ JVM Native Script KofJS KofC`}</Ascii>
       </Section>
     </main>
   );

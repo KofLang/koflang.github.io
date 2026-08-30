@@ -69,34 +69,35 @@ Executable`}</Ascii>
             </p>
           </Card>
 
-          <Card title="Script — KofScript" status="in-development">
+<Card title="Script — KofScript" status="available">
             <p>
               Top-level <span className="font-mono">let/const</span> →{" "}
-              <span className="font-mono">KofScriptGlobals</span>, repl e{" "}
-              <span className="font-mono">--watch</span> já funcionam. Execução direta completa
-              ainda é planejada — hoje <span className="font-mono">kof run</span> cobre o fluxo
-              compilando antes de executar.
+              <span className="font-mono">KofScriptGlobals</span>,{" "}
+              <span className="font-mono">kof script</span>,{" "}
+              <span className="font-mono">kof repl</span> e{" "}
+              <span className="font-mono">--watch</span> funcionam. Execução JIT in-memory
+              sobre a mesma IR, disponível em JVM, Native e JS.
             </p>
             <Ascii className="mt-4">{`Kof
   ↓
-KofScript
+ KofScript
   ↓
-KofScriptGlobals
+ KofScriptGlobals
   ↓
-Runtime`}</Ascii>
+ Runtime (JIT)`}</Ascii>
           </Card>
 
-          <Card title="Web — KofJS" status="in-development">
+<Card title="Web — KofJS" status="in-development">
             <Ascii className="mb-4">{`Kof
   ↓
-KofJS (alpha)
+ KofJS (alpha)
   ↓
-ES Modules (ECMAScript 2022+)`}</Ascii>
+ ES Modules (ECMAScript 2022+)`}</Ascii>
             Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules executados na engine JS
             embarcada (GraalJS — sem Node.js nem runtime externo). Classes, herança, List, JSON,
-            exceções, kof.io e kof.time já funcionam; <span className="font-mono">kof.http</span> no
-            JS via <span className="font-mono">Java HttpClient</span> interop (27/08) também. A
-            plataforma web no browser é a próxima fase. Status em docs/targets/KOFJS.md.
+            exceções, kof.io, kof.time e kof.http (via Java HttpClient interop, 27/08) já
+            funcionam; scheduler every()/at() (JVM/JS, SCHED001 Native). A plataforma web no
+            browser é a próxima fase. Status em docs/targets/KOFJS.md.
           </Card>
 
           <Card title="Native — riscv64 / aarch64" status="in-development">
