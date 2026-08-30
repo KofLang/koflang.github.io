@@ -129,13 +129,13 @@ function DownloadPage() {
         </div>
       </Section>
 
-      <Section
+<Section
         index="03"
         eyebrow="kof info"
         title="Diagnostique a instalação"
         lead="kof info existe para responder rapidamente qual versão, qual target e qual JVM estão em uso. O output abaixo é conceitual — o formato real é definido pela CLI instalada."
       >
-<CodeBlock
+        <CodeBlock
           language="shell"
           filename="terminal"
           showLineNumbers={false}
@@ -146,7 +146,8 @@ Tooling API: 21
 Target: JVM
 JVM: bundled OpenJDK (Temurin 21)
 Installation: ...`}
-      </Section>
+/>
+        </Section>
     </main>
   );
 }
