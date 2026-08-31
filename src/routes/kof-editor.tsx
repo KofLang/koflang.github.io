@@ -123,18 +123,22 @@ function KofEditorPage() {
               Baixar para desktop →
             </a>
           </Card>
-          <Card title="Demo web (GitHub Pages)" status="in-development">
+          <Card title="Demo web (GitHub Pages)" status="available">
             <ul className="mt-2 space-y-2 text-sm">
-              <li>Interface do editor estática (HTML/CSS/JS)</li>
+              <li>Interface do editor completa no browser</li>
               <li>Highlight de sintaxe e visualização de temas</li>
-              <li>Sem terminal integrado</li>
-              <li>Sem git integrado</li>
-              <li>Sem paleta de comandos</li>
-              <li>Útil para explorar a interface e testar temas</li>
+              <li>Paleta de comandos, Quick Open, temas</li>
+              <li>Source Control (visual), Run/Check</li>
+              <li>Terminal e Output ( UI apenas )</li>
             </ul>
-            <p className="mt-4 text-xs text-muted-foreground">
-              A demo não substitui a versão desktop. Para uso real, baixe os binários.
-            </p>
+            <a
+              href="https://koflang.github.io/Kof-Editor/"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-4 inline-block rounded-sm border border-signal bg-surface px-4 py-2 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
+            >
+              Abrir demo no browser →
+            </a>
           </Card>
         </div>
       </Section>
