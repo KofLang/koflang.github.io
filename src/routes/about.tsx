@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Ascii, Card, CURSO, EDITOR, GITHUB, RELEASES, Section, THEME_MAKER } from "@/components/kof/primitives";
+import { Ascii, Card, CURSO, EDITOR_GITHUB, GITHUB, RELEASES, Section, THEME_MAKER } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -115,7 +115,7 @@ function AboutPage() {
             <p className="mt-2 text-sm text-muted-foreground">github.com/KofLang/Kof4j</p>
           </a>
           <a
-            href={EDITOR}
+            href={EDITOR_GITHUB}
             target="_blank"
             rel="noreferrer noopener"
             className="group rounded-md border border-border bg-surface p-5 transition-colors hover:border-signal"

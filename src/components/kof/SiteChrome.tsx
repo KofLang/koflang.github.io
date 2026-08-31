@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import logo from "@/assets/kof.png";
-import { CURSO, EDITOR, GITHUB, RELEASES, THEME_MAKER } from "./primitives";
+import { CURSO, GITHUB, RELEASES, THEME_MAKER } from "./primitives";
 
 const NAV = [
   { to: "/language", label: "Linguagem" },

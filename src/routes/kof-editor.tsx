@@ -6,6 +6,7 @@ import {
   Card,
   CURSO,
   EDITOR,
+  EDITOR_GITHUB,
   GITHUB,
   Section,
   THEME_MAKER,
@@ -71,15 +72,15 @@ function KofEditorPage() {
             </Card>
             <div className="flex flex-wrap gap-3">
               <a
-                href={`${EDITOR}/releases`}
+                href={`${EDITOR_GITHUB}/releases`}
                 target="_blank"
                 rel="noreferrer noopener"
-                className="rounded-sm border border-signal bg-signal px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary-foreground transition-opacity hover:opacity-90"
+                className="rounded-sm border border-border bg-surface px-5 py-2.5 font-mono text-xs uppercase tracking-widest transition-colors hover:border-signal-dim hover:text-signal"
               >
                 Baixar releases →
               </a>
               <a
-                href={EDITOR}
+                href={EDITOR_GITHUB}
                 target="_blank"
                 rel="noreferrer noopener"
                 className="rounded-sm border border-border bg-surface px-5 py-2.5 font-mono text-xs uppercase tracking-widest transition-colors hover:border-signal-dim hover:text-signal"
@@ -123,7 +124,7 @@ function KofEditorPage() {
             </ul>
             <div className="mt-auto pt-4">
               <a
-                href={`${EDITOR}/releases`}
+                href={`${EDITOR_GITHUB}/releases`}
                 target="_blank"
                 rel="noreferrer noopener"
                 className="rounded-sm border border-signal bg-signal px-4 py-2 font-mono text-xs uppercase tracking-widest text-primary-foreground transition-opacity hover:opacity-90"
@@ -272,7 +273,7 @@ scripts/
       <Section index="07" eyebrow="Links" title="Tudo junto">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <a
-            href={EDITOR}
+            href={EDITOR_GITHUB}
             target="_blank"
             rel="noreferrer noopener"
             className="group rounded-md border border-border bg-surface p-5 transition-colors hover:border-signal"
@@ -285,7 +286,7 @@ scripts/
             </p>
           </a>
           <a
-            href={`${EDITOR}/releases`}
+            href={`${EDITOR_GITHUB}/releases`}
             target="_blank"
             rel="noreferrer noopener"
             className="group rounded-md border border-border bg-surface p-5 transition-colors hover:border-signal"
