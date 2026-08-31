@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as DocsRouteImport } from './routes/docs'
 import { Route as DownloadRouteImport } from './routes/download'
+import { Route as KofEditorRouteImport } from './routes/kof-editor'
 import { Route as LanguageRouteImport } from './routes/language'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as PlaygroundRouteImport } from './routes/playground'
@@ -39,6 +40,11 @@ const DocsRoute = DocsRouteImport.update({
 const DownloadRoute = DownloadRouteImport.update({
   id: '/download',
   path: '/download',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KofEditorRoute = KofEditorRouteImport.update({
+  id: '/kof-editor',
+  path: '/kof-editor',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LanguageRoute = LanguageRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/docs': typeof DocsRoute
   '/download': typeof DownloadRoute
+  '/kof-editor': typeof KofEditorRoute
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
   '/playground': typeof PlaygroundRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/docs': typeof DocsRoute
   '/download': typeof DownloadRoute
+  '/kof-editor': typeof KofEditorRoute
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
   '/playground': typeof PlaygroundRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/docs': typeof DocsRoute
   '/download': typeof DownloadRoute
+  '/kof-editor': typeof KofEditorRoute
   '/language': typeof LanguageRoute
   '/learn': typeof LearnRoute
   '/playground': typeof PlaygroundRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/docs'
     | '/download'
+    | '/kof-editor'
     | '/language'
     | '/learn'
     | '/playground'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/docs'
     | '/download'
+    | '/kof-editor'
     | '/language'
     | '/learn'
     | '/playground'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/docs'
     | '/download'
+    | '/kof-editor'
     | '/language'
     | '/learn'
     | '/playground'
@@ -164,6 +176,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   DocsRoute: typeof DocsRoute
   DownloadRoute: typeof DownloadRoute
+  KofEditorRoute: typeof KofEditorRoute
   LanguageRoute: typeof LanguageRoute
   LearnRoute: typeof LearnRoute
   PlaygroundRoute: typeof PlaygroundRoute
@@ -201,6 +214,13 @@ declare module '@tanstack/react-router' {
       path: '/download'
       fullPath: '/download'
       preLoaderRoute: typeof DownloadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kof-editor': {
+      id: '/kof-editor'
+      path: '/kof-editor'
+      fullPath: '/kof-editor'
+      preLoaderRoute: typeof KofEditorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/language': {
@@ -260,6 +280,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   DocsRoute: DocsRoute,
   DownloadRoute: DownloadRoute,
+  KofEditorRoute: KofEditorRoute,
   LanguageRoute: LanguageRoute,
   LearnRoute: LearnRoute,
   PlaygroundRoute: PlaygroundRoute,

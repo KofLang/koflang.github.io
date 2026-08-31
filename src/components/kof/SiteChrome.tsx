@@ -7,6 +7,7 @@ const NAV = [
   { to: "/language", label: "Linguagem" },
   { to: "/learn", label: "Aprender" },
   { to: "/docs", label: "Docs" },
+  { to: "/kof-editor", label: "Editor" },
   { to: "/playground", label: "Playground" },
   { to: "/targets", label: "Targets" },
   { to: "/web", label: "Web" },
@@ -135,24 +136,12 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a
+              <Link
                 className="text-muted-foreground hover:text-foreground"
-                href={EDITOR}
-                target="_blank"
-                rel="noreferrer noopener"
+                to="/kof-editor"
               >
-                Editor de texto
-              </a>
-            </li>
-            <li>
-              <a
-                className="text-muted-foreground hover:text-foreground"
-                href={THEME_MAKER}
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Theme Maker
-              </a>
+                Editor & Theme Maker
+              </Link>
             </li>
             <li>
               <a

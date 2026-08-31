@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/kof/CodeBlock";
-import { Ascii, Card, CURSO, EDITOR, GITHUB, Section, THEME_MAKER, TRAINING } from "@/components/kof/primitives";
+import { Ascii, Card, CURSO, GITHUB, Section, TRAINING } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/docs")({
   head: () => ({
@@ -68,14 +68,9 @@ const sections = [
     href: TRAINING,
   },
   {
-    title: "Editor oficial",
-    desc: "O editor de texto da linguagem: koflang.github.io/Kof-Editor.",
-    href: EDITOR,
-  },
-  {
-    title: "Theme Maker",
-    desc: "Gerador de temas para o Kof Editor: koflang.github.io/Kof-editor-theme-maker.",
-    href: THEME_MAKER,
+    title: "Kof Editor & Theme Maker",
+    desc: "Editor de texto escrito em Kof, themes e a ferramenta web para criar temas.",
+    to: "/kof-editor" as const,
   },
   { title: "Contribuir", desc: "Como contribuir com o compilador e a linguagem.", href: GITHUB },
 ];
@@ -171,20 +166,10 @@ $ kof version`}
           </div>
         </div>
         <a
-          href={EDITOR}
-          target="_blank"
-          rel="noreferrer noopener"
+          href="/kof-editor"
           className="mt-6 inline-block rounded-md border border-signal/40 bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
         >
-          Editor oficial da linguagem (Kof-Editor) →
-        </a>
-        <a
-          href={THEME_MAKER}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="mt-6 ml-4 inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest transition-colors hover:border-signal-dim hover:text-signal"
-        >
-          Theme Maker para o editor →
+          Kof Editor & Theme Maker →
         </a>
       </Section>
 

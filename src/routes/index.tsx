@@ -760,22 +760,12 @@ $ kof version`}
           />
         </figure>
 
-        <a
-          href={EDITOR}
-          target="_blank"
-          rel="noreferrer noopener"
+        <Link
+          to="/kof-editor"
           className="mt-6 inline-block rounded-md border border-signal/40 bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
         >
-          Conhecer o editor oficial da linguagem (Kof-Editor) →
-        </a>
-        <a
-          href={THEME_MAKER}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="mt-6 ml-4 inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest transition-colors hover:border-signal-dim hover:text-signal"
-        >
-          Theme Maker para o editor →
-        </a>
+          Conhecer o Kof Editor e Theme Maker →
+        </Link>
       </Section>
 
       {/* ── Distribuição ─────────────────────────────────────────────────── */}
