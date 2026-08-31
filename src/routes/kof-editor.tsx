@@ -99,8 +99,15 @@ function KofEditorPage() {
         lead="O Kof Editor existe em duas formas: uma versão desktop completa e uma demo estática no GitHub Pages. Para uso real, baixe a versão desktop."
       >
         <div className="grid gap-4 lg:grid-cols-2">
-          <Card title="Desktop (recomendado)" status="available">
-            <ul className="mt-2 space-y-2 text-sm">
+          <div className="flex flex-col rounded-md border border-border bg-surface p-5 transition-colors hover:border-border-dim">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+              <h3 className="text-base font-semibold tracking-tight">Desktop (recomendado)</h3>
+              <span className="inline-flex items-center gap-1.5 rounded-sm border border-ok/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ok">
+                <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                Disponível
+              </span>
+            </div>
+            <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
               <li>Janela nativa via WebKitGTK</li>
               <li>Terminal integrado (executa comandos reais via shell)</li>
               <li>Git completo: branch, status, diff e commit via process.run</li>
@@ -114,7 +121,7 @@ function KofEditorPage() {
                 <span className="font-mono">kof-editor --native</span>
               </li>
             </ul>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
+            <div className="mt-auto pt-4">
               <a
                 href={`${EDITOR}/releases`}
                 target="_blank"
@@ -124,16 +131,23 @@ function KofEditorPage() {
                 Baixar para desktop →
               </a>
             </div>
-          </Card>
-          <Card title="Demo web (GitHub Pages)" status="available">
-            <ul className="mt-2 space-y-2 text-sm">
+          </div>
+          <div className="flex flex-col rounded-md border border-border bg-surface p-5 transition-colors hover:border-border-dim">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+              <h3 className="text-base font-semibold tracking-tight">Demo web (GitHub Pages)</h3>
+              <span className="inline-flex items-center gap-1.5 rounded-sm border border-ok/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ok">
+                <span className="h-1.5 w-1.5 rounded-full bg-current" />
+                Disponível
+              </span>
+            </div>
+            <ul className="mt-2 space-y-2 text-sm text-muted-foreground">
               <li>Interface do editor completa no browser</li>
               <li>Highlight de sintaxe e visualização de temas</li>
               <li>Paleta de comandos, Quick Open, temas</li>
               <li>Source Control (visual), Run/Check</li>
               <li>Terminal e Output ( UI apenas )</li>
             </ul>
-            <div className="mt-4 flex flex-wrap items-center gap-3">
+            <div className="mt-auto pt-4">
               <a
                 href="https://koflang.github.io/Kof-Editor/"
                 target="_blank"
@@ -143,7 +157,7 @@ function KofEditorPage() {
                 Abrir demo no browser →
               </a>
             </div>
-          </Card>
+          </div>
         </div>
       </Section>
 
