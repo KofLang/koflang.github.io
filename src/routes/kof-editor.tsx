@@ -118,7 +118,7 @@ function KofEditorPage() {
               href={`${EDITOR}/releases`}
               target="_blank"
               rel="noreferrer noopener"
-              className="mt-4 inline-block rounded-sm border border-signal bg-signal px-4 py-2 font-mono text-xs uppercase tracking-widest text-primary-foreground transition-opacity hover:opacity-90"
+              className="mt-4 inline-block rounded-sm border border-signal bg-surface px-4 py-2 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
             >
               Baixar para desktop →
             </a>
