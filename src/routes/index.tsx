@@ -222,7 +222,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.2.5-beta</span>
+              <span className="text-signal">v0.2.6-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -852,22 +852,23 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.2.5-beta (30/08)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.2.6-beta (30/08)."
       >
         <div className="grid gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.2.5-beta)" status="available">
+          <Card title="Concluído (0.2.6-beta)" status="available">
             Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
             backends JVM e Native (x86_64 free-list GC + kof_gc_collect) e KofJS (alpha), classes,
             records, herança, interfaces, generics, lambdas com capturas, exceções reais, coleções
             com Map/Set nos três targets, enum com == por conteúdo e switch exaustivo (SEM031),
-            kof build/run/serve/test/debug/bench/profile/inspect/fmt, kof.web (status/headerSet), kof.db +
-            kof.orm, kof.mq, cliente HTTP (JVM+JS), kof.security v1 + web security (rate limit, sessões,
-            API keys) nos três targets, TLS via web.listenSecure na JVM, kof.validation e
-            kof.observability nos três targets, kof.ui, pattern matching (case String s, Point(x,y),
-            instanceof), null safety String?/Int?, List map/filter/reduce, imports multi-arquivo,
-            KofScript (repl, watch), KofCcompiler, targets native.risc/native.arm (placeholder),
-            process.run/process.spawn (stdin/stdout vivos), kof fmt (parser real, idempotente),
-            sobrecarga de construtores, widening de return, releases multiplataforma single-job.
+            kof build/run/serve/test/debug/bench/profile/inspect/fmt, kof.web (status/headerSet,
+            WebSocket RFC 6455, SSE nativo), kof.db + kof.orm, kof.mq, cliente HTTP (JVM+JS),
+            kof.security v1 + web security (rate limit, sessões, API keys) nos três targets, TLS via
+            web.listenSecure na JVM, kof.validation e kof.observability nos três targets, kof.ui,
+            pattern matching (case String s, Point(x,y), instanceof), null safety String?/Int?,
+            List map/filter/reduce, imports multi-arquivo, KofScript (repl, watch), KofCcompiler,
+            targets native.risc/native.arm (placeholder), process.run/process.spawn (stdin/stdout
+            vivos), kof fmt (parser real, idempotente), sobrecarga de construtores, widening de return,
+            kof.config interpolação ${key} nos 3 targets, releases multiplataforma single-job.
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
             Async/await nativo, concorrência além da JVM (spawn no Native CONC001), process.spawn

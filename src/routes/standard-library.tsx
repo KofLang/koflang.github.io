@@ -49,7 +49,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "HTTP (kof.web)",
     status: "available",
-    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS. Resposta rica: status(201, body) + headerSet('X', 'y').",
+    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM (WEB003/WEB004 Native/JS).",
   },
   {
     name: "banco de dados (kof.db)",
@@ -69,7 +69,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "configuração (kof.config)",
     status: "available",
-    note: "Arquivo > env > profile, tipado. JVM e Native (asm próprio); CONF001 no KofJS.",
+    note: "Arquivo > env > profile, tipado. Interpolação ${key} nos 3 targets. JVM e Native (asm próprio); CONF001 no KofJS.",
   },
   { name: "tempo (kof.time)", status: "available", note: "now(), sleep, interval, scheduler every()/at() (JVM/JS). SCHED001 no Native." },
   {

@@ -69,12 +69,12 @@ const sections = [
   },
   {
     title: "Editor oficial",
-    desc: "O editor de texto da linguagem: github.com/KofLang/Kof-Editor.",
+    desc: "O editor de texto da linguagem: koflang.github.io/Kof-Editor.",
     href: EDITOR,
   },
   {
     title: "Theme Maker",
-    desc: "Gerador de temas para o Kof Editor: github.com/KofLang/Kof-editor-theme-maker.",
+    desc: "Gerador de temas para o Kof Editor: koflang.github.io/Kof-editor-theme-maker.",
     href: THEME_MAKER,
   },
   { title: "Contribuir", desc: "Como contribuir com o compilador e a linguagem.", href: GITHUB },

@@ -54,9 +54,11 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "kof debug (MVP, JVM)",
       "kof bench",
       "kof.web — rotas e middleware (JVM)",
+      "kof.web — WebSocket RFC 6455 + SSE nativo (JVM, 0.2.6-beta)",
       "kof.db — JDBC + SQLite nativo",
       "kof.orm — entity, CRUD, migrate, MongoDB (JVM)",
       "kof.log nativo",
+      "kof.config — arquivo > env > profile, tipado, interpolação ${key} (3 targets)",
       "kof.mq — pub/sub (JVM)",
       "cliente HTTP (JVM) e no JS via Java HttpClient interop (fecha HTTP002 no JS)",
       "kof.security v1 (JVM, Native e JS)",
@@ -150,7 +152,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.2.x (0.2.5-beta, 30/08) e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.2.x (0.2.6-beta, 30/08) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">

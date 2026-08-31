@@ -4,8 +4,8 @@ export const GITHUB = "https://github.com/KofLang/Kof4j";
 export const RELEASES = `${GITHUB}/releases`;
 export const TRAINING = `${GITHUB}/tree/main/training`;
 export const LEARN_DIR = `${GITHUB}/tree/main/learn`;
-export const EDITOR = "https://github.com/KofLang/Kof-Editor";
-export const THEME_MAKER = "https://github.com/KofLang/Kof-editor-theme-maker";
+export const EDITOR = "https://koflang.github.io/Kof-Editor";
+export const THEME_MAKER = "https://koflang.github.io/Kof-editor-theme-maker";
 export const CURSO = "https://github.com/lunalully/curso-completo-de-kof";
 
 export type Status = "available" | "in-development" | "planned";
