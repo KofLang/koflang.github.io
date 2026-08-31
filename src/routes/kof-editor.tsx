@@ -114,14 +114,16 @@ function KofEditorPage() {
                 <span className="font-mono">kof-editor --native</span>
               </li>
             </ul>
-            <a
-              href={`${EDITOR}/releases`}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mt-4 inline-block rounded-sm border border-signal bg-surface px-4 py-2 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
-            >
-              Baixar para desktop →
-            </a>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <a
+                href={`${EDITOR}/releases`}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="rounded-sm border border-signal bg-signal px-4 py-2 font-mono text-xs uppercase tracking-widest text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Baixar para desktop →
+              </a>
+            </div>
           </Card>
           <Card title="Demo web (GitHub Pages)" status="available">
             <ul className="mt-2 space-y-2 text-sm">
@@ -131,14 +133,16 @@ function KofEditorPage() {
               <li>Source Control (visual), Run/Check</li>
               <li>Terminal e Output ( UI apenas )</li>
             </ul>
-            <a
-              href="https://koflang.github.io/Kof-Editor/"
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mt-4 inline-block rounded-sm border border-signal bg-surface px-4 py-2 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
-            >
-              Abrir demo no browser →
-            </a>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <a
+                href="https://koflang.github.io/Kof-Editor/"
+                target="_blank"
+                rel="noreferrer noopener"
+                className="rounded-sm border border-signal bg-signal px-4 py-2 font-mono text-xs uppercase tracking-widest text-primary-foreground transition-opacity hover:opacity-90"
+              >
+                Abrir demo no browser →
+              </a>
+            </div>
           </Card>
         </div>
       </Section>
