@@ -868,7 +868,7 @@ $ kof version`}
             List map/filter/reduce, imports multi-arquivo, KofScript (repl, watch), KofCcompiler,
             targets native.risc/native.arm (placeholder), process.run/process.spawn (stdin/stdout
             vivos), kof fmt (parser real, idempotente), sobrecarga de construtores, widening de return,
-            kof.config interpolação ${key} nos 3 targets, releases multiplataforma single-job.
+            kof.config interpolação {"${key}"} nos 3 targets, releases multiplataforma single-job.
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
             Async/await nativo, concorrência além da JVM (spawn no Native CONC001), process.spawn
