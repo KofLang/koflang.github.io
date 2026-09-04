@@ -883,8 +883,9 @@ $ kof version`}
             1.
           </Card>
           <Card title="Planejado" status="planned">
-            KofScript runtime dedicado, gerenciador de pacotes, registry, especificação completa da
-            linguagem, conformance suite, auto-hospedagem do compilador, plataforma web completa.
+            KofScript runtime dedicado, package manager além do MVP (kof init, registry),
+            especificação completa da linguagem, conformance suite, auto-hospedagem do compilador,
+            plataforma web completa.
           </Card>
         </div>
         <Link

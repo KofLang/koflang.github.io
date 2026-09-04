@@ -122,10 +122,9 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     title: "Planejado",
     items: [
       "KofScript — runtime completo de execução direta (hoje só top-level let)",
-      "package manager (kof init, kofdeps, registry)",
+      "package manager — kof init + registry (MVP kof deps já existe)",
       "complete language specification",
       "conformance suite",
-      "query DSL tipada para o ORM (User.query { where age > 18 })",
       "full web platform (frontend declarativo + routing/forms/SSR)",
       "auto-hospedagem (compilador escrito em Kof)",
     ],
