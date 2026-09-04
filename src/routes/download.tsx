@@ -60,7 +60,7 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.2.6-beta, com artefatos para
+          Os downloads apontam para as releases oficiais no GitHub (0.2.8-beta, com artefatos para
           Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
           aqui.
         </p>
@@ -110,7 +110,7 @@ function DownloadPage() {
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">Native (riscv64/aarch64)</span>
-                <StatusBadge status="in-development" />
+                <StatusBadge status="available" />
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">KofScript</span>
@@ -118,7 +118,7 @@ function DownloadPage() {
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">KofJS</span>
-                <StatusBadge status="in-development" />
+                <StatusBadge status="available" />
               </li>
               <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">KofC</span>
@@ -129,7 +129,7 @@ function DownloadPage() {
         </div>
       </Section>
 
-<Section
+      <Section
         index="03"
         eyebrow="kof info"
         title="Diagnostique a instalação"
@@ -141,13 +141,13 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.2.6-beta
+Kof 0.2.8-beta
 Tooling API: 21
 Target: JVM
 JVM: bundled OpenJDK (Temurin 21)
 Installation: ...`}
-/>
-        </Section>
+        />
+      </Section>
     </main>
   );
 }

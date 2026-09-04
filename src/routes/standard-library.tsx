@@ -54,24 +54,28 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "banco de dados (kof.db)",
     status: "available",
-    note: "JDBC com query tipada e transaction {} na JVM; SQLite nativo via .so direto (MySQL WIP). Gap DB001 no KofJS.",
+    note: "JDBC com query tipada e transaction {} commit/rollback real na JVM; SQLite nativo via .so direto (MySQL WIP). Gap DB001 no KofJS.",
   },
   {
     name: "ORM (kof.orm)",
     status: "available",
-    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM; validado em MariaDB 11 e PostgreSQL 16, com MongoDB. Gaps ORM001/ORM002 nos demais.",
+    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM; Query DSL tipada (ORM001); validado em MariaDB 11 e PostgreSQL 16, com MongoDB. Gaps ORM001/ORM002 nos demais.",
   },
   {
     name: "logs (kof.log)",
     status: "available",
-    note: "Níveis, JSON estruturado e requestId. JVM e Native; LOG001 no KofJS.",
+    note: "Níveis, JSON estruturado e requestId. JVM, Native e KofJS (LOG001 fechado).",
   },
   {
     name: "configuração (kof.config)",
     status: "available",
     note: "Arquivo > env > profile, tipado. Interpolação ${key} nos 3 targets. JVM e Native (asm próprio); CONF001 no KofJS.",
   },
-  { name: "tempo (kof.time)", status: "available", note: "now(), sleep, interval, scheduler every()/at() (JVM/JS). SCHED001 no Native." },
+  {
+    name: "tempo (kof.time)",
+    status: "available",
+    note: "now(), sleep, interval, scheduler every()/at() nos 3 targets (TIME001 fechado no Native).",
+  },
   {
     name: "interface (kof.ui)",
     status: "available",
@@ -95,7 +99,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "concorrência (spawn)",
     status: "available",
-    note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado. poll/done/cancel/selectAny (0.2.0+). Native reporta CONC001; spawn no JS reporta CONC003.",
+    note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado. poll/done/cancel/selectAny (0.2.0+). Concórrencia real no JS via async/await (CONC003 fechado). Native via pthread (CONC001 fechado).",
   },
   { name: "async", status: "in-development", note: "Assincronismo como parte do runtime." },
   {
@@ -106,12 +110,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "mensageria (kof.mq)",
     status: "available",
-    note: "Pub/sub em memória com filas limitadas (subscribe, publish, queue, push, pop). JVM; MQ001 nos demais.",
+    note: "Pub/sub em memória com filas limitadas (subscribe, publish, queue, push, pop). Nos 3 targets (MQ001 fechado).",
   },
   {
     name: "cliente HTTP",
     status: "available",
-    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout na JVM e no JS via Java HttpClient interop (27/08); HTTP002 apenas no Native.",
+    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets (HTTP002 fechado no Native).",
   },
   {
     name: "cache (kof.cache)",
@@ -126,7 +130,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "processos (kof.process)",
     status: "available",
-    note: "process.run (bloqueia) e process.spawn (stdin/stdout vivos, F10) — JVM e JS; PROC001 no Native. process.exit(code) nos 3 targets.",
+    note: "process.run (bloqueia) e process.spawn (stdin/stdout vivos, F10) — JVM, Native e JS. process.exit(code) nos 3 targets.",
   },
   { name: "rede (além do HTTP)", status: "planned", note: "Camada de rede além do cliente HTTP." },
 ];

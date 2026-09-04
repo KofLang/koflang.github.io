@@ -65,18 +65,18 @@ Executable`}</Ascii>
             <p className="mt-4">
               ELF x86-64 direto (syscalls, sem libc). GC com free-list{" "}
               <span className="font-mono">kof_free_head</span> +{" "}
-              <span className="font-mono">kof_gc_collect</span> mark-sweep (27/08, 0.2.0-beta).
+              <span className="font-mono">kof_gc_collect</span> mark-sweep real (0.2.8-beta).
             </p>
           </Card>
 
-<Card title="Script — KofScript" status="available">
+          <Card title="Script — KofScript" status="available">
             <p>
               Top-level <span className="font-mono">let/const</span> →{" "}
               <span className="font-mono">KofScriptGlobals</span>,{" "}
               <span className="font-mono">kof script</span>,{" "}
               <span className="font-mono">kof repl</span> e{" "}
-              <span className="font-mono">--watch</span> funcionam. Execução JIT in-memory
-              sobre a mesma IR, disponível em JVM, Native e JS.
+              <span className="font-mono">--watch</span> funcionam. Execução JIT in-memory sobre a
+              mesma IR, disponível em JVM, Native e JS.
             </p>
             <Ascii className="mt-4">{`Kof
   ↓
@@ -87,25 +87,25 @@ Executable`}</Ascii>
  Runtime (JIT)`}</Ascii>
           </Card>
 
-<Card title="Web — KofJS" status="in-development">
+          <Card title="Web — KofJS" status="available">
             <Ascii className="mb-4">{`Kof
   ↓
- KofJS (alpha)
+ KofJS
   ↓
  ES Modules (ECMAScript 2022+)`}</Ascii>
-            Em alpha: o mesmo frontend e a mesma Kof IR geram ES Modules executados na engine JS
-            embarcada (GraalJS — sem Node.js nem runtime externo). Classes, herança, List, JSON,
-            exceções, kof.io, kof.time e kof.http (via Java HttpClient interop, 27/08) já
-            funcionam; scheduler every()/at() (JVM/JS, SCHED001 Native). A plataforma web no
-            browser é a próxima fase. Status em docs/targets/KOFJS.md.
+            O mesmo frontend e a mesma Kof IR geram ES Modules executados na engine JS embarcada
+            (GraalJS — sem Node.js nem runtime externo). Classes, herança, List, JSON, exceções,
+            kof.io, kof.time, kof.http (via Java HttpClient interop) e concorrência real via
+            async/await/Promise (CONC003) já funcionam; scheduler every()/at() (JVM/JS). A
+            plataforma web no browser é a próxima fase.
           </Card>
 
           <Card title="Native — riscv64 / aarch64" status="in-development">
             <p>
               <span className="font-mono">native.risc</span> (riscv64) e{" "}
               <span className="font-mono">native.arm</span> (aarch64) — ELF via{" "}
-              <span className="font-mono">cross-as/ld + qemu</span> (placeholder, separado de{" "}
-              <span className="font-mono">native</span> x86-64).
+              <span className="font-mono">cross-as/ld + qemu</span> com codegen real em asm puro
+              (13/13 E2E qemu, NATIVE002).
             </p>
             <Ascii className="mt-4">{`Kof IR
   ↓
@@ -178,7 +178,7 @@ main() {
             </Card>
             <Card title="Native GC" status="available">
               GC nativo com free-list e <span className="font-mono">kof_gc_collect</span>{" "}
-              (mark-sweep, 27/08, 0.2.0-beta). A abstração de memória pertence à plataforma.
+              (mark-sweep real, 0.2.8-beta). A abstração de memória pertence à plataforma.
             </Card>
           </div>
         </div>

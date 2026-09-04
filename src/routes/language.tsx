@@ -154,6 +154,7 @@ main() {
             "generics",
             "collections com Map/Set",
             "enum + switch exaustivo",
+            "switch-expressão (case ... -> produzindo valor)",
             "string operations",
             "control flow",
             "lambdas com capturas",
@@ -181,7 +182,7 @@ main() {
         </div>
       </Section>
 
-<Section index="05" eyebrow="One frontend" title="A linguagem não muda quando o target muda.">
+      <Section index="05" eyebrow="One frontend" title="A linguagem não muda quando o target muda.">
         <Ascii label="frontend único">{`Kof Source
       ↓
  Kof Compiler

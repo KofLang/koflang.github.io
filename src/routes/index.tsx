@@ -93,8 +93,8 @@ const targets: {
   },
   {
     name: "Native (RISC-V/ARM64)",
-    status: "in-development",
-    desc: "Targets nativos RISC-V e ARM64 via toolchains cruzados (riscv64-linux-gnu-as/ld, qemu). Codegen ainda placeholder; target separation feita.",
+    status: "available",
+    desc: "Targets nativos RISC-V e ARM64 via toolchains cruzados (riscv64-linux-gnu-as/ld, qemu). Codegen real em asm puro — 13/13 E2E qemu (NATIVE002).",
     pipeline: `Kof
   ↓
  Kof IR
@@ -116,7 +116,7 @@ const targets: {
   {
     name: "Web — KofJS",
     status: "in-development",
-    desc: "Alpha: o mesmo frontend e a mesma Kof IR geram ES Modules (ECMAScript 2022+) executados na engine JS embarcada (GraalJS). kof.http funciona via Java HttpClient interop.",
+    desc: "O mesmo frontend e a mesma Kof IR geram ES Modules (ECMAScript 2022+) executados na engine JS embarcada (GraalJS). Concorrência real via async/await (CONC003), kof.http via Java HttpClient interop.",
     pipeline: `Kof
   ↓
  KofJS (alpha)
@@ -161,13 +161,18 @@ function ArchDiagram() {
   const rows: { backend: string; artifact: string; world: string; status: Status }[] = [
     { backend: "Backend JVM", artifact: ".class", world: "JVM", status: "available" },
     { backend: "Backend nativo (x86_64)", artifact: "ELF", world: "OS/CPU", status: "available" },
-    { backend: "Backend nativo (riscv64/aarch64)", artifact: "ELF", world: "OS/CPU", status: "in-development" },
+    {
+      backend: "Backend nativo (riscv64/aarch64)",
+      artifact: "ELF",
+      world: "OS/CPU",
+      status: "available",
+    },
     { backend: "KofScript", artifact: "Runtime", world: "Interativo (JIT)", status: "available" },
     {
       backend: "KofJS",
       artifact: "ES Modules",
       world: "JS engine / Browser",
-      status: "in-development",
+      status: "available",
     },
     { backend: "KofC", artifact: "ELF", world: "OS/CPU (C subset)", status: "available" },
   ];
@@ -222,7 +227,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.2.6-beta</span>
+              <span className="text-signal">v0.2.8-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -703,7 +708,7 @@ Biblioteca padrão`}</Ascii>
         lead="Compilador, CLI, LSP, testes, debugger, benchmarks e editor acompanham a linguagem. Formatador e gerenciador de pacotes são futuro declarado — não realidade presente."
       >
         <div className="grid gap-4 lg:grid-cols-2">
-<CodeBlock
+          <CodeBlock
             language="shell"
             filename="kof cli"
             showLineNumbers={false}
@@ -741,9 +746,13 @@ $ kof version`}
             <Card title="Profile (kof profile)" status="available" />
             <Card title="Inspect IR (kof inspect)" status="available" />
             <Card title="Formatador (kof fmt)" status="available">
-              Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span> reescreve no lugar.
+              Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span>{" "}
+              reescreve no lugar.
             </Card>
-            <Card title="Gerenciador de pacotes" status="planned" />
+            <Card title="Gerenciador de pacotes (MVP)" status="available">
+              <span className="font-mono">kof deps</span> — MVP com kofdeps, Maven Central,{" "}
+              <span className="font-mono">--deps</span>.
+            </Card>
           </div>
         </div>
 
@@ -842,30 +851,36 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.2.6-beta (30/08)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.2.8-beta (04/09)."
       >
         <div className="grid gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.2.6-beta)" status="available">
+          <Card title="Concluído (0.2.8-beta)" status="available">
             Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
-            backends JVM e Native (x86_64 free-list GC + kof_gc_collect) e KofJS (alpha), classes,
-            records, herança, interfaces, generics, lambdas com capturas, exceções reais, coleções
-            com Map/Set nos três targets, enum com == por conteúdo e switch exaustivo (SEM031),
-            kof build/run/serve/test/debug/bench/profile/inspect/fmt, kof.web (status/headerSet,
-            WebSocket RFC 6455, SSE nativo), kof.db + kof.orm, kof.mq, cliente HTTP (JVM+JS),
-            kof.security v1 + web security (rate limit, sessões, API keys) nos três targets, TLS via
-            web.listenSecure na JVM, kof.validation e kof.observability nos três targets, kof.ui,
-            pattern matching (case String s, Point(x,y), instanceof), null safety String?/Int?,
-            List map/filter/reduce, imports multi-arquivo, KofScript (repl, watch), KofCcompiler,
-            targets native.risc/native.arm (placeholder), process.run/process.spawn (stdin/stdout
-            vivos), kof fmt (parser real, idempotente), sobrecarga de construtores, widening de return,
-            kof.config interpolação {"${key}"} nos 3 targets, releases multiplataforma single-job.
+            backends JVM e Native (x86_64 free-list GC + mark-sweep) e KofJS, classes, records,
+            herança, interfaces, generics, lambdas com capturas, exceções reais, coleções com
+            Map/Set nos três targets, enum com == por conteúdo e switch exaustivo (SEM031),
+            switch-expressão (SYN001) nos 3 targets, kof
+            build/run/serve/test/debug/bench/profile/inspect/fmt, kof.web (status/headerSet,
+            WebSocket RFC 6455, SSE nativo, accept loop nativo HTTP/1.1), kof.db + kof.orm com Query
+            DSL tipada, kof.mq (pub/sub nos 3 targets), cliente HTTP (JVM+JS+Native), kof.security
+            v1 + web security (rate limit, sessões, API keys) nos três targets, TLS via
+            web.listenSecure na JVM, kof.validation e kof.observability (com histogram/metrics no
+            Native) nos três targets, kof.ui, pattern matching (case String s, Point(x,y),
+            instanceof), null safety String?/Int?, List map/filter/reduce, imports multi-arquivo,
+            KofScript (repl, watch), KofCcompiler, targets native.risc/native.arm com codegen real
+            (13/13 E2E qemu), process.run/process.spawn (stdin/stdout vivos nos 3 targets), kof fmt
+            (parser real, idempotente), sobrecarga de construtores, widening de return, kof.config
+            interpolação {"${key}"} nos 3 targets, transaction {} commit/rollback real, lifecycle
+            application {}, W3C spans, kof.log no JS (LOG001), time no Native (TIME001), package
+            manager MVP (kof deps), readLine → String?, String.lastIndexOf, File.readRange, GC
+            mark-sweep real, MySQL prepared statements binário, concorrência real no JS (CONC003),
+            releases multiplataforma single-job (910 testes).
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            Async/await nativo, concorrência além da JVM (spawn no Native CONC001), process.spawn
-            no Native (PROC001), MySQL/MariaDB via wire protocol (handshake SHA-1 27/08), ponto
-            flutuante SSE no Native, native.risc/arm (toolchain estável), LSP além de diagnostics
-            (hover/completion), debugger além do MVP JVM (DWARF Native, source maps JS), a plataforma
-            web no browser, KofAndroid Fase 1.
+            Async/await como parte do runtime, process.spawn no Native avançado (PROC001), ponto
+            flutuante SSE no Native (FLT001), LSP além de diagnostics (hover/completion), debugger
+            além do MVP JVM (DWARF Native, source maps JS), a plataforma web no browser, KofAndroid
+            Fase 1.
           </Card>
           <Card title="Planejado" status="planned">
             KofScript runtime dedicado, gerenciador de pacotes, registry, especificação completa da
