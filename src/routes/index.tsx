@@ -874,13 +874,13 @@ $ kof version`}
             application {}, W3C spans, kof.log no JS (LOG001), time no Native (TIME001), package
             manager MVP (kof deps), readLine → String?, String.lastIndexOf, File.readRange, GC
             mark-sweep real, MySQL prepared statements binário, concorrência real no JS (CONC003),
-            releases multiplataforma single-job (910 testes).
+            ponto flutuante no Native (FLT001), LSP references+rename, releases multiplataforma
+            single-job (910 testes).
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            Async/await como parte do runtime, process.spawn no Native avançado (PROC001), ponto
-            flutuante SSE no Native (FLT001), LSP além de diagnostics (hover/completion), debugger
-            além do MVP JVM (DWARF Native, source maps JS), a plataforma web no browser, KofAndroid
-            Fase 1.
+            Async como parte do runtime, LSP além de diagnostics (hover/completion), debugger além
+            do MVP JVM (DWARF Native, source maps JS), a plataforma web no browser, KofAndroid Fase
+            1.
           </Card>
           <Card title="Planejado" status="planned">
             KofScript runtime dedicado, gerenciador de pacotes, registry, especificação completa da
