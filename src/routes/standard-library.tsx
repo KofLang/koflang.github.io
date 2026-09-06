@@ -17,9 +17,10 @@ export const Route = createFileRoute("/standard-library")({
           "Complexidade que pode ser resolvida pela plataforma não deveria virar dependência.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/standard-library" },
+      { property: "og:url", content: "https://koflang.github.io/standard-library" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/standard-library" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/standard-library" }],
   }),
   component: StdlibPage,
 });
@@ -44,12 +45,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "JSON",
     status: "available",
-    note: "Encode/decode tipado; objetos no JVM/JS, arrays tipados incluídos.",
+    note: "Encode/decode tipado; objetos no JVM/JS, arrays tipados incluídos. NATIVE002-stdlib: JSON encode/decode completo no riscv64/aarch64.",
   },
   {
     name: "HTTP (kof.web)",
     status: "available",
-    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM (WEB003/WEB004 Native/JS).",
+    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM (WEB003/WEB004 Native/JS). NATIVE002-stdlib: HTTP client completo no riscv64/aarch64.",
   },
   {
     name: "banco de dados (kof.db)",
@@ -99,7 +100,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "concorrência (spawn)",
     status: "available",
-    note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado. poll/done/cancel/selectAny (0.2.0+). Concórrencia real no JS via async/await (CONC003 fechado). Native via pthread (CONC001 fechado).",
+    note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado. poll/done/cancel/selectAny (0.2.0+). Concórrencia real no JS via async/await (CONC003 fechado). Native via pthread (CONC001 fechado). NATIVE002-stdlib: spawn/await no riscv64/aarch64 (clone + futex).",
   },
   { name: "async", status: "in-development", note: "Assincronismo como parte do runtime." },
   {

@@ -16,9 +16,10 @@ export const Route = createFileRoute("/roadmap")({
         content: "Estado real do compilador, backends, stdlib e tooling da Kof.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/roadmap" },
+      { property: "og:url", content: "https://koflang.github.io/roadmap" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/roadmap" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/roadmap" }],
   }),
   component: RoadmapPage,
 });
@@ -100,6 +101,7 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "package manager MVP — kof deps (kofdeps, Maven Central, --deps)",
       "MySQL prepared statements binário (COM_STMT_EXECUTE)",
       "riscv64/aarch64 codegen real — 13/13 E2E qemu (NATIVE002)",
+      "NATIVE002-stdlib — JSON, HTTP, spawn/await, String methods no riscv64/aarch64 (19/19 qemu)",
       "validation + observability em asm puro no Native",
       "releases multiplataforma",
     ],
@@ -109,6 +111,8 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     title: "Em desenvolvimento",
     items: [
       "Standard Library (contratos em estabilização)",
+      "GC auto-collect (safe-points + mapa de raízes por frame)",
+      "Package manager além do MVP (kof init, registry)",
       "Async (assincronismo como parte do runtime)",
       "Concurrency — concorrência 0.2.x residual: timeout, cancelamento, select, canais tipados, scheduler/cron (G8)",
       "KofAndroid — Fase 1: kof build --target android gera projeto Maven com host em Kof",
@@ -122,7 +126,6 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     title: "Planejado",
     items: [
       "KofScript — runtime completo de execução direta (hoje só top-level let)",
-      "package manager — kof init + registry (MVP kof deps já existe)",
       "complete language specification",
       "conformance suite",
       "full web platform (frontend declarativo + routing/forms/SSR)",
@@ -163,7 +166,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.2.x (0.2.8-beta, 04/09) e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.3.x (0.3.0-beta, 05/09) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">

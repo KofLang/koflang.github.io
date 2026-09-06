@@ -28,9 +28,10 @@ export const Route = createFileRoute("/kof-editor")({
           "Editor de texto escrito em Kof. Desktop, terminal, git, temas. Theme Maker para customização.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/kof-editor" },
+      { property: "og:url", content: "https://koflang.github.io/kof-editor" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/kof-editor" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/kof-editor" }],
   }),
   component: KofEditorPage,
 });

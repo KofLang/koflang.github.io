@@ -17,9 +17,10 @@ export const Route = createFileRoute("/docs")({
         content: "A documentação é parte da linguagem, não conteúdo secundário.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/docs" },
+      { property: "og:url", content: "https://koflang.github.io/docs" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/docs" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/docs" }],
   }),
   component: DocsPage,
 });

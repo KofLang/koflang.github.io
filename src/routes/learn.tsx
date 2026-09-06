@@ -17,9 +17,10 @@ export const Route = createFileRoute("/learn")({
         content: "Aprenda Kof a partir de exemplos executáveis reais.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/learn" },
+      { property: "og:url", content: "https://koflang.github.io/learn" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/learn" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/learn" }],
   }),
   component: LearnPage,
 });

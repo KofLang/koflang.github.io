@@ -227,7 +227,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.2.8-beta</span>
+              <span className="text-signal">v0.3.0-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -851,10 +851,10 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.2.8-beta (04/09)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.3.0-beta (05/09)."
       >
         <div className="grid gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.2.8-beta)" status="available">
+          <Card title="Concluído (0.3.0-beta)" status="available">
             Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
             backends JVM e Native (x86_64 free-list GC + mark-sweep) e KofJS, classes, records,
             herança, interfaces, generics, lambdas com capturas, exceções reais, coleções com
@@ -868,24 +868,24 @@ $ kof version`}
             Native) nos três targets, kof.ui, pattern matching (case String s, Point(x,y),
             instanceof), null safety String?/Int?, List map/filter/reduce, imports multi-arquivo,
             KofScript (repl, watch), KofCcompiler, targets native.risc/native.arm com codegen real
-            (13/13 E2E qemu), process.run/process.spawn (stdin/stdout vivos nos 3 targets), kof fmt
-            (parser real, idempotente), sobrecarga de construtores, widening de return, kof.config
-            interpolação {"${key}"} nos 3 targets, transaction {} commit/rollback real, lifecycle
-            application {}, W3C spans, kof.log no JS (LOG001), time no Native (TIME001), package
-            manager MVP (kof deps), readLine → String?, String.lastIndexOf, File.readRange, GC
-            mark-sweep real, MySQL prepared statements binário, concorrência real no JS (CONC003),
-            ponto flutuante no Native (FLT001), LSP references+rename, releases multiplataforma
-            single-job (910 testes).
+            e stdlib completa (JSON, HTTP, spawn/await, String methods — 19/19 qemu), process.run/
+            process.spawn (stdin/stdout vivos nos 3 targets), kof fmt (parser real, idempotente),
+            sobrecarga de construtores, widening de return, kof.config interpolação {"${key}"} nos
+            3 targets, transaction {} commit/rollback real, lifecycle application {}, W3C spans,
+            kof.log no JS (LOG001), time no Native (TIME001), package manager MVP (kof deps),
+            readLine → String?, String.lastIndexOf, File.readRange, GC mark-sweep real, MySQL
+            prepared statements binário, concorrência real no JS (CONC003), ponto flutuante no
+            Native (FLT001), LSP references+rename, releases multiplataforma single-job
+            (913+ testes).
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            Async como parte do runtime, LSP além de diagnostics (hover/completion), debugger além
-            do MVP JVM (DWARF Native, source maps JS), a plataforma web no browser, KofAndroid Fase
-            1.
+            GC auto-collect (safe-points + mapa de raízes por frame), package manager além do MVP
+            (kof init, registry), LSP além de diagnostics (hover/completion), debugger além do
+            MVP JVM (DWARF Native, source maps JS), a plataforma web no browser, KofAndroid Fase 1.
           </Card>
           <Card title="Planejado" status="planned">
-            KofScript runtime dedicado, package manager além do MVP (kof init, registry),
-            especificação completa da linguagem, conformance suite, auto-hospedagem do compilador,
-            plataforma web completa.
+            KofScript runtime dedicado, especificação completa da linguagem, conformance suite,
+            auto-hospedagem do compilador, plataforma web completa.
           </Card>
         </div>
         <Link

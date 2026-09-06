@@ -17,9 +17,10 @@ export const Route = createFileRoute("/targets")({
         content: "Kof IR para JVM bytecode, binário nativo e ES Modules (KofJS, alpha).",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/targets" },
+      { property: "og:url", content: "https://koflang.github.io/targets" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/targets" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/targets" }],
   }),
   component: TargetsPage,
 });
@@ -100,12 +101,13 @@ Executable`}</Ascii>
             plataforma web no browser é a próxima fase.
           </Card>
 
-          <Card title="Native — riscv64 / aarch64" status="in-development">
+          <Card title="Native — riscv64 / aarch64" status="available">
             <p>
               <span className="font-mono">native.risc</span> (riscv64) e{" "}
               <span className="font-mono">native.arm</span> (aarch64) — ELF via{" "}
               <span className="font-mono">cross-as/ld + qemu</span> com codegen real em asm puro
-              (13/13 E2E qemu, NATIVE002).
+              e stdlib completa (JSON, HTTP, spawn/await, String methods — 19/19 qemu,
+              NATIVE002-stdlib).
             </p>
             <Ascii className="mt-4">{`Kof IR
   ↓
@@ -178,7 +180,7 @@ main() {
             </Card>
             <Card title="Native GC" status="available">
               GC nativo com free-list e <span className="font-mono">kof_gc_collect</span>{" "}
-              (mark-sweep real, 0.2.8-beta). A abstração de memória pertence à plataforma.
+              (mark-sweep real, 0.3.0-beta). A abstração de memória pertence à plataforma.
             </Card>
           </div>
         </div>

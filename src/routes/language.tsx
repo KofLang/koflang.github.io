@@ -17,9 +17,10 @@ export const Route = createFileRoute("/language")({
         content: "Sintaxe, tipos e filosofia da linguagem Kof.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/language" },
+      { property: "og:url", content: "https://koflang.github.io/language" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/language" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/language" }],
   }),
   component: LanguagePage,
 });

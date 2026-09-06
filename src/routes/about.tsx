@@ -25,9 +25,10 @@ export const Route = createFileRoute("/about")({
         content: "Uma linguagem de verdade, em desenvolvimento ativo. GPLv3.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/about" },
+      { property: "og:url", content: "https://koflang.github.io/about" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/about" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/about" }],
   }),
   component: AboutPage,
 });
@@ -39,7 +40,7 @@ function AboutPage() {
         index="01"
         eyebrow="About"
         title="Estamos construindo uma linguagem de verdade."
-        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira estável (0.1.0) já saiu e o dia a dia segue na 0.2.8-beta — e este site se compromete a não transformar isso em promessa vazia."
+        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira estável (0.1.0) já saiu e o dia a dia segue na 0.3.0-beta — e este site se compromete a não transformar isso em promessa vazia."
       >
         <blockquote className="rounded-md border-l-2 border-signal bg-surface p-5 text-base leading-relaxed">
           Algumas pessoas olham para um problema e escrevem uma biblioteca. Outras escrevem um

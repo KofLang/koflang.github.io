@@ -32,10 +32,15 @@ export const Route = createFileRoute("/playground")({
           "Playground Kof no navegador: rode Kof (KofJS) com dois painéis e veja a galeria kof-ui-widgets — 11 módulos de intenção com código ao lado do preview.",
       },
       { property: "og:title", content: "Playground — Kof" },
+      {
+        property: "og:description",
+        content: "Playground Kof no navegador: rode Kof (KofJS) com dois painéis e veja a galeria kof-ui-widgets.",
+      },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/playground" },
+      { property: "og:url", content: "https://koflang.github.io/playground" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/playground" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/playground" }],
   }),
   component: PlaygroundPage,
 });

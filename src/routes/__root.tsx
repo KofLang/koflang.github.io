@@ -85,25 +85,38 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "keywords",
         content:
-          "Kof programming language, JVM language, native compiler, programming language, statically typed language, compiler, KofLang",
+          "Kof, KofLang, linguagem de programação, compilador, JVM, native, statically typed, programação, código, intenção",
       },
       { name: "author", content: "Kof Language Project" },
+      { name: "robots", content: "index, follow" },
+
+      // Open Graph — Facebook / LinkedIn / WhatsApp
       { property: "og:title", content: "Kof — Uma linguagem. Um compilador. Vários mundos." },
       {
         property: "og:description",
         content:
-          "Kof é uma linguagem de programação moderna, estaticamente tipada e compilada para JVM, Native, Script e Web.",
+          "Linguagem moderna, estaticamente tipada, compilada para JVM, Native, Script e Web. Menos código. Mais intenção.",
       },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
+      { property: "og:url", content: "https://koflang.github.io/" },
       { property: "og:site_name", content: "Kof" },
+      { property: "og:locale", content: "pt_BR" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Kof — linguagem de programação" },
+
+      // Twitter / X Card
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:site", content: "@KofLang" },
+      { name: "twitter:creator", content: "@KofLang" },
       { name: "twitter:title", content: "Kof — Uma linguagem. Um compilador. Vários mundos." },
       {
         name: "twitter:description",
         content:
           "Linguagem moderna, estaticamente tipada, compilada para JVM, Native, Script e Web. Menos código. Mais intenção.",
       },
+      { name: "twitter:image", content: "https://koflang.github.io/kof.png" },
     ],
     links: [
       {
@@ -113,6 +126,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/kof.png?v=14", type: "image/png" },
       { rel: "icon", href: "/favicon.ico?v=14", type: "image/x-icon" },
       { rel: "apple-touch-icon", href: "/kof.png?v=14" },
+      { rel: "canonical", href: "https://koflang.github.io/" },
+
+      // Google Search Console — substitua pelo seu código real
+      {
+        name: "google-site-verification",
+        content: "SEU_CODIGO_VERIFICACAO_AQUI",
+      },
     ],
   }),
   shellComponent: RootShell,

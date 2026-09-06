@@ -1,14 +1,29 @@
+# robots.txt — https://koflang.github.io
+# Permitir todos os bots indexarem o site completo
+
+User-agent: *
+Allow: /
+
+# Googlebot — acesso total
 User-agent: Googlebot
 Allow: /
 
+# Bingbot — acesso total
 User-agent: Bingbot
 Allow: /
 
+# Bots de redes sociais — pré-visualização de compartilhamento
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
 Allow: /
+
+User-agent: WhatsAppbot
+Allow: /
+
+# Sitemap
+Sitemap: https://koflang.github.io/sitemap.xml

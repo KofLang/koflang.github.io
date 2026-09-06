@@ -17,9 +17,10 @@ export const Route = createFileRoute("/web")({
         content: "Construir uma aplicação web sem construir antes um ecossistema de frameworks.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/web" },
+      { property: "og:url", content: "https://koflang.github.io/web" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/web" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/web" }],
   }),
   component: WebPage,
 });

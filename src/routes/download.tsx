@@ -18,9 +18,10 @@ export const Route = createFileRoute("/download")({
           "Instale o Kof. Só isso. Distribuição oficial em github.com/KofLang/Kof4j/releases.",
       },
       { property: "og:type", content: "article" },
-      { property: "og:url", content: "/download" },
+      { property: "og:url", content: "https://koflang.github.io/download" },
+      { property: "og:image", content: "https://koflang.github.io/kof.png" },
     ],
-    links: [{ rel: "canonical", href: "/download" }],
+    links: [{ rel: "canonical", href: "https://koflang.github.io/download" }],
   }),
   component: DownloadPage,
 });
@@ -60,7 +61,7 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.2.8-beta, com artefatos para
+          Os downloads apontam para as releases oficiais no GitHub (0.3.0-beta, com artefatos para
           Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
           aqui.
         </p>
@@ -141,7 +142,7 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.2.8-beta
+Kof 0.3.0-beta
 Tooling API: 21
 Target: JVM
 JVM: bundled OpenJDK (Temurin 21)
