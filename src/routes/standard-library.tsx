@@ -36,7 +36,11 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     status: "available",
     note: "values(), valueOf() e name() com == por conteúdo nos três targets; switch exaustivo verificado em compile-time (SEM031).",
   },
-  { name: "strings", status: "available", note: "Concat, comparação e API completa." },
+  {
+    name: "strings (kof.strings)",
+    status: "available",
+    note: "API completa + kof.strings: escapeJson/unescapeHtml, word converters (toCamel/Pascal/Snake/Kebab), isAlpha/isNumeric, pad/repeat/capitalize, STRN001/word-converters portados p/ riscv64/aarch64 (5 alvos).",
+  },
   {
     name: "arquivos (kof.io)",
     status: "available",
@@ -75,7 +79,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "tempo (kof.time)",
     status: "available",
-    note: "now(), sleep, interval, scheduler every()/at() nos 3 targets (TIME001 fechado no Native).",
+    note: "now(), sleep, interval, every()/at() + isLeapYear/daysInMonth/dayOfWeek/daysBetween nos 3-5 targets (TIME001 fechado no Native).",
   },
   {
     name: "interface (kof.ui)",
@@ -90,7 +94,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "validação (kof.validation)",
     status: "available",
-    note: "13 predicados (required, notBlank, isEmail, isUrl, inRange, min/max...) nos três targets; violação vira diagnóstico VAL001.",
+    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard) — 4-5 alvos; violação VAL001.",
   },
   {
     name: "observabilidade (kof.observability)",
@@ -133,7 +137,11 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     status: "available",
     note: "process.run (bloqueia) e process.spawn (stdin/stdout vivos, F10) — JVM, Native e JS. process.exit(code) nos 3 targets.",
   },
-  { name: "rede (além do HTTP)", status: "planned", note: "Camada de rede além do cliente HTTP." },
+  { name: "aleatório (kof.random)", status: "available", note: "randomInt/randomBoolean nos 5 alvos (S10a, x86_64/riscv64/aarch64/JS/JVM; getrandom ecall 278 no cross)." },
+  { name: "código (kof.encoding)", status: "available", note: "base64/base64Url/hex/urlEncode/urlDecode (5 alvos; ENC002 fechado, base64 riscv B23)." },
+  { name: "rede (kof.net)", status: "available", note: "URI parse + fetch; NET001 fechado nos 6 alvos (x86_64/riscv64/aarch64/JS/JVM/Android)." },
+  { name: "identidade (kof.uuid)", status: "available", note: "uuid.v4 (RFC 4122) nos 5 alvos; SECN000 gate cross-arch resolvido." },
+  { name: "arrays multidimensionais", status: "available", note: "new T[a][b] cria TODAS as dims via KofNewMultiArray (MULTIANEWARRAY JVM, Array.newInstance interp, kofMultiArray JS)." },
 ];
 
 function StdlibPage() {

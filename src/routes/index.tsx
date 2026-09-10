@@ -20,14 +20,11 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const heroCode = `class User(
-    String name,
-    String email
-)
+const heroCode = `record User(String name, String email)
 
 main() {
     var user = User("Mel", "mel@example.com")
-    println(user.name)
+    println(user.name())
 }`;
 
 const philosophyCards: { title: string; body: string }[] = [
@@ -94,24 +91,24 @@ const targets: {
   {
     name: "Native (RISC-V/ARM64)",
     status: "available",
-    desc: "Targets nativos RISC-V e ARM64 via toolchains cruzados (riscv64-linux-gnu-as/ld, qemu). Codegen real em asm puro — 13/13 E2E qemu (NATIVE002).",
+    desc: "Targets nativos RISC-V e ARM64 via toolchains cruzados (riscv64-linux-gnu-as/ld, qemu). Codegen real em asm puro — stdlib completa (JSON, HTTP, spawn/await, String methods — 19/19 qemu, NATIVE002-stdlib).",
     pipeline: `Kof
   ↓
  Kof IR
   ↓
  Backend nativo (riscv64/aarch64)
   ↓
- Executável ELF`,
+ ELF estático (sem libc)`,
   },
   {
     name: "KofScript",
     status: "available",
-    desc: "Execução direta top-level let/const → KofScriptGlobals. REPL interativo (kof repl), watch mode (--watch), execução sem compilação explícita.",
-    pipeline: `Kof Script (.ks)
+    desc: "Target de execução direta: Kof puro no MESMO frontend, executado pelo interpretador da IR (KofInterpreter) sem compilar e sem fork de JVM. Não é JavaScript — let/const/async/fn não existem.",
+    pipeline: `Kof (.ks)
   ↓
- KofScriptGlobals (JIT in-memory)
+ Kof IR (MESMO frontend)
   ↓
- JVM/Native/JS`,
+ KofInterpreter (sem bytecode)`,
   },
   {
     name: "Web — KofJS",
@@ -163,11 +160,11 @@ function ArchDiagram() {
     { backend: "Backend nativo (x86_64)", artifact: "ELF", world: "OS/CPU", status: "available" },
     {
       backend: "Backend nativo (riscv64/aarch64)",
-      artifact: "ELF",
-      world: "OS/CPU",
+      artifact: "ELF estático",
+      world: "OS/CPU (sem libc)",
       status: "available",
     },
-    { backend: "KofScript", artifact: "Runtime", world: "Interativo (JIT)", status: "available" },
+    { backend: "KofScript", artifact: "KofInterpreter (IR)", world: "Execução direta (sem compilar)", status: "available" },
     {
       backend: "KofJS",
       artifact: "ES Modules",
@@ -227,7 +224,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.3.0-beta</span>
+              <span className="text-signal">v0.3.7-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -851,10 +848,10 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.3.0-beta (05/09)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, desenvolvimento segue em 0.3.7-beta (10/09)."
       >
         <div className="grid gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.3.0-beta)" status="available">
+          <Card title="Concluído (0.3.7-beta)" status="available">
             Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
             backends JVM e Native (x86_64 free-list GC + mark-sweep) e KofJS, classes, records,
             herança, interfaces, generics, lambdas com capturas, exceções reais, coleções com
@@ -875,17 +872,21 @@ $ kof version`}
             kof.log no JS (LOG001), time no Native (TIME001), package manager MVP (kof deps),
             readLine → String?, String.lastIndexOf, File.readRange, GC mark-sweep real, MySQL
             prepared statements binário, concorrência real no JS (CONC003), ponto flutuante no
-            Native (FLT001), LSP references+rename, releases multiplataforma single-job
-            (913+ testes).
+            Native (FLT001), LSP references+rename, releases multiplataforma single-job, kof.random
+            (randomInt/randomBoolean nos 5 alvos), kof.strings (escapeJson/unescapeHtml, word converters),
+            kof.encoding (base64/hex/url), kof.validation ampliado, kof.time complementar, arrays multidimensionais
+            new T[a][b] (MULTIANEWARRAY), kof.net (NET001), kof.uuid v4 cross-arch (1350+ testes).
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
             GC auto-collect (safe-points + mapa de raízes por frame), package manager além do MVP
-            (kof init, registry), LSP além de diagnostics (hover/completion), debugger além do
-            MVP JVM (DWARF Native, source maps JS), a plataforma web no browser, KofAndroid Fase 1.
+            (kof init, registry), LSP + diagnostics reais já (hover/completion, references/rename),
+            debugger além do MVP JVM (DWARF Native, source maps JS), KofJS plataforma web no browser,
+            KofAndroid Fase 1.
           </Card>
           <Card title="Planejado" status="planned">
-            KofScript runtime dedicado, especificação completa da linguagem, conformance suite,
-            auto-hospedagem do compilador, plataforma web completa.
+            KofScript — modo REPL e watch já via KofInterpreter; runtime dedicado é o próprio
+            interpreter, Language Reference já em docs/language-reference/ (evoluindo), conformance
+            suite embrião E2E, full web platform e auto-hospedagem.
           </Card>
         </div>
         <Link

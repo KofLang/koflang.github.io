@@ -61,7 +61,7 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.3.0-beta, com artefatos para
+          Os downloads apontam para as releases oficiais no GitHub (0.3.7-beta, com artefatos para
           Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
           aqui.
         </p>
@@ -142,7 +142,7 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.3.0-beta
+Kof 0.3.7-beta
 Tooling API: 21
 Target: JVM
 JVM: bundled OpenJDK (Temurin 21)

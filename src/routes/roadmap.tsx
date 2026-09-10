@@ -75,7 +75,7 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "enum nos 3 targets + switch exaustivo (SEM031)",
       "Map/Set nos 3 targets — COL001 fechado",
       "otimizador de IR sempre ativo + kof bench com baselines (37 benchmarks)",
-      "KofScript — top-level let/const (KofScriptGlobals, repl, --watch)",
+      "KofScript — Kof puro no MESMO frontend via KofInterpreter (sem bytecode, sem fork; let/const/fn → PARSE085)",
       "KofCcompiler — C subset → ELF x86_64 (kof c, nativo-only)",
       "kof.process — execução de processos externos",
       "process.spawn — stdin/stdout vivos (F10, 3 targets, PROC001 fechado)",
@@ -100,9 +100,17 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "observability histogram/metrics no Native (OBS002, asm puro)",
       "package manager MVP — kof deps (kofdeps, Maven Central, --deps)",
       "MySQL prepared statements binário (COM_STMT_EXECUTE)",
-      "riscv64/aarch64 codegen real — 13/13 E2E qemu (NATIVE002)",
-      "NATIVE002-stdlib — JSON, HTTP, spawn/await, String methods no riscv64/aarch64 (19/19 qemu)",
+      "riscv64/aarch64 codegen real — stdlib completa (NATIVE002)",
+      "NATIVE002-stdlib — JSON, HTTP, spawn/await, String methods, kof.random, encoding, net.*, uuid.v4 (19/19+ qemu)",
       "validation + observability em asm puro no Native",
+      "kof.strings — escapeJson/unescapeHtml, word converters, isAlpha/isNumeric, pad/repeat (5 alvos)",
+      "kof.encoding — base64, base64Url, hex, urlEncode/urlDecode (5 alvos; ENC002 fechado)",
+      "kof.validation — isCpf/isCnpj/isCep, isIpv4/isIpv6, isDomain, Luhn (4-5 alvos)",
+      "kof.time — isLeapYear/daysInMonth/dayOfWeek/daysBetween (4-5 alvos)",
+      "kof.random — randomInt/randomBoolean (5 alvos, S10a)",
+      "kof.net — URI parse + fetch (NET001 fechado, 6 alvos)",
+      "kof.uuid v4 (SECN000 cross-arch)",
+      "arrays multidimensionais new T[a][b] (KofNewMultiArray — MULTIANEWARRAY JVM/JS/Interpreter)",
       "releases multiplataforma",
     ],
   },
@@ -118,18 +126,18 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "KofAndroid — Fase 1: kof build --target android gera projeto Maven com host em Kof",
       "Debugger — além do MVP JVM (DAP sobre stdio já no JVM; DWARF variáveis/expressões + VS Code ext)",
       "KofJS — plataforma web no browser (ES Modules via GraalJS)",
-      "LSP além de hover/completion (references, rename, diagnostics reais)",
+      "LSP + diagnostics reais; hover/completion e references/rename já (KofFormatter, EDI001 parcial)",
     ],
   },
   {
     status: "planned",
     title: "Planejado",
     items: [
-      "KofScript — runtime completo de execução direta (hoje só top-level let)",
-      "complete language specification",
-      "conformance suite",
-      "full web platform (frontend declarativo + routing/forms/SSR)",
-      "auto-hospedagem (compilador escrito em Kof)",
+      "KofScript — modo REPL e watch já via KofInterpreter; runtime dedicado é o próprio interpreter",
+      "Language Reference — gramática, tipos e semântica já em docs/language-reference/ (evoluindo)",
+      "Conformance suite — embrião nos E2E por target; suite formal futura",
+      "Full web platform (frontend declarativo + routing/forms/SSR)",
+      "Auto-hospedagem (compilador escrito em Kof)",
     ],
   },
 ];
@@ -166,7 +174,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.3.x (0.3.0-beta, 05/09) e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.3.x (0.3.7-beta, 10/09) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">

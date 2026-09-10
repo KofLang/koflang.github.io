@@ -43,17 +43,17 @@ const sections = [
   },
   {
     title: "Linguagem",
-    desc: "Sintaxe, tipos, classes, generics e controle de fluxo.",
+    desc: "Sintaxe, tipos, classes, generics e controle de fluxo. Referência formal em docs/language-reference/.",
     to: "/language" as const,
   },
   {
     title: "Biblioteca padrão",
-    desc: "Coleções, strings, e as capacidades em construção.",
+    desc: "kof.strings, kof.encoding, kof.random, kof.validation, kof.time, kof.net e mais (5-6 alvos).",
     to: "/standard-library" as const,
   },
   {
     title: "Compilador",
-    desc: "Lexer, parser, AST, análise semântica, símbolos e Kof IR.",
+    desc: "Lexer, parser, AST, análise semântica, símbolos e Kof IR. Arquitetura em docs/compiler-architecture.md.",
     href: GITHUB,
   },
   {
@@ -154,16 +154,18 @@ $ kof version`}
             <Card title="Benchmarks (kof bench)" status="available" />
             <Card title="Profile (kof profile)" status="available" />
             <Card title="Inspect IR (kof inspect)" status="available" />
-            <Card title="LSP" status="in-development">
-              Diagnostics reais do frontend; hover e completion são o próximo passo.
+            <Card title="LSP" status="available">
+              Diagnostics reais do frontend; hover, completion, references/rename e documentSymbol já.
             </Card>
             <Card title="Debugger (kof debug)" status="in-development">
-              MVP DAP sobre stdio no target JVM.
+              MVP DAP sobre stdio no target JVM — DWARF Native e source maps JS parciais.
             </Card>
             <Card title="Formatador (kof fmt)" status="available">
               Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span> reescreve no lugar.
             </Card>
-            <Card title="Gerenciador de pacotes" status="planned" />
+            <Card title="Gerenciador de pacotes" status="available">
+              MVP com <span className="font-mono">kof deps</span> — registry além do MVP em construção.
+            </Card>
           </div>
         </div>
         <a

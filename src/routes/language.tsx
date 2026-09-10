@@ -44,10 +44,7 @@ const javaSample = `public final class User {
     }
 }`;
 
-const kofSample = `class User(
-    String name,
-    String email
-)`;
+const kofSample = `record User(String name, String email)`;
 
 function LanguagePage() {
   return (
@@ -114,14 +111,11 @@ main() {
           />
           <CodeBlock
             filename="user.kf"
-            code={`class User(
-    String name,
-    String email
-)
+            code={`record User(String name, String email)
 
 main() {
     var user = User("Mel", "mel@example.com")
-    println(user.name)
+    println(user.name())
 }`}
           />
           <CodeBlock
@@ -141,46 +135,51 @@ main() {
         index="04"
         eyebrow="Estado da linguagem"
         title="O que já existe no frontend da linguagem"
-        lead="Recursos abaixo fazem parte da base do compilador. Especificação completa e conformance suite ainda são trabalho planejado."
+        lead="Recursos abaixo fazem parte da base do compilador (0.3.7-beta). A separação linguagem ≠ compilador ≠ target está documentada em docs/language-reference/ (gramática, sistema de tipos, semântica) e docs/compiler-architecture.md (implementação)."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
             "classes e primary constructor",
-            "records",
-            "inheritance",
-            "interfaces",
-            "constructors",
-            "constructor overloading",
-            "exceptions reais",
-            "generics",
-            "collections com Map/Set",
-            "enum + switch exaustivo",
-            "switch-expressão (case ... -> produzindo valor)",
-            "string operations",
-            "control flow",
-            "lambdas com capturas",
+            "records (SEM038 imutável, 0.3.5+)",
+            "inheritance + dispatch virtual",
+            "interfaces (SEM043 exaustividade)",
+            "constructors + sobrecarga",
+            "val imutável (SEM037)",
+            "exceptions reais (throw String)",
+            "generics (erasure) + Box<T> primitivo",
+            "coleções List/Map/Set + map/filter/reduce",
+            "enum + switch exaustivo (SEM031)",
+            "switch-expressão (SYN001) + guardas (SG-014)",
+            "string operations + kof.strings (escapeJson, word converters)",
+            "control flow (if-expr, for-in, switch)",
+            "lambdas com capturas (3 níveis, Box mutável)",
             "default parameters",
-            "pattern matching (case String s, Point(x,y), instanceof)",
+            "pattern matching (case String s, Point(x,y), instanceof) + guards",
             "null safety (String?, Int? + narrowing)",
-            "List.map / filter / reduce",
-          ].map((f) => (
-            <div
-              key={f}
-              className="flex items-center justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3"
-            >
-              <span className="font-mono text-sm">{f}</span>
-              <StatusBadge status="available" />
-            </div>
-          ))}
-          <div className="flex items-center justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3">
-            <span className="font-mono text-sm">language specification</span>
-            <StatusBadge status="planned" />
-          </div>
-          <div className="flex items-center justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3">
-            <span className="font-mono text-sm">conformance suite</span>
-            <StatusBadge status="planned" />
-          </div>
+            "arrays multidim new T[a][b] (MULTIANEWARRAY)",
+            "functions sem fun/fn/func (PARSE085 reservadas)",
+            "private/protected checados (SEM046)",
+            "language specification (docs/language-reference/)",
+            "conformance suite (embrião E2E, previsto)",
+          ].map((f) => {
+            const isAvailable = !f.includes("previsto");
+            const status: "available" | "in-development" = isAvailable ? "available" : "in-development";
+            return (
+              <div
+                key={f}
+                className="flex items-center justify-between gap-3 rounded-md border border-border bg-surface px-4 py-3"
+              >
+                <span className="font-mono text-sm">{f}</span>
+                <StatusBadge status={status} />
+              </div>
+            );
+          })}
         </div>
+        <p className="mt-6 max-w-2xl font-mono text-xs text-muted-foreground">
+          `fn`/`fun`/`func` são palavras reservadas (SG-001, 06/09) — em qualquer posição dão PARSE085.{" "}
+          `let`/`const`/`async` não existem — KofScript é Kof puro (PARSE085). Arrays literais `[1,2,3]`
+          e `Option&lt;T&gt;` não existem.
+        </p>
       </Section>
 
       <Section index="05" eyebrow="One frontend" title="A linguagem não muda quando o target muda.">

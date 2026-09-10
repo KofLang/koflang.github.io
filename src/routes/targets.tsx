@@ -66,26 +66,25 @@ Executable`}</Ascii>
             <p className="mt-4">
               ELF x86-64 direto (syscalls, sem libc). GC com free-list{" "}
               <span className="font-mono">kof_free_head</span> +{" "}
-              <span className="font-mono">kof_gc_collect</span> mark-sweep real (0.2.8-beta).
+              <span className="font-mono">kof_gc_collect</span> mark-sweep real (0.3.0-beta).
             </p>
           </Card>
 
           <Card title="Script — KofScript" status="available">
             <p>
-              Top-level <span className="font-mono">let/const</span> →{" "}
-              <span className="font-mono">KofScriptGlobals</span>,{" "}
-              <span className="font-mono">kof script</span>,{" "}
-              <span className="font-mono">kof repl</span> e{" "}
-              <span className="font-mono">--watch</span> funcionam. Execução JIT in-memory sobre a
-              mesma IR, disponível em JVM, Native e JS.
+              <span className="font-mono">KofScript (.ks, REPL)</span> — target de execução direta:{" "}
+              Kof puro no <span className="font-mono">MESMO frontend</span>, executado pelo{" "}
+              <span className="font-mono">KofInterpreter</span> (IR) sem emitir bytecode nem fork de JVM.
+              Não é JavaScript — <span className="font-mono">let/const/async/fn</span> não existem
+              (dão <span className="font-mono">PARSE085</span>).
             </p>
-            <Ascii className="mt-4">{`Kof
+            <Ascii className="mt-4">{`Kof (.ks)
   ↓
- KofScript
+ Kof IR (MESMO frontend)
   ↓
- KofScriptGlobals
+ KofInterpreter (sem compilar)
   ↓
- Runtime (JIT)`}</Ascii>
+ Execução direta`}</Ascii>
           </Card>
 
           <Card title="Web — KofJS" status="available">
@@ -104,18 +103,18 @@ Executable`}</Ascii>
           <Card title="Native — riscv64 / aarch64" status="available">
             <p>
               <span className="font-mono">native.risc</span> (riscv64) e{" "}
-              <span className="font-mono">native.arm</span> (aarch64) — ELF via{" "}
+              <span className="font-mono">native.arm</span> (aarch64) — ELF estático via{" "}
               <span className="font-mono">cross-as/ld + qemu</span> com codegen real em asm puro
-              e stdlib completa (JSON, HTTP, spawn/await, String methods — 19/19 qemu,
-              NATIVE002-stdlib).
+              e stdlib completa (JSON, HTTP, spawn/await, String methods, kof.random, encoding,
+              net.* — 19/19+ qemu, NATIVE002-stdlib; NET001 fechado; SECN000 uuid.v4 cross).
             </p>
             <Ascii className="mt-4">{`Kof IR
   ↓
-NativeBackend (riscv64/aarch64)
+ NativeBackend (riscv64/aarch64)
   ↓
-ELF (cross)
+ ELF estático (sem libc, estático)
   ↓
-qemu`}</Ascii>
+ qemu`}</Ascii>
           </Card>
 
           <Card title="KofC — C subset" status="available">

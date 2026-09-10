@@ -89,16 +89,13 @@ main() {
           </div>
           <div>
             <p className="mono-label mb-3">02 — dados sem cerimônia</p>
-            <CodeBlock
-              filename="user.kf"
-              code={`class User(
-    String name,
-    String email
-)
+          <CodeBlock
+            filename="user.kf"
+            code={`record User(String name, String email)
 
 main() {
     var user = User("Mel", "mel@example.com")
-    println(user.name)
+    println(user.name())
 }`}
             />
           </div>
@@ -122,13 +119,20 @@ main() {
         index="03"
         eyebrow="learn/ vs training/"
         title="Duas trilhas, dois públicos."
-        lead="Essa separação faz parte da identidade do projeto."
+        lead="docs/ diz como Kof é, learn/ ensina como usar, training/ alimenta quem gera código. A distinção linguagem ≠ compilador ≠ target é o eixo de docs/language-reference/."
       >
         <div className="grid gap-4 lg:grid-cols-2">
-          <Card title="learn/">
-            <p>Humanos aprendendo Kof: explicações, progressão e contexto.</p>
+          <Card title="learn/ — humanos (00 → 39)">
+            <p>00 Introdução → 39 Standard Library universal + native/. Capítulos numerados, cada um um guia prático.</p>
             <Ascii className="mt-4">{`learn/
-    → humanos aprendendo Kof`}</Ascii>
+ 00-introduction.md
+ 01-installation.md
+ ...
+ 35-kof-ui.md
+ 36-security.md
+ 37-kofjs.md
+ 38-editors.md
+ 39-stdlib.md`}</Ascii>
             <a
               href={LEARN_DIR}
               target="_blank"
@@ -138,10 +142,14 @@ main() {
               Abrir learn/ →
             </a>
           </Card>
-          <Card title="training/">
-            <p>Ferramentas e LLMs aprendendo Kof: material estruturado e padronizado.</p>
+          <Card title="training/ — LLMs e ferramentas">
+            <p>Corpus otimizado: language/, idioms/ (ui/web/stdlib 0.3.5+), patterns/, anti-patterns/ (fake-idioms com PARSE085), examples/, reference/, migration/, tooling/.</p>
             <Ascii className="mt-4">{`training/
-    → ferramentas e LLMs aprendendo Kof`}</Ascii>
+ language/
+ idioms/stdlib.md
+ idioms/ui.md
+ anti-patterns/fake-idioms.md
+ examples/`}</Ascii>
             <a
               href={TRAINING}
               target="_blank"
