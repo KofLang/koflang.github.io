@@ -60,9 +60,9 @@ function KofEditorPage() {
           </div>
           <div className="flex flex-col gap-4">
             <Card title="Escrito em Kof">
-              Todo o editor — lexer, highlight, árvore de arquivos, abas, terminal, git, temas, paleta
-              de comandos — é código Kof servido por <span className="font-mono">kof serve</span> e
-              exibido em janela nativa (WebKitGTK).
+              Todo o editor — lexer, highlight, árvore de arquivos, abas, terminal, git, temas,
+              paleta de comandos — é código Kof servido por{" "}
+              <span className="font-mono">kof serve</span> e exibido em janela nativa (WebKitGTK).
             </Card>
             <Card title="Sem extensões">
               Reconhecimento de linguagem, erros, terminal e git são nativos — as mesmas APIs do
@@ -118,8 +118,7 @@ function KofEditorPage() {
               <li>6 paletas de temas: Dracula, Nord, GitHub, Solarized, Monokai, Light</li>
               <li>Temas granulares (schema v2, ~91 chaves, export YAML)</li>
               <li>
-                Binários:{" "}
-                <span className="font-mono">kof-editor</span> (JVM) +{" "}
+                Binários: <span className="font-mono">kof-editor</span> (JVM) +{" "}
                 <span className="font-mono">kof-editor --native</span>
               </li>
             </ul>
@@ -225,7 +224,9 @@ $ kof-editor --stop             # para servidor e janela`}
               Dracula, Nord, GitHub, Solarized, Monokai, Light — comece de uma base e customize.
             </Card>
             <Card title="~91 chaves em 3 blocos">
-              Interface (<span className="font-mono">if.*</span>), editor (<span className="font-mono">ed.*</span>), tokens (<span className="font-mono">tk.*</span>). Fallback para formato legado.
+              Interface (<span className="font-mono">if.*</span>), editor (
+              <span className="font-mono">ed.*</span>), tokens (
+              <span className="font-mono">tk.*</span>). Fallback para formato legado.
             </Card>
             <a
               href={THEME_MAKER}
@@ -279,12 +280,8 @@ scripts/
             rel="noreferrer noopener"
             className="group rounded-md border border-border bg-surface p-5 transition-colors hover:border-signal"
           >
-            <h3 className="font-mono text-sm font-semibold group-hover:text-signal">
-              Repositório
-            </h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              github.com/KofLang/Kof-Editor
-            </p>
+            <h3 className="font-mono text-sm font-semibold group-hover:text-signal">Repositório</h3>
+            <p className="mt-2 text-sm text-muted-foreground">github.com/KofLang/Kof-Editor</p>
           </a>
           <a
             href={`${EDITOR_GITHUB}/releases`}
@@ -301,9 +298,7 @@ scripts/
             rel="noreferrer noopener"
             className="group rounded-md border border-border bg-surface p-5 transition-colors hover:border-signal"
           >
-            <h3 className="font-mono text-sm font-semibold group-hover:text-signal">
-              Theme Maker
-            </h3>
+            <h3 className="font-mono text-sm font-semibold group-hover:text-signal">Theme Maker</h3>
             <p className="mt-2 text-sm text-muted-foreground">
               koflang.github.io/Kof-editor-theme-maker
             </p>

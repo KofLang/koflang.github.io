@@ -9,7 +9,7 @@ export const Route = createFileRoute("/targets")({
       {
         name: "description",
         content:
-          "JVM, Native e KofJS (web): um único frontend de linguagem, Kof IR e backends dedicados. Kof não é um transpiler. Script é runtime planejado.",
+          "JVM, Native e KofJS (web): um único frontend de linguagem, Kof IR e backends dedicados. Kof não é um transpiler. KofScript é execução direta.",
       },
       { property: "og:title", content: "Targets — Kof" },
       {
@@ -66,7 +66,9 @@ Executable`}</Ascii>
             <p className="mt-4">
               ELF x86-64 direto (syscalls, sem libc). GC com free-list{" "}
               <span className="font-mono">kof_free_head</span> +{" "}
-              <span className="font-mono">kof_gc_collect</span> mark-sweep real (0.3.0-beta).
+              <span className="font-mono">kof_gc_collect</span> mark-sweep real + runtime por
+              alcançabilidade (hello: 627→37 símbolos, 32.5KB;{" "}
+              <span className="font-mono">kof build --print-sizes</span>).
             </p>
           </Card>
 
@@ -74,9 +76,9 @@ Executable`}</Ascii>
             <p>
               <span className="font-mono">KofScript (.ks, REPL)</span> — target de execução direta:{" "}
               Kof puro no <span className="font-mono">MESMO frontend</span>, executado pelo{" "}
-              <span className="font-mono">KofInterpreter</span> (IR) sem emitir bytecode nem fork de JVM.
-              Não é JavaScript — <span className="font-mono">let/const/async/fn</span> não existem
-              (dão <span className="font-mono">PARSE085</span>).
+              <span className="font-mono">KofInterpreter</span> (IR) sem emitir bytecode nem fork de
+              JVM. Não é JavaScript — <span className="font-mono">let/const/async/fn</span> não
+              existem (dão <span className="font-mono">PARSE085</span>).
             </p>
             <Ascii className="mt-4">{`Kof (.ks)
   ↓
@@ -95,18 +97,19 @@ Executable`}</Ascii>
  ES Modules (ECMAScript 2022+)`}</Ascii>
             O mesmo frontend e a mesma Kof IR geram ES Modules executados na engine JS embarcada
             (GraalJS — sem Node.js nem runtime externo). Classes, herança, List, JSON, exceções,
-            kof.io, kof.time, kof.http (via Java HttpClient interop) e concorrência real via
-            async/await/Promise (CONC003) já funcionam; scheduler every()/at() (JVM/JS). A
-            plataforma web no browser é a próxima fase.
+            kof.io, kof.time, kof.http com fetch async real (spawn + await), servidor web embutido
+            (HttpServer via GraalJS + KofJsWebQueue — WEB001 básico fechado 03/09), Long como BigInt
+            e concorrência real via async/await/Promise (CONC003) já funcionam. Residual:
+            ws/sse/TLS/path params (WEB001). A plataforma web no browser é a próxima fase.
           </Card>
 
           <Card title="Native — riscv64 / aarch64" status="available">
             <p>
               <span className="font-mono">native.risc</span> (riscv64) e{" "}
               <span className="font-mono">native.arm</span> (aarch64) — ELF estático via{" "}
-              <span className="font-mono">cross-as/ld + qemu</span> com codegen real em asm puro
-              e stdlib completa (JSON, HTTP, spawn/await, String methods, kof.random, encoding,
-              net.* — 19/19+ qemu, NATIVE002-stdlib; NET001 fechado; SECN000 uuid.v4 cross).
+              <span className="font-mono">cross-as/ld + qemu</span> com codegen real em asm puro e
+              stdlib (JSON, HTTP, spawn/await, String methods, kof.random, encoding, net.* — 19/19+
+              qemu, NATIVE002; NET001 fechado; gates honestos DB001/SECN000/SCHED001 no cross).
             </p>
             <Ascii className="mt-4">{`Kof IR
   ↓
@@ -131,6 +134,23 @@ KofCcompiler
 ELF x86_64
   ↓
 Native`}</Ascii>
+          </Card>
+
+          <Card title="Android" status="available">
+            <p>
+              Variante do backend JVM: <span className="font-mono">kof build --target android</span>{" "}
+              gera projeto com host em Kof; <span className="font-mono">--apk</span> standalone
+              (aapt2/d8/zipalign/apksigner direto da CLI) + release signing com{" "}
+              <span className="font-mono">--keystore</span>.{" "}
+              <span className="font-mono">spawn</span> usa platform threads (ART sem virtual threads
+              — AND001 fechado); a UI roda no WebView KofJS. Gaps{" "}
+              <span className="font-mono">AND00x</span> nomeados em compile-time.
+            </p>
+            <Ascii className="mt-4">{`Kof IR
+  ↓
+JvmBackend (release 21)
+  ↓
+APK`}</Ascii>
           </Card>
         </div>
       </Section>
@@ -179,7 +199,8 @@ main() {
             </Card>
             <Card title="Native GC" status="available">
               GC nativo com free-list e <span className="font-mono">kof_gc_collect</span>{" "}
-              (mark-sweep real, 0.3.0-beta). A abstração de memória pertence à plataforma.
+              (mark-sweep real) + runtime podado por alcançabilidade. A abstração de memória
+              pertence à plataforma.
             </Card>
           </div>
         </div>

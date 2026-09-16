@@ -136,10 +136,7 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <Link
-                className="text-muted-foreground hover:text-foreground"
-                to="/kof-editor"
-              >
+              <Link className="text-muted-foreground hover:text-foreground" to="/kof-editor">
                 Editor & Theme Maker
               </Link>
             </li>

@@ -89,9 +89,9 @@ main() {
           </div>
           <div>
             <p className="mono-label mb-3">02 — dados sem cerimônia</p>
-          <CodeBlock
-            filename="user.kf"
-            code={`record User(String name, String email)
+            <CodeBlock
+              filename="user.kf"
+              code={`record User(String name, String email)
 
 main() {
     var user = User("Mel", "mel@example.com")
@@ -123,7 +123,10 @@ main() {
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <Card title="learn/ — humanos (00 → 39)">
-            <p>00 Introdução → 39 Standard Library universal + native/. Capítulos numerados, cada um um guia prático.</p>
+            <p>
+              00 Introdução → 39 Standard Library universal + native/. Capítulos numerados, cada um
+              um guia prático.
+            </p>
             <Ascii className="mt-4">{`learn/
  00-introduction.md
  01-installation.md
@@ -143,7 +146,10 @@ main() {
             </a>
           </Card>
           <Card title="training/ — LLMs e ferramentas">
-            <p>Corpus otimizado: language/, idioms/ (ui/web/stdlib 0.3.5+), patterns/, anti-patterns/ (fake-idioms com PARSE085), examples/, reference/, migration/, tooling/.</p>
+            <p>
+              Corpus otimizado: language/, idioms/ (ui/web/stdlib 0.3.5+), patterns/, anti-patterns/
+              (fake-idioms com PARSE085), examples/, reference/, migration/, tooling/.
+            </p>
             <Ascii className="mt-4">{`training/
  language/
  idioms/stdlib.md

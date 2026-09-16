@@ -125,7 +125,7 @@ function DocsPage() {
         lead="A CLI da Kof acompanha a linguagem. Ferramentas ainda não disponíveis estão marcadas como tal."
       >
         <div className="grid gap-4 lg:grid-cols-2">
-<CodeBlock
+          <CodeBlock
             language="shell"
             filename="kof cli"
             showLineNumbers={false}
@@ -138,7 +138,16 @@ $ kof debug
 $ kof bench
 $ kof profile
 $ kof inspect
+$ kof decompile
+$ kof translate
+$ kof compare
+$ kof migrate
 $ kof fmt
+$ kof new
+$ kof init
+$ kof deps
+$ kof config
+$ kof editor
 $ kof info
 $ kof lsp
 $ kof install
@@ -155,16 +164,19 @@ $ kof version`}
             <Card title="Profile (kof profile)" status="available" />
             <Card title="Inspect IR (kof inspect)" status="available" />
             <Card title="LSP" status="available">
-              Diagnostics reais do frontend; hover, completion, references/rename e documentSymbol já.
+              Diagnostics reais do frontend; hover, completion, references/rename e documentSymbol
+              já.
             </Card>
             <Card title="Debugger (kof debug)" status="in-development">
               MVP DAP sobre stdio no target JVM — DWARF Native e source maps JS parciais.
             </Card>
             <Card title="Formatador (kof fmt)" status="available">
-              Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span> reescreve no lugar.
+              Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span>{" "}
+              reescreve no lugar.
             </Card>
             <Card title="Gerenciador de pacotes" status="available">
-              MVP com <span className="font-mono">kof deps</span> — registry além do MVP em construção.
+              MVP com <span className="font-mono">kof deps</span> — registry além do MVP em
+              construção.
             </Card>
           </div>
         </div>

@@ -54,12 +54,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "HTTP (kof.web)",
     status: "available",
-    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; WEB001/WEB002 no Native/JS. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM (WEB003/WEB004 Native/JS). NATIVE002-stdlib: HTTP client completo no riscv64/aarch64.",
+    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; app.security() (rate-limit→CORS→headers→session→CSRF→auth→RBAC) e OAuth2 resource server na JVM. WEB002 no Native (server HTTP/1.1 base ✅; TLS/ws/sse/path params pendentes). KofJS: servidor GraalJS HttpServer + KofJsWebQueue ✅ (03/09); residual ws/sse/TLS = WEB001. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM.",
   },
   {
     name: "banco de dados (kof.db)",
     status: "available",
-    note: "JDBC com query tipada e transaction {} commit/rollback real na JVM; SQLite nativo via .so direto (MySQL WIP). Gap DB001 no KofJS.",
+    note: "JDBC com query tipada e transaction {} commit/rollback real na JVM; SQLite nativo via .so direto e MySQL/MariaDB via wire protocol (prepared statements binários) no Native. Gap DB001 no KofJS e no cross riscv64/aarch64.",
   },
   {
     name: "ORM (kof.orm)",
@@ -74,12 +74,17 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "configuração (kof.config)",
     status: "available",
-    note: "Arquivo > env > profile, tipado. Interpolação ${key} nos 3 targets. JVM e Native (asm próprio); CONF001 no KofJS.",
+    note: "Arquivo > env > profile, tipado. Interpolação ${key} nos 3 targets. Bloco ui-config + funções de config (0.4.0). JVM e Native (asm próprio); CONF001 no KofJS.",
   },
   {
     name: "tempo (kof.time)",
     status: "available",
-    note: "now(), sleep, interval, every()/at() + isLeapYear/daysInMonth/dayOfWeek/daysBetween nos 3-5 targets (TIME001 fechado no Native).",
+    note: "now(), sleep, interval, every()/at() + isLeapYear/daysInMonth/dayOfWeek/daysBetween/addDays/diffDays (TIME002) / todayIso/formatDateIso/parseDateIso/hoursBetween/tzOffsetSeconds (TIME003 honesto) nos 5 alvos (TIME001 fechado no Native).",
+  },
+  {
+    name: "matemática (kof.math)",
+    status: "available",
+    note: "Double completo nos 5 alvos (MATH001 fechado): sqrt/pow/lerp/percentage/isInteger/isDecimal/roundTo + parse{Int,Long,Double}OrDefault; NaN IEEE em todos os alvos.",
   },
   {
     name: "interface (kof.ui)",
@@ -89,12 +94,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "segurança (kof.security)",
     status: "available",
-    note: "v1 + G9 nos três targets: PBKDF2 (600k), SHA-256/512, HMAC, JWT HS256, secrets, rate limit (security.rateLimit), sessões e API keys — constant-time, secure by default; no Native, asm x86-64 sem libc.",
+    note: "v1 + G9 nos três targets: PBKDF2 (600k), SHA-256/512, HMAC, AES-GCM, ChaCha20 (RFC 8439, JVM+JS — SECN002 honesto no Native), JWT HS256, secrets, rate limit (security.rateLimit), sessões, API keys e cookies secure (C11) — constant-time, secure by default; no Native, asm x86-64 sem libc.",
   },
   {
     name: "validação (kof.validation)",
     status: "available",
-    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard) — 4-5 alvos; violação VAL001.",
+    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis/isNis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard), formatCpf/formatCep/formatCnpj (pontuação BR) — 4-5 alvos; violação VAL001.",
   },
   {
     name: "observabilidade (kof.observability)",
@@ -137,11 +142,41 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     status: "available",
     note: "process.run (bloqueia) e process.spawn (stdin/stdout vivos, F10) — JVM, Native e JS. process.exit(code) nos 3 targets.",
   },
-  { name: "aleatório (kof.random)", status: "available", note: "randomInt/randomBoolean nos 5 alvos (S10a, x86_64/riscv64/aarch64/JS/JVM; getrandom ecall 278 no cross)." },
-  { name: "código (kof.encoding)", status: "available", note: "base64/base64Url/hex/urlEncode/urlDecode (5 alvos; ENC002 fechado, base64 riscv B23)." },
-  { name: "rede (kof.net)", status: "available", note: "URI parse + fetch; NET001 fechado nos 6 alvos (x86_64/riscv64/aarch64/JS/JVM/Android)." },
-  { name: "identidade (kof.uuid)", status: "available", note: "uuid.v4 (RFC 4122) nos 5 alvos; SECN000 gate cross-arch resolvido." },
-  { name: "arrays multidimensionais", status: "available", note: "new T[a][b] cria TODAS as dims via KofNewMultiArray (MULTIANEWARRAY JVM, Array.newInstance interp, kofMultiArray JS)." },
+  {
+    name: "aleatório (kof.random)",
+    status: "available",
+    note: "randomInt/randomBoolean nos 5 alvos (S10a, x86_64/riscv64/aarch64/JS/JVM; getrandom ecall 278 no cross).",
+  },
+  {
+    name: "código (kof.encoding)",
+    status: "available",
+    note: "base64/base64Url/hex/urlEncode/urlDecode (5 alvos; ENC002 fechado, base64 riscv B23).",
+  },
+  {
+    name: "rede (kof.net)",
+    status: "available",
+    note: "URI parse + fetch; NET001 fechado nos 6 alvos (x86_64/riscv64/aarch64/JS/JVM/Android).",
+  },
+  {
+    name: "identidade (kof.uuid)",
+    status: "available",
+    note: "uuid.v4 (RFC 4122) + v7 time-ordered (RFC 9562) + isUuid nos 5 alvos; SECN000 gate honesto no cross.",
+  },
+  {
+    name: "mídia (kof.media)",
+    status: "available",
+    note: "Image (PNG/JPEG/GIF/BMP), Audio/Mic (WAV PCM), Video (metadados MP4/MOV + streaming) e app.serveDir com Range requests (206/416) — arquivos, não base64 no fonte (JVM; MEDIA001 no Native/JS).",
+  },
+  {
+    name: "supervisão OTP (kof.supervisor)",
+    status: "available",
+    note: "host puro-Kof import kof.supervisor: observe-failure, restart individual, restart limit + escalate, stop cooperativo; JVM+Script+Native x86 (15/09); OTP001/OTP002 honestos no cross/JS.",
+  },
+  {
+    name: "arrays multidimensionais",
+    status: "available",
+    note: "new T[a][b] cria TODAS as dims via KofNewMultiArray (MULTIANEWARRAY JVM, Array.newInstance interp, kofMultiArray JS).",
+  },
 ];
 
 function StdlibPage() {

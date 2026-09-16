@@ -100,9 +100,27 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "observability histogram/metrics no Native (OBS002, asm puro)",
       "package manager MVP — kof deps (kofdeps, Maven Central, --deps)",
       "MySQL prepared statements binário (COM_STMT_EXECUTE)",
-      "riscv64/aarch64 codegen real — stdlib completa (NATIVE002)",
-      "NATIVE002-stdlib — JSON, HTTP, spawn/await, String methods, kof.random, encoding, net.*, uuid.v4 (19/19+ qemu)",
+      "riscv64/aarch64 codegen real — stdlib (NATIVE002); cross reporta DB001 em compile-time (SQLite cross em desenvolvimento na branch beta)",
+      "NATIVE002-stdlib — JSON, HTTP, spawn/await, String methods, kof.random, encoding, net.*, uuid (19/19+ qemu)",
       "validation + observability em asm puro no Native",
+      "kof.math — Double completo nos 5 alvos (MATH001 fechado: sqrt/lerp/percentage/isInteger/isDecimal/roundTo/pow/parseOrDefault)",
+      "kof.time — todayIso/formatDateIso/addDays/diffDays/isWeekend/tzOffsetSeconds nos 5 alvos (TIME002 fechado)",
+      "kof.uuid — v4 + v7 time-ordered (RFC 9562) nos 5 alvos",
+      "kof.validation — isNis/isCpf/isCnpj/formatCep com pontuação BR (4-5 alvos)",
+      "kof.security — crypto.chacha20 (RFC 8439, JVM+JS), TLS com certificado próprio, cookies secure (C11)",
+      "kof.media — Image/Audio/Mic/Video + app.serveDir com Range requests (206/416), JVM",
+      "kof.supervisor — OTP core puro-Kof (restart, limits, stop cooperativo): JVM+Script+Native x86 (15/09); OTP001/OTP002 honestos no cross/JS",
+      "kof.web no KofJS — servidor real via GraalJS HttpServer + KofJsWebQueue (WEB001 básico fechado 03/09) + fetch async (spawn http + await, §133)",
+      "app.security() — middleware composto (rate-limit→CORS→headers→session→CSRF→auth→RBAC) + OAuth2 resource server (JVM)",
+      "overloading — top-level (SG-011B) e de método por assinatura nos 4 backends (SEM047/SEM057/SEM061)",
+      "null safety ampliada — Map.get→V?, narrowing em while/campo (D-NARROW-WHILE), SEM048/SEM049",
+      "pattern matching com guardas (case T v if cond, SG-014)",
+      "Long = BigInt no JS (paridade real de 64 bits, decisão 5b)",
+      "GC mark-sweep no Native + runtime pruning por alcançabilidade (hello x86 627→37 símbolos, 32.5KB; kof build --print-sizes)",
+      "kof new — esqueletos por tipo (mono/backend/frontend/full-stack) + kof build --fat (JVM)",
+      "print heterogêneo em if/switch-expression (97d08e54, 0.4.1)",
+      "KofAndroid — Fase 1 (projeto Maven + host em Kof) e Fase 2 (--apk standalone + release signing, AND001 fechado)",
+      "concorrência completa — awaitTimeout, cancel cooperativo, selectAny, channel<T>, scheduler every/at/cancel nos 3 targets",
       "kof.strings — escapeJson/unescapeHtml, word converters, isAlpha/isNumeric, pad/repeat (5 alvos)",
       "kof.encoding — base64, base64Url, hex, urlEncode/urlDecode (5 alvos; ENC002 fechado)",
       "kof.validation — isCpf/isCnpj/isCep, isIpv4/isIpv6, isDomain, Luhn (4-5 alvos)",
@@ -120,23 +138,23 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     items: [
       "Standard Library (contratos em estabilização)",
       "GC auto-collect (safe-points + mapa de raízes por frame)",
-      "Package manager além do MVP (kof init, registry)",
-      "Async (assincronismo como parte do runtime)",
-      "Concurrency — concorrência 0.2.x residual: timeout, cancelamento, select, canais tipados, scheduler/cron (G8)",
-      "KofAndroid — Fase 1: kof build --target android gera projeto Maven com host em Kof",
-      "Debugger — além do MVP JVM (DAP sobre stdio já no JVM; DWARF variáveis/expressões + VS Code ext)",
-      "KofJS — plataforma web no browser (ES Modules via GraalJS)",
-      "LSP + diagnostics reais; hover/completion e references/rename já (KofFormatter, EDI001 parcial)",
+      "Package manager além do MVP (registry)",
+      "Debugger — além do MVP JVM (DAP sobre stdio já no JVM; JS source maps V3 linha ✅, DWARF Native linha ✅ parcial — variáveis/expressões e breakpoints nativos pendentes + VS Code ext)",
+      "KofJS — plataforma web no browser (ES Modules via GraalJS); web server base ✅ (HttpServer + KofJsWebQueue); residual ws/sse/TLS/path params (WEB001)",
+      "kof.web no Native — residual WEB002: TLS, path params, keep-alive, ws/sse",
+      "kof.db/orm no JS — DB001/ORM001 (WASM planejado)",
+      "Decompiler (Java → Kof) — deprioritizado pelo mantenedor; meta atual é estabilizar a release",
     ],
   },
   {
     status: "planned",
     title: "Planejado",
     items: [
-      "KofScript — modo REPL e watch já via KofInterpreter; runtime dedicado é o próprio interpreter",
       "Language Reference — gramática, tipos e semântica já em docs/language-reference/ (evoluindo)",
       "Conformance suite — embrião nos E2E por target; suite formal futura",
       "Full web platform (frontend declarativo + routing/forms/SSR)",
+      "gRPC no kof.web — app.grpc + stubs de .proto, unary + server streaming (JVM primeiro)",
+      "OpenTelemetry — export/propagação completa (tracing leve W3C já entregue)",
       "Auto-hospedagem (compilador escrito em Kof)",
     ],
   },
@@ -174,7 +192,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue em 0.3.x (0.3.7-beta, 10/09) e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue no ramo 0.4.x (0.4.1-beta, 15/09) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">

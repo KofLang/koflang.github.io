@@ -61,7 +61,7 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.3.7-beta, com artefatos para
+          Os downloads apontam para as releases oficiais no GitHub (0.4.1-beta, com artefatos para
           Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
           aqui.
         </p>
@@ -122,6 +122,10 @@ function DownloadPage() {
                 <StatusBadge status="available" />
               </li>
               <li className="flex items-center justify-between gap-3">
+                <span className="font-mono">Android (--target android + --apk)</span>
+                <StatusBadge status="available" />
+              </li>
+              <li className="flex items-center justify-between gap-3">
                 <span className="font-mono">KofC</span>
                 <StatusBadge status="available" />
               </li>
@@ -142,11 +146,20 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.3.7-beta
+Kof 0.4.1-beta
+Release channel: beta
 Tooling API: 21
-Target: JVM
-JVM: bundled OpenJDK (Temurin 21)
-Installation: ...`}
+OS: linux
+Arch: x86_64
+Target: linux-x86_64
+JVM: Eclipse Adoptium 25 (embedded)
+Compiler: 0.4.1
+Runtime: 0.4.1
+Stdlib: 0.4.1
+Targets: jvm, native, js (alpha)
+LSP: available
+Editor support: available
+Install: ...`}
         />
       </Section>
     </main>

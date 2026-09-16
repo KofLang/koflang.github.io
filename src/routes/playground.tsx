@@ -34,7 +34,8 @@ export const Route = createFileRoute("/playground")({
       { property: "og:title", content: "Playground — Kof" },
       {
         property: "og:description",
-        content: "Playground Kof no navegador: rode Kof (KofJS) com dois painéis e veja a galeria kof-ui-widgets.",
+        content:
+          "Playground Kof no navegador: rode Kof (KofJS) com dois painéis e veja a galeria kof-ui-widgets.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://koflang.github.io/playground" },

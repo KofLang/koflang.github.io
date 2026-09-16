@@ -135,7 +135,7 @@ main() {
         index="04"
         eyebrow="Estado da linguagem"
         title="O que já existe no frontend da linguagem"
-        lead="Recursos abaixo fazem parte da base do compilador (0.3.7-beta). A separação linguagem ≠ compilador ≠ target está documentada em docs/language-reference/ (gramática, sistema de tipos, semântica) e docs/compiler-architecture.md (implementação)."
+        lead="Recursos abaixo fazem parte da base do compilador (0.4.1-beta). A separação linguagem ≠ compilador ≠ target está documentada em docs/language-reference/ (gramática, sistema de tipos, semântica) e docs/compiler-architecture.md (implementação)."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
@@ -155,7 +155,10 @@ main() {
             "lambdas com capturas (3 níveis, Box mutável)",
             "default parameters",
             "pattern matching (case String s, Point(x,y), instanceof) + guards",
-            "null safety (String?, Int? + narrowing)",
+            "sobrecarga top-level (SG-011B) e de método nos 4 backends",
+            "print heterogêneo em if/switch-expressão (0.4.1)",
+            "assignments compostos bitwise/shift (|= &= <<= >>= >>>=)",
+            "null safety ampliada — Map.get→V?, valor default em primitivo nullable",
             "arrays multidim new T[a][b] (MULTIANEWARRAY)",
             "functions sem fun/fn/func (PARSE085 reservadas)",
             "private/protected checados (SEM046)",
@@ -163,7 +166,9 @@ main() {
             "conformance suite (embrião E2E, previsto)",
           ].map((f) => {
             const isAvailable = !f.includes("previsto");
-            const status: "available" | "in-development" = isAvailable ? "available" : "in-development";
+            const status: "available" | "in-development" = isAvailable
+              ? "available"
+              : "in-development";
             return (
               <div
                 key={f}
@@ -176,9 +181,9 @@ main() {
           })}
         </div>
         <p className="mt-6 max-w-2xl font-mono text-xs text-muted-foreground">
-          `fn`/`fun`/`func` são palavras reservadas (SG-001, 06/09) — em qualquer posição dão PARSE085.{" "}
-          `let`/`const`/`async` não existem — KofScript é Kof puro (PARSE085). Arrays literais `[1,2,3]`
-          e `Option&lt;T&gt;` não existem.
+          `fn`/`fun`/`func` são palavras reservadas (SG-001, 06/09) — em qualquer posição dão
+          PARSE085. `let`/`const`/`async` não existem — KofScript é Kof puro (PARSE085). Arrays
+          literais `[1,2,3]` e `Option&lt;T&gt;` não existem.
         </p>
       </Section>
 
