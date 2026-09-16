@@ -823,10 +823,8 @@ $ kof version`}
       {/* ── Aprendizado ──────────────────────────────────────────────────── */}
       <Section index="15" eyebrow="Aprendizado" title="Duas trilhas na doc. E um curso completo.">
         <div className="grid gap-4 lg:grid-cols-3">
-          <a
-            href={CURSO}
-            target="_blank"
-            rel="noreferrer noopener"
+          <Link
+            to="/learn"
             className="group flex flex-col rounded-md border border-signal/50 bg-surface p-5 transition-colors hover:border-signal"
           >
             <h3 className="text-base font-semibold tracking-tight group-hover:text-signal">
@@ -834,32 +832,30 @@ $ kof version`}
             </h3>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
               Do zero ao avançado: algoritmos, estruturas de dados, banco, segurança, web e mais —
-              tudo em Kof, de graça.
+              tudo em Kof, de graça, pesquisável aqui no site.
             </p>
             <span className="mt-4 font-mono text-[11px] uppercase tracking-widest text-signal">
-              github.com/lunalully/curso-completo-de-kof
+              koflang.github.io/learn
             </span>
-          </a>
+          </Link>
           <Card title="learn/ → humanos aprendendo Kof">
             Trilha em capítulos numerados no repositório: primeiros programas, tipos, classes,
             coleções, UI e mais.
             <Link
-              to="/learn"
+              to="/docs"
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
             >
-              Começar a aprender →
+              Navegar em /docs →
             </Link>
           </Card>
           <Card title="training/ → ferramentas e LLMs aprendendo Kof">
             Corpus estruturado com idiomas, padrões, anti-patterns e exemplos compiláveis.
-            <a
-              href={TRAINING}
-              target="_blank"
-              rel="noreferrer noopener"
+            <Link
+              to="/docs"
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
             >
-              Abrir /training →
-            </a>
+              Navegar em /docs →
+            </Link>
           </Card>
         </div>
       </Section>

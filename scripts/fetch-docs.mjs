@@ -1,9 +1,10 @@
-// Gera o snapshot de documentação (public/docs/docs.json) direto do GitHub,
-// em build-time. Conteúdo de uso da linguagem:
-//   - KofLang/Kof4j  → learn/ (trilha) e training/ (corpus), só .pt_BR.md
-//   - lunalully/curso-completo-de-kof → todos os .md
-// O site também revalida ao vivo no /docs (trees API + raw), então um build
-// antigo nunca deixa o conteúdo preso: este arquivo é só o snapshot inicial.
+// Gera os snapshots de documentação (public/docs/*.json) direto do GitHub,
+// em build-time, em dois arquivos:
+//   docs-core.json   → learn/ e training/ (KofLang/Kof4j) — página /docs
+//   docs-curso.json  → curso completo (lunalully/curso-completo-de-kof) — /learn
+// Só conteúdo de uso da linguagem, em pt-BR (Kof4j já publica .pt_BR.md).
+// O site também revalida ao vivo (trees API + raw), então um build antigo
+// nunca deixa o conteúdo preso: estes arquivos são só o snapshot inicial.
 //
 // Uso: node scripts/fetch-docs.mjs [--force]
 // Se a rede falhar e já existir um snapshot, ele é preservado (exit 0).
@@ -14,17 +15,20 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = join(ROOT, "public/docs/docs.json");
+const OUT_DIR = join(ROOT, "public/docs");
+const CORE_OUT = join(OUT_DIR, "docs-core.json");
+const CURSO_OUT = join(OUT_DIR, "docs-curso.json");
 
 const REPOS = [
   { repo: "KofLang/Kof4j", ref: "main" },
   { repo: "lunalully/curso-completo-de-kof", ref: "main" },
 ];
 
-// coleção → como nascer o id e o que entra na árvore
+// coleção → como nascer o id, o que entra na árvore e o arquivo de saída
 const COLLECTIONS = [
   {
     collection: "learn",
+    file: "core",
     repo: "KofLang/Kof4j",
     test: (p) => p.startsWith("learn/") && p.endsWith(".pt_BR.md"),
     id: (p) => p.slice("learn/".length, -".pt_BR.md".length),
@@ -33,6 +37,7 @@ const COLLECTIONS = [
   },
   {
     collection: "training",
+    file: "core",
     repo: "KofLang/Kof4j",
     test: (p) => p.startsWith("training/") && p.endsWith(".pt_BR.md"),
     id: (p) => p.slice("training/".length, -".pt_BR.md".length),
@@ -53,6 +58,7 @@ const COLLECTIONS = [
   },
   {
     collection: "curso",
+    file: "curso",
     repo: "lunalully/curso-completo-de-kof",
     test: (p) => p.endsWith(".md"),
     id: (p) => (p === "README.md" ? "README" : p.replace(/\.md$/, "")),
@@ -139,12 +145,12 @@ function sortKey(col, path) {
 
 async function main() {
   const force = process.argv.includes("--force");
-  if (!force && existsSync(OUT)) {
+  if (!force && existsSync(CORE_OUT) && existsSync(CURSO_OUT)) {
     try {
-      const stat = await readFile(OUT, "utf8");
+      const stat = await readFile(CORE_OUT, "utf8");
       const age = Date.now() - new Date(JSON.parse(stat).generated).getTime();
       if (age < 6 * 60 * 60 * 1000) {
-        console.log("[docs] snapshot com menos de 6h, pulando fetch (use --force)");
+        console.log("[docs] snapshots com menos de 6h, pulando fetch (use --force)");
         return;
       }
     } catch {
@@ -164,7 +170,7 @@ async function main() {
     console.log(`[docs] ${repo}@${ref}: ${trees.get(repo).length} blobs`);
   }
 
-  const docs = [];
+  const byFile = new Map();
   for (const col of COLLECTIONS) {
     const files = trees
       .get(col.repo)
@@ -186,33 +192,38 @@ async function main() {
         content,
       };
     });
-    for (const e of entries) if (e) docs.push(e);
-    console.log(`[docs] ${col.collection}: ${entries.filter(Boolean).length} documentos`);
+    const docs = entries.filter(Boolean);
+    if (!byFile.has(col.file)) byFile.set(col.file, []);
+    byFile.get(col.file).push(...docs);
+    console.log(`[docs] ${col.collection}: ${docs.length} documentos`);
   }
 
-  const payload = {
-    generated: new Date().toISOString(),
-    repos: REPOS.map((r) => `${r.repo}@${r.ref}`),
-    docs,
-  };
-  await mkdir(dirname(OUT), { recursive: true });
-  await writeFile(OUT, JSON.stringify(payload));
-  const kb = (Buffer.byteLength(JSON.stringify(payload)) / 1024).toFixed(0);
-  console.log(`[docs] public/docs/docs.json gerado: ${docs.length} docs, ${kb} KB`);
+  await mkdir(OUT_DIR, { recursive: true });
+  const generated = new Date().toISOString();
+  for (const [name, docs] of byFile) {
+    const out = name === "core" ? CORE_OUT : CURSO_OUT;
+    const payload = {
+      generated,
+      repos: [...new Set(docs.map((d) => `${d.repo}@main`))],
+      docs,
+    };
+    await writeFile(out, JSON.stringify(payload));
+    const kb = (Buffer.byteLength(JSON.stringify(payload)) / 1024).toFixed(0);
+    console.log(`[docs] ${name}: ${docs.length} docs, ${kb} KB`);
+  }
 }
 
 main().catch((err) => {
   console.error(`[docs] erro: ${err.message}`);
-  if (existsSync(OUT)) {
+  if (existsSync(CORE_OUT) && existsSync(CURSO_OUT)) {
     console.warn(
-      "[docs] mantendo snapshot anterior — a página /docs vai revalidar ao vivo no browser.",
+      "[docs] mantendo snapshots anteriores — as páginas vão revalidar ao vivo no browser.",
     );
     process.exit(0);
   }
-  console.warn("[docs] sem snapshot: escrevendo índice vazio (links de fallback para o GitHub).");
-  mkdir(dirname(OUT), { recursive: true })
-    .then(() =>
-      writeFile(OUT, JSON.stringify({ generated: new Date().toISOString(), repos: [], docs: [] })),
-    )
+  console.warn("[docs] sem snapshot: escrevendo índices vazios (links de fallback para o GitHub).");
+  const empty = JSON.stringify({ generated: new Date().toISOString(), repos: [], docs: [] });
+  mkdir(OUT_DIR, { recursive: true })
+    .then(() => Promise.all([writeFile(CORE_OUT, empty), writeFile(CURSO_OUT, empty)]))
     .then(() => process.exit(0));
 });

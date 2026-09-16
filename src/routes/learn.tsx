@@ -1,20 +1,21 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/kof/CodeBlock";
+import { DocsBrowser } from "@/components/kof/DocsBrowser";
 import { Ascii, Card, CURSO, LEARN_DIR, Section, TRAINING } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/learn")({
   head: () => ({
     meta: [
-      { title: "Learn — Kof" },
+      { title: "Aprender — Kof" },
       {
         name: "description",
         content:
-          "Trilha para aprender Kof: primeiros programas, tipos, classes e coleções. learn/ é para humanos, training/ é para ferramentas.",
+          "Curso completo e gratuito de Kof aqui no site: fundamentos, algoritmos, estruturas de dados, banco, web, segurança, testes, arquitetura e DevOps — com busca e tópicos expansíveis. Trilha learn/ e corpus training/ em /docs.",
       },
-      { property: "og:title", content: "Learn — Kof" },
+      { property: "og:title", content: "Aprender — Kof" },
       {
         property: "og:description",
-        content: "Aprenda Kof a partir de exemplos executáveis reais.",
+        content: "Aprenda Kof do zero ao avançado, com busca no texto do curso inteiro.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "https://koflang.github.io/learn" },
@@ -28,28 +29,41 @@ export const Route = createFileRoute("/learn")({
 function LearnPage() {
   return (
     <main>
-      <a
-        href={CURSO}
-        target="_blank"
-        rel="noreferrer noopener"
-        className="rule-x block bg-surface transition-colors hover:bg-surface-2"
+      <Section
+        index="00"
+        eyebrow="Curso"
+        title="Aprenda Kof do zero ao avançado — de graça."
+        lead="O curso completo mora aqui: 16 módulos e projetos, do primeiro println à arquitetura, DevOps e cibersegurança. Busque por palavras-chave, expande e contrai os tópicos, tudo renderizado direto do repositório."
       >
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-6 sm:px-8">
-          <div>
-            <p className="mono-label text-signal">Curso gratuito completo</p>
-            <p className="mt-1 text-lg font-semibold tracking-tight">
-              Aprenda Kof do zero ao avançado, de graça — fundamentos, estruturas de dados, banco,
-              segurança, web e mais.
-            </p>
-          </div>
-          <span className="rounded-sm border border-signal bg-signal px-5 py-2.5 font-mono text-xs uppercase tracking-widest text-primary-foreground">
-            Acessar o curso →
-          </span>
+        <div className="flex flex-wrap gap-4">
+          <a
+            href="#curso-completo"
+            className="inline-block rounded-md border border-signal bg-signal px-5 py-4 font-mono text-xs uppercase tracking-widest text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            Começar pelo módulo 00 ↓
+          </a>
+          <a
+            href={CURSO}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          >
+            Abrir no GitHub →
+          </a>
         </div>
-      </a>
+      </Section>
+
+      <DocsBrowser
+        kind="curso"
+        startCollection="curso"
+        index="01"
+        eyebrow="Curso completo de Kof"
+        title="O curso inteiro, pesquisável."
+        lead="Fundamentos, algoritmos, estruturas de dados, banco, segurança, redes, HTTP, frontend, boas práticas, cibersegurança, ciência de dados, testes, debugger, microsserviços, arquitetura e DevOps — com exercícios e projetos. Gerado no build a partir do repositório do curso e revalidado ao vivo."
+      />
 
       <Section
-        index="01"
+        index="02"
         eyebrow="Aprender"
         title="Comece pelo menor programa possível."
         lead="Kof é fácil de começar de propósito. Um arquivo, uma função main, sem projeto, sem configuração, sem cerimônia."
@@ -72,7 +86,7 @@ $ kof check hello.kf`}
         </div>
       </Section>
 
-      <Section index="02" eyebrow="Passo a passo" title="Funções, tipos e dados">
+      <Section index="03" eyebrow="Passo a passo" title="Funções, tipos e dados">
         <div className="grid gap-6">
           <div>
             <p className="mono-label mb-3">01 — funções tipadas</p>
@@ -116,16 +130,16 @@ main() {
       </Section>
 
       <Section
-        index="03"
+        index="04"
         eyebrow="learn/ vs training/"
         title="Duas trilhas, dois públicos."
-        lead="docs/ diz como Kof é, learn/ ensina como usar, training/ alimenta quem gera código. A distinção linguagem ≠ compilador ≠ target é o eixo de docs/language-reference/."
+        lead="docs/ diz como Kof é, learn/ ensina como usar, training/ alimenta quem gera código. A referência (learn/ + training/) está no navegador de /docs; o curso completo mora nesta página."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <Card title="learn/ — humanos (00 → 39)">
             <p>
               00 Introdução → 39 Standard Library universal + native/. Capítulos numerados, cada um
-              um guia prático.
+              um guia prático — pesquisável em /docs.
             </p>
             <Ascii className="mt-4">{`learn/
  00-introduction.md
@@ -136,19 +150,28 @@ main() {
  37-kofjs.md
  38-editors.md
  39-stdlib.md`}</Ascii>
-            <a
-              href={LEARN_DIR}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
-            >
-              Abrir learn/ →
-            </a>
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              <Link
+                to="/docs"
+                className="inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
+              >
+                Navegar em /docs →
+              </Link>
+              <a
+                href={LEARN_DIR}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-block font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground hover:underline"
+              >
+                Abrir learn/ →
+              </a>
+            </div>
           </Card>
           <Card title="training/ — LLMs e ferramentas">
             <p>
-              Corpus otimizado: language/, idioms/ (ui/web/stdlib 0.3.5+), patterns/, anti-patterns/
-              (fake-idioms com PARSE085), examples/, reference/, migration/, tooling/.
+              Corpus otimizado: language/, idioms/ (ui/web/stdlib), patterns/, anti-patterns/
+              (fake-idioms com PARSE085), examples/, reference/, migration/, tooling/ — pesquisável
+              em /docs.
             </p>
             <Ascii className="mt-4">{`training/
  language/
@@ -156,14 +179,22 @@ main() {
  idioms/ui.md
  anti-patterns/fake-idioms.md
  examples/`}</Ascii>
-            <a
-              href={TRAINING}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
-            >
-              Abrir training/ →
-            </a>
+            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+              <Link
+                to="/docs"
+                className="inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
+              >
+                Navegar em /docs →
+              </Link>
+              <a
+                href={TRAINING}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="inline-block font-mono text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground hover:underline"
+              >
+                Abrir training/ →
+              </a>
+            </div>
           </Card>
         </div>
       </Section>
