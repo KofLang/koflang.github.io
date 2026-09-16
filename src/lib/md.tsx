@@ -1,4 +1,5 @@
 import { Fragment, type ReactNode } from "react";
+import { CodeBlock } from "@/components/kof/CodeBlock";
 import { githubUrl, type Doc } from "./docs";
 
 export type Heading = { level: number; id: string; text: string };
@@ -8,7 +9,7 @@ export type DocResolver = (fromPath: string, href: string) => string | null;
 
 type Block =
   | { t: "code"; lang: string; lines: string[] }
-  | { t: "heading"; level: number; text: string }
+  | { t: "heading"; level: number; text: string; _id?: string }
   | { t: "quote"; lines: string[] }
   | { t: "hr" }
   | { t: "html"; text: string }
@@ -500,11 +501,39 @@ export function slugify(text: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+export type RenderOptions = {
+  collapsible?: boolean;
+};
+
+type Section = {
+  heading: Block & { t: "heading" };
+  blocks: Block[];
+};
+
+// Agrupa blocos de nível de seção (h2) em blocos de conteúdo.
+function groupByH2(blocks: Block[]): { lead: Block[]; sections: Section[] } {
+  const lead: Block[] = [];
+  const sections: Section[] = [];
+  let current: Section | null = null;
+  for (const b of blocks) {
+    if (b.t === "heading" && b.level === 2) {
+      current = { heading: b, blocks: [] };
+      sections.push(current);
+    } else if (current) {
+      current.blocks.push(b);
+    } else {
+      lead.push(b);
+    }
+  }
+  return { lead, sections };
+}
+
 export function renderMarkdown(
   content: string,
   doc: Doc | null,
   headings: Heading[],
   resolveDoc?: DocResolver,
+  options: RenderOptions = {},
 ): ReactNode {
   const key = { n: 0 };
   const ctx: InlineCtx = { doc, key, resolveDoc };
@@ -512,66 +541,58 @@ export function renderMarkdown(
   const blocks = parseBlocks(normalized.split("\n"));
   const used = new Set<string>();
 
+  for (const b of blocks) {
+    if (b.t === "heading" && b.level <= 3) {
+      let id = slugify(b.text);
+      if (used.has(id)) {
+        let n = 2;
+        while (used.has(`${id}-${n}`)) n++;
+        id = `${id}-${n}`;
+      }
+      used.add(id);
+      b._id = id;
+      headings.push({ level: b.level, id, text: b.text });
+    }
+  }
+
   function renderBlocks(list: Block[]): ReactNode {
     return list.map((b) => {
       const k = `b${key.n++}`;
       switch (b.t) {
-        case "code":
+        case "code": {
+          const raw = (b.lang || "").toLowerCase();
+          const body = b.lines.join("\n");
+          const lang: "kof" | "shell" | "text" =
+            raw === "shell" ||
+            raw === "bash" ||
+            raw === "console" ||
+            raw === "sh" ||
+            /^\s*\$\s/m.test(body)
+              ? "shell"
+              : raw === "kof" || raw === "kf" || raw === "kotlin"
+                ? "kof"
+                : "text";
           return (
-            <pre key={k} className="md-pre" data-lang={b.lang || undefined}>
-              <code>{b.lines.join("\n")}</code>
-            </pre>
+            <CodeBlock
+              key={k}
+              code={body}
+              language={lang}
+              showLineNumbers={lang === "kof"}
+              className="md-codeblock"
+            />
           );
+        }
         case "heading": {
-          let id = slugify(b.text);
-          if (used.has(id)) {
-            let n = 2;
-            while (used.has(`${id}-${n}`)) n++;
-            id = `${id}-${n}`;
-          }
-          used.add(id);
-          if (b.level <= 3) headings.push({ level: b.level, id, text: b.text });
+          const id = b._id ?? slugify(b.text);
           const level = Math.min(b.level, 6);
           const children = inline(b.text, ctx);
           const cls = `md-h md-h${level}`;
-          switch (level) {
-            case 1:
-              return (
-                <h1 key={k} id={id} className={cls}>
-                  {children}
-                </h1>
-              );
-            case 2:
-              return (
-                <h2 key={k} id={id} className={cls}>
-                  {children}
-                </h2>
-              );
-            case 3:
-              return (
-                <h3 key={k} id={id} className={cls}>
-                  {children}
-                </h3>
-              );
-            case 4:
-              return (
-                <h4 key={k} id={id} className={cls}>
-                  {children}
-                </h4>
-              );
-            case 5:
-              return (
-                <h5 key={k} id={id} className={cls}>
-                  {children}
-                </h5>
-              );
-            default:
-              return (
-                <h6 key={k} id={id} className={cls}>
-                  {children}
-                </h6>
-              );
-          }
+          const Tag = `h${level}` as "h1";
+          return (
+            <Tag key={k} id={id} className={cls}>
+              {children}
+            </Tag>
+          );
         }
         case "quote":
           return (
@@ -640,7 +661,49 @@ export function renderMarkdown(
     });
   }
 
-  return <div className="md-body">{renderBlocks(blocks)}</div>;
+  if (!options.collapsible) {
+    return <div className="md-body">{renderBlocks(blocks)}</div>;
+  }
+
+  const { lead, sections } = groupByH2(blocks);
+  return (
+    <div className="md-body">
+      {renderBlocks(lead)}
+      {sections.map((sec) => {
+        const id = sec.heading._id ?? slugify(sec.heading.text);
+        return (
+          <details key={id} className="md-fold" open id={id}>
+            <summary className="md-fold-summary">
+              <span className="md-fold-caret" aria-hidden="true" />
+              <span className="md-fold-title">{inline(sec.heading.text, ctx)}</span>
+              <span className="mono-label md-fold-count">
+                {sec.blocks.length} {sec.blocks.length === 1 ? "tópico" : "tópicos"}
+              </span>
+            </summary>
+            <div className="md-fold-body">
+              {sec.blocks.some(
+                (x) => x.t === "heading" && (x as { level?: number }).level === 3,
+              ) && (
+                <nav aria-label="Subseções" className="md-subtoc">
+                  {sec.blocks
+                    .filter((x) => x.t === "heading" && (x as { level?: number }).level === 3)
+                    .map((x) => {
+                      const h = x as Block & { t: "heading"; _id?: string };
+                      return (
+                        <a key={h._id ?? h.text} href={`#${h._id}`} className="md-subtoc-link">
+                          {h.text.replace(/[*`]/g, "")}
+                        </a>
+                      );
+                    })}
+                </nav>
+              )}
+              {renderBlocks(sec.blocks)}
+            </div>
+          </details>
+        );
+      })}
+    </div>
+  );
 }
 
 function cellAlign(

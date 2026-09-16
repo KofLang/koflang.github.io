@@ -9,6 +9,24 @@ export const EDITOR_GITHUB = "https://github.com/KofLang/Kof-Editor";
 export const THEME_MAKER = "https://koflang.github.io/Kof-editor-theme-maker";
 export const CURSO = "https://github.com/lunalully/curso-completo-de-kof";
 
+export const COLLECTION_LINKS = [
+  {
+    key: "learn",
+    title: "learn/ — trilha oficial",
+    desc: "Do primeiro programa à stdlib: capítulos numerados, cada um um guia prático.",
+  },
+  {
+    key: "training",
+    title: "training/ — corpus estruturado",
+    desc: "Linguagem, idioms, padrões, anti-patterns, migração e tooling.",
+  },
+  {
+    key: "curso",
+    title: "Curso completo de Kof",
+    desc: "Do zero ao avançado: fundamentos, algoritmos, banco, web, segurança e DevOps.",
+  },
+] as const;
+
 export type Status = "available" | "in-development" | "planned";
 
 const statusText: Record<Status, string> = {

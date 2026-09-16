@@ -1,10 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import { COLLECTIONS, firstDocOf, loadDocs, revalidateDocs, buildResolver } from "@/lib/docs";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { CodeBlock } from "@/components/kof/CodeBlock";
+import {
+  Ascii,
+  Card,
+  COLLECTION_LINKS,
+  CURSO,
+  GITHUB,
+  Section,
+  TRAINING,
+} from "@/components/kof/primitives";
+import { buildResolver, COLLECTIONS, firstDocOf, loadDocs, revalidateDocs } from "@/lib/docs";
 import type { Doc, DocsPayload } from "@/lib/docs";
 import { renderMarkdown, slugify, type Heading } from "@/lib/md";
 import { highlight, searchDocs } from "@/lib/search";
-import { Section } from "@/components/kof/primitives";
 
 export const Route = createFileRoute("/docs")({
   head: () => ({
@@ -13,7 +22,7 @@ export const Route = createFileRoute("/docs")({
       {
         name: "description",
         content:
-          "Toda a documentação de uso da Kof em um lugar: trilha learn/, corpus training/ e o curso completo — com busca no texto inteiro.",
+          "Toda a documentação de uso da Kof em um lugar: trilha learn/, corpus training/ e o curso completo — com busca no texto inteiro, tópicos expansíveis e as páginas técnicas do site.",
       },
       { property: "og:title", content: "Documentação — Kof" },
       {
@@ -88,8 +97,8 @@ function DocsPage() {
   const select = useCallback((id: string) => {
     setSelectedId(id);
     setSidebarOpen(false);
+    setQuery("");
     window.history.replaceState(null, "", `#${HASH_PREFIX}${encodeURIComponent(id)}`);
-    mainRef.current?.scrollTo({ top: 0 });
     document.getElementById("kof-doc-main")?.scrollIntoView({ block: "start" });
   }, []);
 
@@ -105,10 +114,11 @@ function DocsPage() {
         e.preventDefault();
         select(decodeURIComponent(href.slice(1 + HASH_PREFIX.length)));
       } else if (href.startsWith("#") && href.length > 1) {
-        // âncora local dentro do doc: rola sem destruir o deep link kofdoc:
         const target = document.getElementById(href.slice(1));
         if (target) {
           e.preventDefault();
+          const fold = target.closest("details.md-fold");
+          if (fold) (fold as HTMLDetailsElement).open = true;
           target.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
@@ -141,11 +151,22 @@ function DocsPage() {
         index="01"
         eyebrow="Documentation"
         title="A documentação é parte da linguagem."
-        lead="learn/, training/ e o curso completo — o conteúdo real dos repositórios, direto aqui, com busca no texto inteiro. O snapshot é gerado no build e revalidado ao vivo contra o GitHub."
+        lead="learn/, training/ e o curso completo — o conteúdo real dos repositórios, direto aqui, com busca no texto inteiro e tópicos que expandem. O snapshot é gerado no build e revalidado ao vivo contra o GitHub."
       >
         {live.state === "loading" && <p className="mono-label">carregando documentação…</p>}
         {live.state === "error" && (
-          <p className="text-sm text-muted-foreground">Docs indisponíveis.</p>
+          <p className="text-sm text-muted-foreground">
+            Não foi possível carregar o índice de documentação deste build. O conteúdo continua{" "}
+            <a
+              className="text-signal hover:underline"
+              href="https://github.com/KofLang/Kof4j/tree/main/learn"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              no repositório
+            </a>
+            .
+          </p>
         )}
         {live.state === "ready" && docs.length === 0 && (
           <div className="rounded-md border border-border bg-surface p-6 text-sm text-muted-foreground">
@@ -169,26 +190,45 @@ function DocsPage() {
               training/
             </a>{" "}
             e{" "}
-            <a
-              className="md-link"
-              href="https://github.com/lunalully/curso-completo-de-kof"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
+            <a className="md-link" href={CURSO} target="_blank" rel="noreferrer noopener">
               o curso
             </a>
             .
+          </div>
+        )}
+        {live.state === "ready" && docs.length > 0 && (
+          <div className="grid gap-px overflow-hidden rounded-md border border-border bg-border sm:grid-cols-3">
+            {COLLECTION_LINKS.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                onClick={() => {
+                  const first = firstDocOf(live.payload, c.key as Doc["collection"]);
+                  if (first) select(first.id);
+                  setSidebarOpen(true);
+                }}
+                className="group bg-surface p-5 text-left transition-colors hover:bg-surface-2"
+              >
+                <h3 className="text-base font-semibold tracking-tight group-hover:text-signal">
+                  {c.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">{c.desc}</p>
+                <p className="mono-label mt-3">
+                  {docs.filter((d) => d.collection === c.key).length} documentos
+                </p>
+              </button>
+            ))}
           </div>
         )}
       </Section>
 
       {live.state === "ready" && docs.length > 0 && (
         <section className="rule-x">
-          <div className="mx-auto max-w-7xl px-0 sm:px-8">
-            <div className="flex items-start gap-0">
+          <div className="mx-auto max-w-7xl">
+            <div className="flex items-start">
               {/* ── Sidebar ─────────────────────────────────────────────── */}
               <aside
-                className={`fixed inset-y-0 left-0 z-40 w-80 shrink-0 overflow-y-auto border-r border-border bg-background px-4 py-6 transition-transform lg:static lg:z-auto lg:h-auto lg:w-72 lg:translate-x-0 lg:bg-transparent xl:w-80 ${
+                className={`fixed inset-y-0 left-0 z-40 w-80 shrink-0 overflow-y-auto border-r border-border bg-background px-4 py-6 transition-transform lg:sticky lg:top-14 lg:z-auto lg:h-[calc(100vh-3.5rem)] lg:w-64 lg:translate-x-0 lg:bg-transparent xl:w-72 ${
                   sidebarOpen ? "translate-x-0" : "-translate-x-full"
                 }`}
               >
@@ -208,7 +248,7 @@ function DocsPage() {
                   type="search"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Buscar na documentação… (ex.: transações, kof.db, null safety)"
+                  placeholder="Buscar palavras-chave… (ex.: transações, jwt, null safety)"
                   aria-label="Buscar na documentação"
                   className="mb-3 w-full rounded-md border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/70 focus:border-signal focus:outline-none"
                 />
@@ -242,10 +282,7 @@ function DocsPage() {
                       <button
                         key={h.doc.id}
                         type="button"
-                        onClick={() => {
-                          select(h.doc.id);
-                          setQuery("");
-                        }}
+                        onClick={() => select(h.doc.id)}
                         className={`block w-full rounded-md border px-3 py-2 text-left transition-colors ${
                           h.doc.id === selectedId
                             ? "border-signal/50 bg-surface-2"
@@ -285,16 +322,7 @@ function DocsPage() {
                     ))}
                     {hits.length === 0 && (
                       <p className="text-sm text-muted-foreground">
-                        Nada encontrado. Tente outro termo, ou procure no{" "}
-                        <a
-                          className="md-link"
-                          href="https://github.com/search?q=org%3AKofLang+repo%3AKofLang%2FKof4j&type=code"
-                          target="_blank"
-                          rel="noreferrer noopener"
-                        >
-                          repositório
-                        </a>
-                        .
+                        Nada encontrado para “{query}”. Tente outro termo.
                       </p>
                     )}
                   </div>
@@ -355,15 +383,29 @@ function DocsPage() {
 
               {/* ── Conteúdo ────────────────────────────────────────────── */}
               <div id="kof-doc-main" ref={mainRef} className="min-w-0 flex-1 px-5 pb-24 sm:px-8">
-                <button
-                  type="button"
-                  onClick={() => setSidebarOpen(true)}
-                  className="mb-4 mt-2 rounded-sm border border-border px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground lg:hidden"
-                >
-                  ≡ índice
-                </button>
+                <div className="mb-4 mt-2 flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSidebarOpen(true)}
+                    className="rounded-sm border border-border px-3 py-1.5 font-mono text-xs uppercase tracking-widest text-muted-foreground lg:hidden"
+                  >
+                    ≡ índice
+                  </button>
+                  {doc && (
+                    <div className="ml-auto hidden gap-2 sm:flex">
+                      <FoldButton
+                        label="Expandir tudo"
+                        onClick={() => setAllFolds(mainRef, true)}
+                      />
+                      <FoldButton
+                        label="Recolher tudo"
+                        onClick={() => setAllFolds(mainRef, false)}
+                      />
+                    </div>
+                  )}
+                </div>
                 {doc ? (
-                  <article className="mx-auto max-w-3xl xl:mr-0 xl:max-w-none">
+                  <article className="mx-auto max-w-3xl">
                     <DocView doc={doc} payload={live.payload} />
                   </article>
                 ) : (
@@ -374,7 +416,163 @@ function DocsPage() {
           </div>
         </section>
       )}
+
+      <Section
+        index="02"
+        eyebrow="Ferramentas"
+        title="Uma linguagem deve vir com as suas ferramentas."
+        lead="A CLI da Kof acompanha a linguagem. Ferramentas ainda não disponíveis estão marcadas como tal."
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          <CodeBlock
+            language="shell"
+            filename="kof cli"
+            showLineNumbers={false}
+            code={`$ kof build
+$ kof run
+$ kof serve
+$ kof check
+$ kof test
+$ kof debug
+$ kof bench
+$ kof profile
+$ kof inspect
+$ kof decompile
+$ kof translate
+$ kof compare
+$ kof migrate
+$ kof fmt
+$ kof new
+$ kof init
+$ kof deps
+$ kof config
+$ kof editor
+$ kof info
+$ kof lsp
+$ kof install
+$ kof script
+$ kof repl
+$ kof c
+$ kof version`}
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card title="Compilador" status="available" />
+            <Card title="CLI" status="available" />
+            <Card title="Testes (kof test)" status="available" />
+            <Card title="Benchmarks (kof bench)" status="available" />
+            <Card title="Profile (kof profile)" status="available" />
+            <Card title="Inspect IR (kof inspect)" status="available" />
+            <Card title="LSP" status="available">
+              Diagnostics reais do frontend; hover, completion, references/rename e documentSymbol
+              já.
+            </Card>
+            <Card title="Debugger (kof debug)" status="in-development">
+              MVP DAP sobre stdio no target JVM — DWARF Native e source maps JS parciais.
+            </Card>
+            <Card title="Formatador (kof fmt)" status="available">
+              Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span>{" "}
+              reescreve no lugar.
+            </Card>
+            <Card title="Gerenciador de pacotes" status="available">
+              MVP com <span className="font-mono">kof deps</span> — registry além do MVP em
+              construção.
+            </Card>
+          </div>
+        </div>
+        <div className="mt-6 flex flex-wrap gap-4">
+          <Link
+            to="/kof-editor"
+            className="inline-block rounded-md border border-signal/40 bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
+          >
+            Kof Editor & Theme Maker →
+          </Link>
+          <Link
+            to="/language"
+            className="inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          >
+            Linguagem →
+          </Link>
+          <Link
+            to="/standard-library"
+            className="inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          >
+            Biblioteca padrão →
+          </Link>
+          <Link
+            to="/targets"
+            className="inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          >
+            Targets →
+          </Link>
+          <Link
+            to="/web"
+            className="inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          >
+            Web →
+          </Link>
+          <Link
+            to="/download"
+            className="inline-block rounded-md border border-border bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-muted-foreground transition-colors hover:bg-surface-2 hover:text-foreground"
+          >
+            Instalação →
+          </Link>
+        </div>
+      </Section>
+
+      <Section
+        index="03"
+        eyebrow="Treinamento para LLMs"
+        title="Ensine as suas ferramentas a falar Kof."
+        lead="Kof não quer depender de modelos adivinhando como a linguagem funciona. O repositório mantém material estruturado para que ferramentas automatizadas aprendam sintaxe, semântica e padrões corretamente — o corpus training/ também está pesquisável no navegador acima."
+      >
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Ascii label="/training">{`training/
+├── language/
+├── reference/
+├── patterns/
+├── anti-patterns/
+├── migration/
+└── examples/`}</Ascii>
+          <div className="grid gap-4">
+            <Card title="Feita para humanos. Naturalmente amigável às máquinas.">
+              Kof não é uma “AI language”. A filosofia continua humana primeiro. Mas sintaxe
+              consistente, semântica explícita e baixo boilerplate têm uma consequência: a linguagem
+              também fica mais fácil de compreender por ferramentas automatizadas.
+            </Card>
+            <Card title="Menos tokens para expressar a mesma intenção.">
+              Sem benchmarks inventados: o projeto não publica números de tokens ou comparações de
+              desempenho de LLM sem dados reais.
+            </Card>
+            <a
+              href={TRAINING}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="rounded-md border border-signal/40 bg-surface px-5 py-4 font-mono text-xs uppercase tracking-widest text-signal transition-colors hover:bg-surface-2"
+            >
+              Abrir /training no GitHub →
+            </a>
+          </div>
+        </div>
+      </Section>
     </main>
+  );
+}
+
+function setAllFolds(container: React.RefObject<HTMLDivElement | null>, open: boolean) {
+  container.current?.querySelectorAll("details.md-fold").forEach((d) => {
+    (d as HTMLDetailsElement).open = open;
+  });
+}
+
+function FoldButton({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-sm border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors hover:border-signal-dim hover:text-foreground"
+    >
+      {label}
+    </button>
   );
 }
 
@@ -424,7 +622,7 @@ function DocView({ doc, payload }: { doc: Doc; payload: DocsPayload }) {
   const rendered = useMemo(() => {
     headings.current = [];
     const resolver = buildResolver(payload.docs);
-    return renderMarkdown(doc.content, doc, headings.current, resolver);
+    return renderMarkdown(doc.content, doc, headings.current, resolver, { collapsible: true });
   }, [doc, payload.docs]);
 
   const ghLink = `https://github.com/${doc.repo}/blob/main/${doc.path}`;
@@ -457,7 +655,17 @@ function DocView({ doc, payload }: { doc: Doc; payload: DocsPayload }) {
           <ul className="flex flex-wrap gap-x-4 gap-y-1.5">
             {toc.map((h) => (
               <li key={h.id}>
-                <a href={`#${h.id}`} className="text-sm text-muted-foreground hover:text-signal">
+                <a
+                  href={`#${h.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(h.id);
+                    const fold = target?.closest("details.md-fold");
+                    if (fold) (fold as HTMLDetailsElement).open = true;
+                    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                  className="text-sm text-muted-foreground hover:text-signal"
+                >
                   {h.text}
                 </a>
               </li>
