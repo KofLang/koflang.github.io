@@ -4,7 +4,10 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
+    "docs:fetch": "node scripts/fetch-docs.mjs --force",
+    "predev": "node scripts/fetch-docs.mjs",
     "dev": "vite dev",
+    "prebuild": "node scripts/fetch-docs.mjs --force",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",

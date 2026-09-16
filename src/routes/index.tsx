@@ -7,6 +7,7 @@ import {
   Card,
   CURSO,
   EDITOR,
+  FeatureList,
   GITHUB,
   RELEASES,
   Section,
@@ -870,48 +871,66 @@ $ kof version`}
         title="Sem datas falsas. Apenas estado."
         lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, desenvolvimento segue em 0.4.1-beta (15/09)."
       >
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid items-start gap-4 lg:grid-cols-3">
           <Card title="Concluído (0.4.1-beta)" status="available">
-            Base do compilador, lexer, parser, AST, sistema de tipos, análise semântica, Kof IR,
-            backends JVM e Native (x86_64 free-list GC + mark-sweep) e KofJS, classes, records,
-            herança, interfaces, generics, lambdas com capturas, exceções reais, coleções com
-            Map/Set nos três targets, enum com == por conteúdo e switch exaustivo (SEM031),
-            switch-expressão (SYN001) nos 3 targets, kof
-            build/run/serve/test/debug/bench/profile/inspect/fmt, kof.web (status/headerSet,
-            WebSocket RFC 6455, SSE nativo, accept loop nativo HTTP/1.1), kof.db + kof.orm com Query
-            DSL tipada, kof.mq (pub/sub nos 3 targets), cliente HTTP (JVM+JS+Native), kof.security
-            v1 + web security (rate limit, sessões, API keys) nos três targets, TLS via
-            web.listenSecure na JVM, kof.validation e kof.observability (com histogram/metrics no
-            Native) nos três targets, kof.ui, pattern matching (case String s, Point(x,y),
-            instanceof), null safety String?/Int?, List map/filter/reduce, imports multi-arquivo,
-            KofScript (repl, watch), KofCcompiler, targets native.risc/native.arm com codegen real e
-            stdlib (JSON, HTTP, spawn/await, String methods — 19/19 qemu, gates
-            DB001/SECN000/SCHED001 no cross), process.run/ process.spawn (stdin/stdout vivos nos 3
-            targets), kof fmt (parser real, idempotente), sobrecarga de construtores, widening de
-            return, kof.config interpolação {"${key}"} nos 3 targets, transaction {} commit/rollback
-            real, lifecycle application {}, W3C spans, kof.log no JS (LOG001), time no Native
-            (TIME001), package manager MVP (kof deps), MySQL prepared statements binário,
-            concorrência real no JS (CONC003), ponto flutuante no Native (FLT001), LSP
-            references+rename, releases multiplataforma single-job,
-            kof.strings/kof.encoding/kof.random/kof.validation/kof.time/kof.net/kof.math (Double,
-            MATH001 fechado)/kof.uuid (v4+v7)/arrays multidimensionais, kof.media
-            (Image/Audio/Mic/Video + serveDir com Range), kof.supervisor (OTP core, JVM+Script;
-            Native x86 15/09), web server no KofJS (HttpServer GraalJS + fetch async),
-            app.security() + OAuth2 resource server (JVM), overloading top-level e de método (4
-            backends), GC mark-sweep no Native, runtime pruning (hello x86 32.5KB), kof new + kof
-            build --fat, Long como BigInt no JS (1777+ testes).
+            <FeatureList
+              items={[
+                "Base do compilador: lexer, parser, AST, sistema de tipos, análise semântica e Kof IR",
+                "Backends JVM, Native (x86_64 free-list GC + mark-sweep) e KofJS",
+                "Classes, records, herança, interfaces, generics e lambdas com capturas",
+                "Exceções reais e coleções com Map/Set nos três targets",
+                "enum com == por conteúdo e switch exaustivo (SEM031); switch-expressão (SYN001) nos 3 targets",
+                "kof build / run / serve / test / debug / bench / profile / inspect / fmt",
+                "kof.web: status/headerSet, WebSocket RFC 6455, SSE nativo, accept loop HTTP/1.1",
+                "kof.db + kof.orm com Query DSL tipada e transaction commit/rollback real",
+                "kof.mq (pub/sub nos 3 targets) e cliente HTTP (JVM + JS + Native)",
+                "kof.security v1 + web security (rate limit, sessões, API keys) nos três targets",
+                "TLS via web.listenSecure na JVM",
+                "kof.validation e kof.observability (histogram/metrics no Native) nos três targets",
+                "kof.ui e pattern matching (case String s, Point(x,y), instanceof)",
+                "null safety String?/Int? e List map/filter/reduce",
+                "imports multi-arquivo, KofScript (repl, watch) e KofCcompiler",
+                "targets native.risc / native.arm com codegen real e stdlib (19/19 qemu)",
+                "process.run / process.spawn (stdin/stdout vivos nos 3 targets)",
+                "kof fmt com parser real, idempotente; sobrecarga de construtores e widening de return",
+                "kof.config com interpolação de ${key} nos 3 targets; lifecycle application",
+                "W3C spans, kof.log no JS (LOG001) e time no Native (TIME001)",
+                "package manager MVP (kof deps) e MySQL prepared statements binário",
+                "concorrência real no JS (CONC003) e ponto flutuante no Native (FLT001)",
+                "LSP references + rename e releases multiplataforma single-job",
+                "kof.strings / encoding / random / validation / time / net / math / uuid (v4 + v7)",
+                "arrays multidimensionais e kof.media (Image/Audio/Mic/Video + serveDir com Range)",
+                "kof.supervisor (OTP core: JVM + Script + Native x86)",
+                "web server no KofJS (HttpServer GraalJS + fetch async)",
+                "app.security() + OAuth2 resource server (JVM)",
+                "overloading top-level e de método (4 backends); Long como BigInt no JS",
+                "GC mark-sweep no Native + runtime pruning (hello x86 32.5KB)",
+                "kof new + kof build --fat (1777+ testes)",
+              ]}
+            />
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            GC auto-collect (safe-points + mapa de raízes por frame), package manager além do MVP
-            (registry), LSP + diagnostics reais já (hover/completion, references/rename), debugger
-            além do MVP JVM (DWARF Native, source maps JS), KofJS plataforma web no browser, web no
-            Native/JS residual (TLS/ws/sse — WEB002/WEB001), riscv/aarch com gates honestos
-            (SECN000/SCHED001).
+            <FeatureList
+              items={[
+                "GC auto-collect (safe-points + mapa de raízes por frame)",
+                "package manager além do MVP (registry)",
+                "LSP + diagnostics reais (hover/completion, references/rename)",
+                "debugger além do MVP JVM (DWARF Native, source maps JS)",
+                "KofJS plataforma web no browser",
+                "web no Native/JS residual (TLS/ws/sse — WEB002 / WEB001)",
+                "riscv/aarch com gates honestos (SECN000 / SCHED001)",
+              ]}
+            />
           </Card>
           <Card title="Planejado" status="planned">
-            KofScript — modo REPL e watch já via KofInterpreter; runtime dedicado é o próprio
-            interpreter, Language Reference já em docs/language-reference/ (evoluindo), conformance
-            suite embrião E2E, full web platform e auto-hospedagem.
+            <FeatureList
+              items={[
+                "KofScript — REPL e watch já via KofInterpreter; runtime dedicado é o próprio interpreter",
+                "Language Reference já em docs/language-reference/ (evoluindo)",
+                "conformance suite — embrião E2E",
+                "full web platform e auto-hospedagem",
+              ]}
+            />
           </Card>
         </div>
         <Link

@@ -124,3 +124,19 @@ export function Card({
     </div>
   );
 }
+
+export function FeatureList({ items }: { items: ReactNode[] }) {
+  return (
+    <ul className="space-y-3">
+      {items.map((item, i) => (
+        <li key={i} className="flex gap-2.5 text-sm leading-relaxed text-muted-foreground">
+          <span
+            className="mt-[0.55em] h-1 w-1 shrink-0 rounded-full bg-signal/70"
+            aria-hidden="true"
+          />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
