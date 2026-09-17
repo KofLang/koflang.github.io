@@ -5,21 +5,29 @@ import { Section } from "@/components/kof/primitives";
 import { playgroundExamples, runKof } from "@/lib/kof-interpreter";
 import { widgetModules, widgetExamples } from "@/data/kof-ui-widgets";
 import {
+  CanvasPreview,
   ChartsPreview,
   ChoicesPreview,
   CorePreview,
+  DashboardPreview,
   DataPreview,
   DatetimePreview,
+  DesignPreview,
   FormsPreview,
+  HelloPreview,
+  InputsPreview,
   IoPreview,
   LayoutPreview,
   NavigationPreview,
   OverlaysPreview,
-  TypographyPreview,
-  DashboardPreview,
-  HelloPreview,
   PerfilPreview,
+  ReorderExamplePreview,
+  ReorderPreview,
+  ShowcasePreview,
+  SliderPreview,
+  StatePreview,
   TarefasPreview,
+  TypographyPreview,
 } from "@/components/playground/WidgetPreview";
 
 export const Route = createFileRoute("/playground")({
@@ -60,6 +68,10 @@ const modulePreviewMap: Record<string, React.ComponentType> = {
   "08-datetime": DatetimePreview,
   "09-charts": ChartsPreview,
   "10-io": IoPreview,
+  "11-design": DesignPreview,
+  "12-inputs": InputsPreview,
+  "13-canvas": CanvasPreview,
+  "14-reorder": ReorderPreview,
 };
 
 const examplePreviewMap: Record<string, React.ComponentType> = {
@@ -68,6 +80,10 @@ const examplePreviewMap: Record<string, React.ComponentType> = {
   tarefas: TarefasPreview,
   dashboard: DashboardPreview,
   files: IoPreview,
+  showcase: ShowcasePreview,
+  slider: SliderPreview,
+  state: StatePreview,
+  reorder: ReorderExamplePreview,
 };
 
 function PlaygroundPage() {
@@ -184,7 +200,7 @@ function PlaygroundPage() {
             <code>switch-expr</code>, null-safety, coleções com <code>map/filter/reduce</code>,
             lambdas, <code>try/catch/finally</code>, <code>spawn/await</code> com{" "}
             <code>poll/done</code>, arrays multidim e stdlib 0.4.x completa (9 namespaces). Abaixo, os
-            11 módulos de{" "}
+            14 módulos de{" "}
             <a
               href="https://github.com/KofLang/kof-ui-widgets"
               target="_blank"
@@ -384,12 +400,12 @@ function PlaygroundPage() {
         </div>
       </Section>
 
-      {/* Galeria 11 módulos */}
+      {/* Galeria 14 módulos */}
       <Section
         index="02"
-        eyebrow="kof-ui-widgets · 11 módulos"
+        eyebrow="kof-ui-widgets · 14 módulos"
         title="Cada intenção com nome, código ao lado do que renderiza"
-        lead="Trechos de kof-ui-widgets acompanhados de demonstrações visuais em React. Código exibido é o oficial do repo; preview é ilustrativo."
+        lead="Quatorze famílias, ~65 intenções — trechos oficiais de kof-ui-widgets com demonstrações React. Código exibido é o oficial do repo; preview é ilustrativo."
       >
         <div className="flex flex-wrap gap-2">
           {widgetModules.map((m) => (

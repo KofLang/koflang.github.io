@@ -303,6 +303,59 @@ export function IoPreview() {
   );
 }
 
+export function DesignPreview() {
+  return (
+    <div className="space-y-3 p-3">
+      <div className="rounded-md bg-[#21222c] p-3 shadow-[0_8px_24px_rgba(0,0,0,0.4)] border border-white/10">
+        <div className="text-sm font-bold text-[#f8f8f2]">Surface + Elevate 2</div>
+        <div className="text-xs text-[#6272a4]">View(Style surface) + Outline + sombra pura</div>
+      </div>
+      <div className="grid grid-cols-3 gap-2">
+        <div className="rounded bg-[#282a36] p-2 text-center border border-white/10 shadow-[0_2px_8px_rgba(0,0,0,0.3)]">Elevate 1</div>
+        <div className="rounded bg-[#282a36] p-2 text-center border border-white/10 shadow-[0_8px_24px_rgba(0,0,0,0.4)]">Elevate 2</div>
+        <div className="rounded bg-[#282a36] p-2 text-center border border-white/20">Outline</div>
+      </div>
+      <div className="text-xs text-[#6272a4]">tokens visuais por widget — setShadow/setBorder/setGradient (issue #78)</div>
+    </div>
+  );
+}
+export function InputsPreview() {
+  const [v, setV] = useState("");
+  return (
+    <div className="space-y-2 p-3">
+      <input value={v} onChange={(e)=>setV(e.target.value)} placeholder="InputField" className="w-full rounded border border-[#2e303e] bg-[#21222c] px-3 py-1.5 text-sm" />
+      <input type="password" placeholder="PasswordField •••" className="w-full rounded border border-[#2e303e] bg-[#21222c] px-3 py-1.5 text-sm" />
+      <textarea placeholder="MultilineField" className="w-full rounded border border-[#2e303e] bg-[#21222c] px-3 py-1.5 text-sm h-16" />
+      <div className="flex gap-2"><span className="rounded border px-2 py-1 text-xs">SelectField ▾</span><span className="rounded border px-2 py-1 text-xs">Counter − 3 +</span><span className="rounded border px-2 py-1 text-xs">Range 42</span></div>
+    </div>
+  );
+}
+export function CanvasPreview() {
+  return (
+    <div className="space-y-2 p-3">
+      <div className="rounded bg-[#21222c] p-3 font-mono text-xs">
+        <div className="flex items-end gap-1 h-12">{[5,12,8,15,10].map((h,i)=><div key={i} style={{height:`${h*4}px`}} className="w-6 bg-[#8be9fd]" />)}</div>
+        <div className="text-[#6272a4]">CanvasBars + CanvasLine + CanvasRing sobre Canvas 2D</div>
+      </div>
+      <div className="h-20 rounded bg-[#282a36] border border-[#2e303e] grid place-items-center text-xs text-[#6272a4]">Canvas 2D — drawLine/drawRect/drawCircle</div>
+    </div>
+  );
+}
+export function ReorderPreview() {
+  const [items, setItems] = useState(["alpha","beta","gamma","delta"]);
+  return (
+    <div className="space-y-2 p-3">
+      <div className="text-xs text-[#6272a4]">drag para reordenar — handle puro</div>
+      {items.map((t,i)=>(
+        <div key={t} className="flex items-center gap-2 rounded border border-[#2e303e] bg-[#21222c] px-3 py-1.5 text-sm">
+          <span className="cursor-grab text-[#6272a4]">≡</span>{t}
+          <button onClick={()=>setItems(a=>{const b=[...a]; const [x]=b.splice(i,1); b.splice((i+1)%b.length,0,x); return b;})} className="ml-auto text-xs">↕</button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // Examples previews (reaproveita famílias)
 export function HelloPreview() {
   return (
@@ -392,3 +445,37 @@ export function DashboardPreview() {
     </div>
   );
 }
+export function ShowcasePreview() {
+  return (
+    <div className="p-3 space-y-2">
+      <div className="text-sm font-bold">Showcase — 14 famílias</div>
+      <div className="grid grid-cols-3 gap-2 text-[10px]">
+        {["Core","Typography","Layout","Forms","Choices","Navigation","Overlays","Data","Datetime","Charts","IO","Design","Inputs","Canvas"].map(t=>(
+          <div key={t} className="rounded bg-[#21222c] p-2 text-center border border-[#2e303e]">{t}</div>
+        ))}
+      </div>
+      <div className="text-xs text-[#6272a4]">8 páginas de exemplos — cada família com seu preview isolado e verificável</div>
+    </div>
+  );
+}
+export function SliderPreview() {
+  const [v,setV]=useState(42);
+  return (
+    <div className="space-y-3 p-3">
+      <div className="flex items-center gap-2"><span className="text-xs">RangeField</span><input type="range" min={0} max={100} value={v} onChange={e=>setV(parseInt(e.target.value))} className="flex-1" /><span className="font-mono text-xs">{v}</span></div>
+      <div className="flex gap-2"><span className="rounded border px-2 py-1 text-xs">SelectField ▾ free</span><span className="rounded border px-2 py-1 text-xs">Counter − 3 +</span></div>
+    </div>
+  );
+}
+export function StatePreview() {
+  const [c,setC]=useState(0);
+  return (
+    <div className="space-y-2 p-3">
+      <div className="text-sm">Store reativa</div>
+      <div className="font-mono text-xs">count: {c}</div>
+      <div className="flex gap-2"><button onClick={()=>setC(x=>x+1)} className="rounded bg-[#8be9fd] text-black px-3 py-1 text-xs">+1</button><button onClick={()=>setC(0)} className="rounded border px-3 py-1 text-xs">reset</button></div>
+      <div className="text-xs text-[#6272a4]">fluxo unidirecional — Store + Event</div>
+    </div>
+  );
+}
+export function ReorderExamplePreview(){ return <ReorderPreview />; }
