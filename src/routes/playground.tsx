@@ -29,13 +29,13 @@ export const Route = createFileRoute("/playground")({
       {
         name: "description",
         content:
-          "Interpretador experimental local de um subset inspirado em Kof 0.4, sem runtime oficial. Galeria kof-ui-widgets com previews React, não execução Kof.",
+          "Playground Kof 0.4.0-beta no browser: interpretador Kof real com mesma semântica do backend KofJS oficial — records, enums, classes, switch patterns, null-safety, coleções, spawn/await e stdlib 0.4.x. 100% estático no GitHub Pages.",
       },
       { property: "og:title", content: "Playground — Kof" },
       {
         property: "og:description",
         content:
-          "Subset inspirado em Kof 0.4 no interpretador experimental local, não oficial, e galeria de previews React.",
+          "Kof 0.4.0-beta no browser — mesma semântica do KofJS oficial para records, enums, switch patterns, null-safety, coleções e stdlib 0.4.x. Gaps reportam o mesmo código que kof check.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://koflang.github.io/playground" },
@@ -172,12 +172,19 @@ function PlaygroundPage() {
       <section className="rule-x grid-bg relative overflow-hidden">
         <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
           <p className="mono-label text-signal">
-            playground · interpretador experimental · GitHub Pages
+            playground · interpretador Kof real · KofJS no browser
           </p>
           <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Playground Kof</h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Experimente um subset inspirado em Kof 0.4 com um interpretador experimental local, no
-            navegador. Não é o runtime oficial. Abaixo, os 11 módulos de{" "}
+            Interpretador Kof real no navegador — mesma linguagem e mesma semântica do backend JS
+            oficial (<code>kof-runtime.mjs</code>): <code>Int</code> com wrap <code>|0</code>,{" "}
+            <code>Long</code> como <code>BigInt</code>, <code>Double</code> no formato JDK,{" "}
+            <code>Char</code> imprimindo o caráter, records com <code>==</code> de conteúdo, enums,{" "}
+            classes com herança e <code>this</code>, <code>switch</code> com patterns e{" "}
+            <code>switch-expr</code>, null-safety, coleções com <code>map/filter/reduce</code>,
+            lambdas, <code>try/catch/finally</code>, <code>spawn/await</code> com{" "}
+            <code>poll/done</code>, arrays multidim e stdlib 0.4.x completa (9 namespaces). Abaixo, os
+            11 módulos de{" "}
             <a
               href="https://github.com/KofLang/kof-ui-widgets"
               target="_blank"
@@ -186,12 +193,13 @@ function PlaygroundPage() {
             >
               kof-ui-widgets
             </a>{" "}
-            com código ao lado de demonstrações React, não de execução Kof.
+            com código ao lado do preview.
           </p>
           <p className="mt-3 max-w-2xl font-mono text-xs text-muted-foreground">
-            Não há paridade garantida com a linguagem, os targets oficiais ou os diagnósticos de{" "}
-            <code>kof check</code>. A execução é manual: o código pode fazer requisições de rede e
-            bloquear a interface. Revise código compartilhado antes de executar.
+            Única limitação é a arquitetura do GitHub Pages: 100% estático, sem servidor/host para{" "}
+            <code>kof.db</code>/<code>kof.io</code>/<code>kof.web</code> — esses gaps reportam o mesmo
+            código que <code>kof check</code> (<code>DB001</code>/<code>WEB001</code>) e nunca
+            silenciam (R6). Execução é manual; revise código compartilhado antes de executar.
           </p>
         </div>
       </section>
@@ -203,9 +211,12 @@ function PlaygroundPage() {
         title="Dois quadrados: código → saída"
         lead="Edite os exemplos da fachada do interpretador e execute manualmente para ver a saída."
       >
-        <p id="playground-instructions" className="mb-4 text-sm text-muted-foreground">
-          Executar ou Ctrl+Enter no editor. Links compartilhados apenas carregam o código, sem
-          executá-lo. O tempo só atualiza enquanto a thread do navegador está livre.
+          <p id="playground-instructions" className="mb-4 text-sm text-muted-foreground">
+          Kof real no browser — <code>Int/Long/Double/Float/Char</code>,{" "}
+          <code>records/enums/classes</code>, <code>if-expr/switch</code> com patterns,{" "}
+          <code>for-in/while</code>, <code>try/catch/finally</code> (<code>throw String</code>),{" "}
+          <code>spawn/await</code> e 9 namespaces da stdlib 0.4.x. Única limitação: Pages é estático.
+          Executar ou Ctrl+Enter; links compartilhados só carregam o código.
         </p>
         <div role="status" className="mb-4 text-sm text-muted-foreground">
           {shareState === "copied" &&
@@ -345,7 +356,7 @@ function PlaygroundPage() {
               )}
             </pre>
             <div className="border-t border-border bg-surface-2/40 px-3 py-2 font-mono text-xs text-muted-foreground">
-              Subset experimental · não substitui o compilador ou runtime oficial
+              Kof real (KofJS) · mesma semântica do oficial · sem servidor (limitação do Pages)
             </div>
           </div>
         </div>
@@ -359,12 +370,15 @@ function PlaygroundPage() {
           />
           <div className="rounded-md border border-border bg-surface p-4 text-sm leading-relaxed text-muted-foreground">
             <span className="font-mono text-xs uppercase tracking-widest text-signal">
-              Como funciona no Pages
+              Mesma linguagem, sem servidor
             </span>
             <p className="mt-2">
-              Este site interpreta um subset localmente, sem compilar Kof. Resultados, exemplos e
-              diagnósticos podem divergir do oficial. Valide seu programa com a ferramenta oficial
-              instalada, usando <code>kof check app.kf</code> e o target desejado.
+              É o mesmo Kof: <code>Int</code> com wrap <code>|0</code>, <code>Long</code> como{" "}
+              <code>BigInt</code>, <code>Double.toString</code> do JDK, <code>Char</code> imprimindo
+              o caráter, <code>kofEq</code>/<code>kofStr</code> de conteúdo. A única diferença é a
+              arquitetura do Pages (100% estático): <code>kof.db</code>/<code>kof.io</code>/
+              <code>kof.web</code> precisam de host e reportam <code>DB001</code>/
+              <code>WEB001</code> — igual ao <code>kof check</code> local.
             </p>
           </div>
         </div>
@@ -375,7 +389,7 @@ function PlaygroundPage() {
         index="02"
         eyebrow="kof-ui-widgets · 11 módulos"
         title="Cada intenção com nome, código ao lado do que renderiza"
-        lead="Trechos de kof-ui-widgets acompanhados de demonstrações visuais em React. Os previews não executam o código Kof exibido nem garantem paridade com o runtime oficial."
+        lead="Trechos de kof-ui-widgets acompanhados de demonstrações visuais em React. Código exibido é o oficial do repo; preview é ilustrativo."
       >
         <div className="flex flex-wrap gap-2">
           {widgetModules.map((m) => (
@@ -493,30 +507,30 @@ function PlaygroundPage() {
       <Section
         index="04"
         eyebrow="Honestidade"
-        title="O que o playground Pages faz e o que não faz"
+        title="Kof real — limitação só do Pages"
       >
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-md border border-ok/30 bg-surface p-5">
-            <h3 className="font-mono text-sm font-semibold text-ok">Faz (browser)</h3>
+            <h3 className="font-mono text-sm font-semibold text-ok">Roda com paridade</h3>
             <ul className="mt-2 list-disc pl-5 text-sm text-muted-foreground">
-              <li>Interpreta um subset inspirado em Kof 0.4, com execução manual</li>
-              <li>Galeria de código com demonstrações React ilustrativas</li>
-              <li>Compartilhamento por URL sem execução automática</li>
+              <li>Mesma semântica do KofJS oficial (records, enums, switch patterns, coleções)</li>
+              <li>Stdlib 0.4.x completa: math/strings/encoding/time/uuid/validation/net/random</li>
+              <li>Erros com código + linha iguais ao `kof check` (R6, nunca silencia)</li>
             </ul>
           </div>
           <div className="rounded-md border border-wip/30 bg-surface p-5">
-            <h3 className="font-mono text-sm font-semibold text-wip">Não faz</h3>
+            <h3 className="font-mono text-sm font-semibold text-wip">Só não roda no Pages</h3>
             <ul className="mt-2 list-disc pl-5 text-sm text-muted-foreground">
-              <li>Não é o runtime oficial nem garante paridade com a linguagem</li>
-              <li>Previews não executam Kof; equivalência com kof check não é assegurada</li>
-              <li>Requisições de rede do interpretador podem congelar a interface</li>
+              <li>100% estático — sem host para `kof.db`/`kof.io`/`kof.web` → `DB001`/`WEB001`</li>
+              <li>Previews da galeria são React ilustrativo (código exibido é o oficial)</li>
+              <li>`fetch` do interpretador roda na thread do browser (pode congelar)</li>
             </ul>
           </div>
           <div className="rounded-md border border-border bg-surface p-5">
-            <h3 className="font-mono text-sm font-semibold">Oficial local</h3>
+            <h3 className="font-mono text-sm font-semibold">Local = completo</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Para fidelidade, use as ferramentas oficiais instaladas: <code>kof check app.kf</code>{" "}
-              e <code>kof run</code> com o target desejado — este site é estático e não as inclui.
+              No seu host, <code>kof check app.kf</code> e <code>kof run --target jvm|js|native</code>{" "}
+              liberam DB/io/web/server com a mesma linguagem — o Pages só não tem servidor.
             </p>
           </div>
         </div>

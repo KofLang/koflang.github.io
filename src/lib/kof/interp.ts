@@ -1128,6 +1128,16 @@ export class KofInterpreter {
       for (const a of args) if (![...s].some((e) => kofEq(e, a))) s.add(a);
       return s;
     }
+    if (name === "done") {
+      const h = args[0] as KofObj & { done?: boolean };
+      if (isObj(h) && h.kind === "handle") return !!h.done;
+      return false;
+    }
+    if (name === "poll") {
+      const h = args[0] as KofObj & { done?: boolean; value?: KofVal };
+      if (isObj(h) && h.kind === "handle") return h.done ? (h.value ?? null) : null;
+      return null;
+    }
     if (this.records.has(name)) return this.construct(name, args, line);
     if (this.classes.has(name)) return this.construct(name, args, line);
     const fns = this.funcs.get(name);
