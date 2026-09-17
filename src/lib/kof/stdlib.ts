@@ -327,7 +327,14 @@ const stringsFns: Record<string, (a: KofVal[]) => KofVal> = {
           if (acc > 0x10ffff) break;
           k++;
         }
-        if (k > j && k < n && v.charCodeAt(k) === 59 && acc > 0 && acc < 0x10000 && !(acc >= 0xd800 && acc <= 0xdfff)) {
+        if (
+          k > j &&
+          k < n &&
+          v.charCodeAt(k) === 59 &&
+          acc > 0 &&
+          acc < 0x10000 &&
+          !(acc >= 0xd800 && acc <= 0xdfff)
+        ) {
           o += String.fromCodePoint(acc);
           i = k + 1;
           continue;
@@ -433,7 +440,12 @@ function utf8Bytes(str: string): number[] {
       const c2 = str.charCodeAt(i + 1);
       if (c2 >= 0xdc00 && c2 < 0xe000) {
         const cp = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
-        out.push(0xf0 | (cp >> 18), 0x80 | ((cp >> 12) & 63), 0x80 | ((cp >> 6) & 63), 0x80 | (cp & 63));
+        out.push(
+          0xf0 | (cp >> 18),
+          0x80 | ((cp >> 12) & 63),
+          0x80 | ((cp >> 6) & 63),
+          0x80 | (cp & 63),
+        );
         i++;
       } else out.push(0xef, 0xbf, 0xbd);
     } else out.push(0xe0 | (c >> 12), 0x80 | ((c >> 6) & 63), 0x80 | (c & 63));
@@ -443,7 +455,7 @@ function utf8Bytes(str: string): number[] {
 
 function fromUtf8(bytes: number[]): string {
   let out = "";
-  for (let i = 0; i < bytes.length; ) {
+  for (let i = 0; i < bytes.length;) {
     let cp = bytes[i]!;
     if (cp < 0x80) {
       out += String.fromCharCode(cp);
@@ -457,7 +469,11 @@ function fromUtf8(bytes: number[]): string {
       out += String.fromCharCode(cp);
       i += 3;
     } else if (cp >= 0xf0 && i + 3 < bytes.length) {
-      cp = ((cp & 7) << 18) | ((bytes[i + 1]! & 63) << 12) | ((bytes[i + 2]! & 63) << 6) | (bytes[i + 3]! & 63);
+      cp =
+        ((cp & 7) << 18) |
+        ((bytes[i + 1]! & 63) << 12) |
+        ((bytes[i + 2]! & 63) << 6) |
+        (bytes[i + 3]! & 63);
       out += String.fromCodePoint(cp);
       i += 4;
     } else {
@@ -558,7 +574,13 @@ const encodingFns: Record<string, (a: KofVal[]) => KofVal> = {
     for (let i = 0; i < b.length; i++) {
       const c = b[i]!;
       const unres =
-        (c >= 65 && c <= 90) || (c >= 97 && c <= 122) || (c >= 48 && c <= 57) || c === 45 || c === 95 || c === 46 || c === 126;
+        (c >= 65 && c <= 90) ||
+        (c >= 97 && c <= 122) ||
+        (c >= 48 && c <= 57) ||
+        c === 45 ||
+        c === 95 ||
+        c === 46 ||
+        c === 126;
       if (unres) out += String.fromCharCode(c);
       else out += "%" + HEX.charAt(c >> 4) + HEX.charAt(c & 15);
     }
@@ -613,7 +635,10 @@ function civilFromEpoch(ed: number): { y: number; m: number; d: number } {
   const z = ed + 719468;
   const era = z >= 0 ? floor(z, 146097) : floor(z - 146096, 146097);
   const doe = z - era * 146097;
-  const yoe = floor(doe - Math.floor(doe / 1460) + Math.floor(doe / 36524) - Math.floor(doe / 146096), 365);
+  const yoe = floor(
+    doe - Math.floor(doe / 1460) + Math.floor(doe / 36524) - Math.floor(doe / 146096),
+    365,
+  );
   const y = yoe + era * 400;
   const doy = doe - (365 * yoe + Math.floor(yoe / 4) - Math.floor(yoe / 100));
   const mp = Math.floor((5 * doy + 2) / 153);
@@ -671,7 +696,7 @@ const timeFns: Record<string, (a: KofVal[], c: StdCtx) => KofVal> = {
     if (!timeValidDate(y, m, d)) dow = 0;
     else {
       const ed = epochDay(y, m, d);
-      dow = ((ed % 7) + 7 + 3) % 7 + 1;
+      dow = (((ed % 7) + 7 + 3) % 7) + 1;
     }
     return bool(dow >= 6);
   },
@@ -700,7 +725,11 @@ const timeFns: Record<string, (a: KofVal[], c: StdCtx) => KofVal> = {
     return epochDay(y.y, y.m, y.d) - epochDay(x.y, x.m, x.d);
   },
   sleep: () => {
-    throw new KofRuntimeError("time.sleep: no-op honesto no browser (sem pump de event-loop do KofJS host) — CONC/§132", undefined, false);
+    throw new KofRuntimeError(
+      "time.sleep: no-op honesto no browser (sem pump de event-loop do KofJS host) — CONC/§132",
+      undefined,
+      false,
+    );
   },
 };
 
@@ -713,7 +742,17 @@ const uuidFns: Record<string, (a: KofVal[], c: StdCtx) => KofVal> = {
     const b = hex.split("");
     b[12] = "4";
     b[16] = "89ab".charAt(parseInt(b[16]!, 16) >> 2);
-    return b.slice(0, 8).join("") + "-" + b.slice(8, 12).join("") + "-" + b.slice(12, 16).join("") + "-" + b.slice(16, 20).join("") + "-" + b.slice(20, 32).join("");
+    return (
+      b.slice(0, 8).join("") +
+      "-" +
+      b.slice(8, 12).join("") +
+      "-" +
+      b.slice(12, 16).join("") +
+      "-" +
+      b.slice(16, 20).join("") +
+      "-" +
+      b.slice(20, 32).join("")
+    );
   },
   v7: (_a, ctx) => {
     const ts = Date.now();
@@ -723,7 +762,17 @@ const uuidFns: Record<string, (a: KofVal[], c: StdCtx) => KofVal> = {
     const b = (tsHex + randHex).split("");
     b[12] = "7";
     b[16] = "89ab".charAt(parseInt(b[16]!, 16) >> 2);
-    return b.slice(0, 8).join("") + "-" + b.slice(8, 12).join("") + "-" + b.slice(12, 16).join("") + "-" + b.slice(16, 20).join("") + "-" + b.slice(20, 32).join("");
+    return (
+      b.slice(0, 8).join("") +
+      "-" +
+      b.slice(8, 12).join("") +
+      "-" +
+      b.slice(12, 16).join("") +
+      "-" +
+      b.slice(16, 20).join("") +
+      "-" +
+      b.slice(20, 32).join("")
+    );
   },
   isUuid: (a) => {
     const v = toS(a[0]);
@@ -815,7 +864,17 @@ const validationFns: Record<string, (a: KofVal[]) => KofVal> = {
     const d = brDigits(toS(a[0]));
     if (d.length !== 14) return toS(a[0]);
     const s = d.join("");
-    return s.slice(0, 2) + "." + s.slice(2, 5) + "." + s.slice(5, 8) + "/" + s.slice(8, 12) + "-" + s.slice(12);
+    return (
+      s.slice(0, 2) +
+      "." +
+      s.slice(2, 5) +
+      "." +
+      s.slice(5, 8) +
+      "/" +
+      s.slice(8, 12) +
+      "-" +
+      s.slice(12)
+    );
   },
   isIpv4: (a) => {
     const s = toS(a[0]);
@@ -826,7 +885,8 @@ const validationFns: Record<string, (a: KofVal[]) => KofVal> = {
     for (let i = 0; i <= n; i++) {
       const c = i < n ? s.charCodeAt(i) : 46;
       if (c >= 48 && c <= 57) {
-        if (digits === 0 && i < n && c === 48 && i + 1 < n && s.charCodeAt(i + 1) !== 46) return false;
+        if (digits === 0 && i < n && c === 48 && i + 1 < n && s.charCodeAt(i + 1) !== 46)
+          return false;
         val = val * 10 + (c - 48);
         digits++;
         if (digits > 3) return false;
@@ -918,7 +978,8 @@ const validationFns: Record<string, (a: KofVal[]) => KofVal> = {
   isDomain: (a) => {
     const s = toS(a[0]);
     if (s.length === 0 || s.length > 253) return false;
-    const domC = (c: number) => (c >= 48 && c <= 57) || (c >= 97 && c <= 122) || (c >= 65 && c <= 90) || c === 45;
+    const domC = (c: number) =>
+      (c >= 48 && c <= 57) || (c >= 97 && c <= 122) || (c >= 65 && c <= 90) || c === 45;
     let start = 0;
     let labels = 0;
     for (let i = 0; i <= s.length; i++) {
@@ -939,6 +1000,50 @@ const validationFns: Record<string, (a: KofVal[]) => KofVal> = {
       if (!((c >= 97 && c <= 122) || (c >= 65 && c <= 90))) return false;
     }
     return true;
+  },
+  isEmail: (a) => {
+    const s = toS(a[0]);
+    if (s.length < 3) return false;
+    let at = -1;
+    let cnt = 0;
+    for (let i = 0; i < s.length; i++) {
+      const c = s.charCodeAt(i);
+      if (c === 32 || c === 9) return false;
+      if (c === 64) {
+        cnt++;
+        at = i;
+      }
+    }
+    if (cnt !== 1 || at <= 0 || at >= s.length - 1) return false;
+    if (s.charCodeAt(s.length - 1) === 46) return false;
+    const after = s.slice(at + 1);
+    if (!after.includes(".")) return false;
+    if (after.startsWith(".")) return false;
+    return true;
+  },
+  isUrl: (a) => {
+    const s = toS(a[0]);
+    return s.startsWith("http://") || s.startsWith("https://");
+  },
+  isInt: (a) => {
+    const s = toS(a[0]).trim();
+    if (!/^[-+]?\d+$/.test(s)) return false;
+    try {
+      const n = Number(s);
+      return Number.isInteger(n) && n >= -2147483648 && n <= 2147483647;
+    } catch {
+      return false;
+    }
+  },
+  isLong: (a) => {
+    const s = toS(a[0]).trim();
+    if (!/^[-+]?\d+$/.test(s)) return false;
+    try {
+      const b = BigInt(s);
+      return b >= -(2n ** 63n) && b <= 2n ** 63n - 1n;
+    } catch {
+      return false;
+    }
   },
 };
 
@@ -1046,10 +1151,14 @@ const randomFns: Record<string, (a: KofVal[], c: StdCtx) => KofVal> = {
 
 function sha256Bytes(msg: number[]): number[] {
   const K = [
-    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
-    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
-    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
-    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3, 0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
+    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2,
   ];
   const len = msg.length;
   const bitLen = len * 8;
@@ -1059,16 +1168,36 @@ function sha256Bytes(msg: number[]): number[] {
   const view = new DataView(padded.buffer);
   view.setUint32(padded.length - 8, Math.floor(bitLen / 0x100000000));
   view.setUint32(padded.length - 4, bitLen >>> 0);
-  let h0 = 0x6a09e667, h1 = 0xbb67ae85, h2 = 0x3c6ef372, h3 = 0xa54ff53a, h4 = 0x510e527f, h5 = 0x9b05688c, h6 = 0x1f83d9ab, h7 = 0x5be0cd19;
+  let h0 = 0x6a09e667,
+    h1 = 0xbb67ae85,
+    h2 = 0x3c6ef372,
+    h3 = 0xa54ff53a,
+    h4 = 0x510e527f,
+    h5 = 0x9b05688c,
+    h6 = 0x1f83d9ab,
+    h7 = 0x5be0cd19;
   const w = new Uint32Array(64);
   for (let off = 0; off < padded.length; off += 64) {
     for (let i = 0; i < 16; i++) w[i] = view.getUint32(off + i * 4);
     for (let i = 16; i < 64; i++) {
-      const s0 = ((w[i - 15]! >>> 7) | (w[i - 15]! << 25)) ^ ((w[i - 15]! >>> 18) | (w[i - 15]! << 14)) ^ (w[i - 15]! >>> 3);
-      const s1 = ((w[i - 2]! >>> 17) | (w[i - 2]! << 15)) ^ ((w[i - 2]! >>> 19) | (w[i - 2]! << 13)) ^ (w[i - 2]! >>> 10);
+      const s0 =
+        ((w[i - 15]! >>> 7) | (w[i - 15]! << 25)) ^
+        ((w[i - 15]! >>> 18) | (w[i - 15]! << 14)) ^
+        (w[i - 15]! >>> 3);
+      const s1 =
+        ((w[i - 2]! >>> 17) | (w[i - 2]! << 15)) ^
+        ((w[i - 2]! >>> 19) | (w[i - 2]! << 13)) ^
+        (w[i - 2]! >>> 10);
       w[i] = (w[i - 16]! + s0 + w[i - 7]! + s1) >>> 0;
     }
-    let a = h0, b = h1, c = h2, d = h3, e = h4, f = h5, g = h6, h = h7;
+    let a = h0,
+      b = h1,
+      c = h2,
+      d = h3,
+      e = h4,
+      f = h5,
+      g = h6,
+      h = h7;
     for (let i = 0; i < 64; i++) {
       const S1 = ((e >>> 6) | (e << 26)) ^ ((e >>> 11) | (e << 21)) ^ ((e >>> 25) | (e << 7));
       const ch = (e & f) ^ (~e & g);
@@ -1076,14 +1205,34 @@ function sha256Bytes(msg: number[]): number[] {
       const S0 = ((a >>> 2) | (a << 30)) ^ ((a >>> 13) | (a << 19)) ^ ((a >>> 22) | (a << 10));
       const maj = (a & b) ^ (a & c) ^ (b & c);
       const t2 = (S0 + maj) >>> 0;
-      h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+      h = g;
+      g = f;
+      f = e;
+      e = (d + t1) >>> 0;
+      d = c;
+      c = b;
+      b = a;
+      a = (t1 + t2) >>> 0;
     }
-    h0 = (h0 + a) >>> 0; h1 = (h1 + b) >>> 0; h2 = (h2 + c) >>> 0; h3 = (h3 + d) >>> 0; h4 = (h4 + e) >>> 0; h5 = (h5 + f) >>> 0; h6 = (h6 + g) >>> 0; h7 = (h7 + h) >>> 0;
+    h0 = (h0 + a) >>> 0;
+    h1 = (h1 + b) >>> 0;
+    h2 = (h2 + c) >>> 0;
+    h3 = (h3 + d) >>> 0;
+    h4 = (h4 + e) >>> 0;
+    h5 = (h5 + f) >>> 0;
+    h6 = (h6 + g) >>> 0;
+    h7 = (h7 + h) >>> 0;
   }
   const out = new Uint8Array(32);
   const ov = new DataView(out.buffer);
-  ov.setUint32(0, h0); ov.setUint32(4, h1); ov.setUint32(8, h2); ov.setUint32(12, h3);
-  ov.setUint32(16, h4); ov.setUint32(20, h5); ov.setUint32(24, h6); ov.setUint32(28, h7);
+  ov.setUint32(0, h0);
+  ov.setUint32(4, h1);
+  ov.setUint32(8, h2);
+  ov.setUint32(12, h3);
+  ov.setUint32(16, h4);
+  ov.setUint32(20, h5);
+  ov.setUint32(24, h6);
+  ov.setUint32(28, h7);
   return Array.from(out);
 }
 
@@ -1184,5 +1333,7 @@ export function callStdlib(ns: string, fn: string, args: KofVal[], ctx: StdCtx):
     return f(args, ctx);
   }
   if (GAPPED[ns]) throw new KofRuntimeError(GAPPED[ns]);
-  throw new KofRuntimeError(`namespace \`${ns}\` não é da stdlib Kof (${STDLIB_NAMESPACES.join("/")}) [SEM011]`);
+  throw new KofRuntimeError(
+    `namespace \`${ns}\` não é da stdlib Kof (${STDLIB_NAMESPACES.join("/")}) [SEM011]`,
+  );
 }

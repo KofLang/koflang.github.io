@@ -116,7 +116,13 @@ export type Expr =
   | { kind: "SwitchExpr"; subject: Expr; clauses: SwitchExprClause[]; line: number }
   | { kind: "Spawn"; e: Expr; line: number }
   | { kind: "Await"; e: Expr; line: number }
-  | { kind: "CollectionLit"; name: "listOf" | "mapOf" | "setOf" | "arrayOf"; args: Expr[]; typeArgs: string[]; line: number }
+  | {
+      kind: "CollectionLit";
+      name: "listOf" | "mapOf" | "setOf" | "arrayOf";
+      args: Expr[];
+      typeArgs: string[];
+      line: number;
+    }
   | { kind: "NewArray"; elem: string; dims: Expr[]; line: number }
   | { kind: "NewObj"; type: string; args: Expr[]; line: number };
 
@@ -143,7 +149,20 @@ export function isFp(v: Val | FpVal): v is FpVal {
   return typeof v === "object" && v !== null && "__kofFloat" in v;
 }
 
-const ASSIGN_OPS = new Set(["=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "<<=", ">>=", ">>>="]);
+const ASSIGN_OPS = new Set([
+  "=",
+  "+=",
+  "-=",
+  "*=",
+  "/=",
+  "%=",
+  "&=",
+  "|=",
+  "^=",
+  "<<=",
+  ">>=",
+  ">>>=",
+]);
 const TYPE_PRIMS: Record<string, string> = {
   string: "String",
   int: "Int",
@@ -455,7 +474,11 @@ function parseFor(p: Pr): Node {
   p.pos++;
   p.expect("(");
   // for-in: (var x in iter)
-  if ((p.at("var") || p.at("val")) && (p.peek(1).k === "id" && (p.peek(2).v === "in" || (p.peek(2).v === ":" && p.peek(4).v === "in")))) {
+  if (
+    (p.at("var") || p.at("val")) &&
+    p.peek(1).k === "id" &&
+    (p.peek(2).v === "in" || (p.peek(2).v === ":" && p.peek(4).v === "in"))
+  ) {
     p.pos++;
     const id = p.expectId();
     if (p.eat(":")) parseTypeName(p);
@@ -641,10 +664,9 @@ function parseExpr(p: Pr): Expr {
 function parseExprInBraces(p: Pr): Expr {
   const b = parseBlock(p);
   const stmts = b.stmts;
-  if (stmts.length === 1 && stmts[0]!.kind === "ExprStmt")
-    return (stmts[0] as { expr: Expr }).expr;
+  if (stmts.length === 1 && stmts[0]!.kind === "ExprStmt") return (stmts[0] as { expr: Expr }).expr;
   if (stmts.length === 1 && stmts[0]!.kind === "Return")
-    return ((stmts[0] as { value: Expr }).value ?? { kind: "Null", line: 0 });
+    return (stmts[0] as { value: Expr }).value ?? { kind: "Null", line: 0 };
   throw new KofDiag("ramo de if-expr deve produzir um valor", "SEM033", p.peek().line);
 }
 
@@ -709,11 +731,18 @@ function parseUnary(p: Pr): Expr {
   }
   if (t.k === "op" && (t.v === "++" || t.v === "--")) {
     p.pos++;
-    return { kind: "IncDec", target: parsePostfix(p, parsePrimary(p)), op: t.v, prefix: true, line } as unknown as Expr;
+    return {
+      kind: "IncDec",
+      target: parsePostfix(p, parsePrimary(p)),
+      op: t.v,
+      prefix: true,
+      line,
+    } as unknown as Expr;
   }
   if (p.at("spawn")) {
     p.pos++;
-    if (p.at("{")) return { kind: "Spawn", e: { kind: "Lambda", params: [], body: parseBlock(p), line }, line };
+    if (p.at("{"))
+      return { kind: "Spawn", e: { kind: "Lambda", params: [], body: parseBlock(p), line }, line };
     return { kind: "Spawn", e: parseUnary(p), line };
   }
   if (p.at("await")) {
@@ -776,7 +805,11 @@ function parsePrimary(p: Pr): Expr {
     p.pos++;
     if (t.numKind === "Long") return { kind: "Lit", v: t.num as bigint, line };
     if (t.numKind === "Double" || t.numKind === "Float")
-      return { kind: "Lit", v: { __kofFloat: t.num as number, isFloat: t.numKind === "Float" }, line };
+      return {
+        kind: "Lit",
+        v: { __kofFloat: t.num as number, isFloat: t.numKind === "Float" },
+        line,
+      };
     return { kind: "Lit", v: t.num as number, line };
   }
   if (t.k === "kw" && (t.v === "true" || t.v === "false")) {
@@ -883,7 +916,12 @@ function parsePostfix(p: Pr, base: Expr): Expr {
       const typeArgs = p.at("<") ? parseTypeArgs(p) : [];
       if (p.at("(")) {
         const args = parseArgs(p);
-        e = { kind: "Call", callee: { kind: "Method", obj: e, name: m.v, typeArgs, line }, args, line };
+        e = {
+          kind: "Call",
+          callee: { kind: "Method", obj: e, name: m.v, typeArgs, line },
+          args,
+          line,
+        };
       } else {
         e = { kind: "Field", obj: e, name: m.v, line };
       }
@@ -1024,14 +1062,27 @@ function parseTop(p: Pr): Node {
     if (p.eat("=")) {
       const expr = parseExpr(p);
       p.semi();
-      return { kind: "Fn", name: idTok.v, params, ret, body: { kind: "Block", stmts: [] }, exprBody: expr, modifiers, line };
+      return {
+        kind: "Fn",
+        name: idTok.v,
+        params,
+        ret,
+        body: { kind: "Block", stmts: [] },
+        exprBody: expr,
+        modifiers,
+        line,
+      };
     }
     const body = parseBlock(p);
     return { kind: "Fn", name: idTok.v, params, ret, body, modifiers, line };
   }
   if (modifiers.length) {
     // modificador sem declaração atrás — rejeita limpo
-    throw new KofDiag(`esperado \`class\`/\`record\`/\`interface\`/função após \`${modifiers[modifiers.length - 1]}\``, "PARSE010", p.peek().line);
+    throw new KofDiag(
+      `esperado \`class\`/\`record\`/\`interface\`/função após \`${modifiers[modifiers.length - 1]}\``,
+      "PARSE010",
+      p.peek().line,
+    );
   }
   if (retBefore) {
     // `Tipo nome` sem `(` — declaração tipada de statement (var sem var)
@@ -1123,7 +1174,15 @@ function parseMember(p: Pr): Node {
   if (t.k === "kw" && t.v === "constructor") {
     p.pos++;
     const params = p.at("(") ? parseParams(p) : [];
-    return { kind: "Fn", name: "constructor", params, ret: null, body: parseBlock(p), modifiers: ["constructor"], line };
+    return {
+      kind: "Fn",
+      name: "constructor",
+      params,
+      ret: null,
+      body: parseBlock(p),
+      modifiers: ["constructor"],
+      line,
+    };
   }
   const save = p.pos;
   const retBefore = looksLikeFnHeadType(p) ? parseTypeName(p) : null;
@@ -1136,9 +1195,26 @@ function parseMember(p: Pr): Node {
       if (p.eat("=")) {
         const expr = parseExpr(p);
         p.semi();
-        return { kind: "Fn", name: idTok.v, params, ret: retAfter ?? retBefore, body: { kind: "Block", stmts: [] }, exprBody: expr, modifiers: [], line };
+        return {
+          kind: "Fn",
+          name: idTok.v,
+          params,
+          ret: retAfter ?? retBefore,
+          body: { kind: "Block", stmts: [] },
+          exprBody: expr,
+          modifiers: [],
+          line,
+        };
       }
-      return { kind: "Fn", name: idTok.v, params, ret: retAfter ?? retBefore, body: parseBlock(p), modifiers: [], line };
+      return {
+        kind: "Fn",
+        name: idTok.v,
+        params,
+        ret: retAfter ?? retBefore,
+        body: parseBlock(p),
+        modifiers: [],
+        line,
+      };
     }
     // campo: Tipo name [= init]
     const type = retBefore ?? (looksLikeTypeInParam(p) ? null : null);
@@ -1150,11 +1226,7 @@ function parseMember(p: Pr): Node {
       return { kind: "FieldDecl", name: idTok.v, type: retBefore, init, line };
     }
     // campo sem tipo não existe em Kof
-    throw new KofDiag(
-      `membro \`${idTok.v}\` sem tipo — declare \`Tipo nome\``,
-      "PARSE010",
-      line,
-    );
+    throw new KofDiag(`membro \`${idTok.v}\` sem tipo — declare \`Tipo nome\``, "PARSE010", line);
   }
   p.pos = save;
   throw new KofDiag(`membro inválido \`${p.peek().v || "eof"}\``, "PARSE010", line);

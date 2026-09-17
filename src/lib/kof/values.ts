@@ -211,7 +211,8 @@ export function kofEq(a: KofVal | undefined, b: KofVal | undefined): boolean {
   }
   if (an === null || an === undefined) return bn === null || bn === undefined;
   if (bn === null || bn === undefined) return false;
-  if (typeof an === "string" || typeof an === "boolean") return typeof an === typeof bn && an === bn;
+  if (typeof an === "string" || typeof an === "boolean")
+    return typeof an === typeof bn && an === bn;
   if (isObj(an) && isObj(bn)) {
     if (an.kind !== bn.kind) return false;
     if (an.kind === "record") {
@@ -327,7 +328,8 @@ export function strLastIndexOf2(s: string, needle: string, from: number): number
   const f = from > s.length ? s.length : from;
   if (needle.length === 0) return f;
   if (needle.length > s.length) return -1;
-  for (let i = Math.min(f, s.length - needle.length); i >= 0; i--) if (s.startsWith(needle, i)) return i;
+  for (let i = Math.min(f, s.length - needle.length); i >= 0; i--)
+    if (s.startsWith(needle, i)) return i;
   return -1;
 }
 export function strStartsWith2(s: string, needle: string, from: number): boolean {
@@ -347,7 +349,8 @@ export function kofHashCode(v: KofVal | undefined): number {
   }
   if (typeof n === "boolean") return n ? 1 : 0;
   if (typeof n === "bigint") return Number(BigInt.asIntN(32, n));
-  if (isObj(n) && typeof n.kofHashCode === "function") return (n.kofHashCode as () => number).call(n);
+  if (isObj(n) && typeof n.kofHashCode === "function")
+    return (n.kofHashCode as () => number).call(n);
   return kofHashCode(kofStr(n));
 }
 
