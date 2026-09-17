@@ -32,6 +32,11 @@ export interface SwitchClause {
   isDefault: boolean;
   line: number;
 }
+export interface SwitchExprClause {
+  patterns: Pattern[];
+  body: Expr;
+  isDefault: boolean;
+}
 export interface CatchClause {
   type: string;
   name: string;
@@ -108,9 +113,9 @@ export type Expr =
   | { kind: "Cast"; e: Expr; to: string; line: number }
   | { kind: "InstanceOf"; e: Expr; type: string; binding: string | null; line: number }
   | { kind: "Lambda"; params: Param[]; body: Block | Expr; line: number }
+  | { kind: "SwitchExpr"; subject: Expr; clauses: SwitchExprClause[]; line: number }
   | { kind: "Spawn"; e: Expr; line: number }
   | { kind: "Await"; e: Expr; line: number }
-  | { kind: "IncDec"; target: Expr; op: "++" | "--"; prefix: boolean; line: number }
   | { kind: "CollectionLit"; name: "listOf" | "mapOf" | "setOf" | "arrayOf"; args: Expr[]; typeArgs: string[]; line: number }
   | { kind: "NewArray"; elem: string; dims: Expr[]; line: number }
   | { kind: "NewObj"; type: string; args: Expr[]; line: number };
@@ -489,6 +494,37 @@ function parseFor(p: Pr): Node {
   return { kind: "ForClassic", init, cond, step, body: parseStmtOrBlock(p) };
 }
 
+/** switch-expr SYN001 (0.4.0-beta): `switch (x) { case P -> e; default -> e }`
+ *  — cada caso é UMA expressão; `default` obrigatório; sem break/escopo. */
+function parseSwitchExpr(p: Pr): Expr {
+  const line = p.peek().line;
+  p.pos++;
+  const subject = parseParenExpr(p);
+  p.expect("{");
+  const clauses: SwitchExprClause[] = [];
+  while (!p.at("}") && !p.end()) {
+    if (p.at("default")) {
+      p.pos++;
+      p.expect("->");
+      clauses.push({ isDefault: true, patterns: [], body: parseExpr(p) });
+      p.semi();
+      continue;
+    }
+    p.expect("case");
+    const patterns: Pattern[] = [];
+    do {
+      patterns.push(parsePattern(p));
+    } while (p.eat(","));
+    p.expect("->");
+    clauses.push({ isDefault: false, patterns, body: parseExpr(p) });
+    p.semi();
+  }
+  p.expect("}");
+  if (!clauses.some((c) => c.isDefault))
+    throw new KofDiag("switch-expr exige `default ->` (SYN001)", "SEM032", line);
+  return { kind: "SwitchExpr", subject, clauses, line };
+}
+
 function parseSwitch(p: Pr): Node {
   const line = p.peek().line;
   p.pos++;
@@ -583,6 +619,7 @@ function parseParenExpr(p: Pr): Expr {
 
 function parseExpr(p: Pr): Expr {
   const line = p.peek().line;
+  if (p.at("switch")) return parseSwitchExpr(p);
   if (p.at("if")) {
     p.pos++;
     const cond = parseParenExpr(p);
