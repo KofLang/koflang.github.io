@@ -1,180 +1,178 @@
 /**
- * kof-interpreter — execução de Kof no browser (subset) via transpilação para JS.
- * Cobre: println/print, variáveis, aritmética, if/while/for, funções, lambdas simples.
- * Não é o compilador oficial (Java), mas roda 100% estático no GitHub Pages
- * usando a mesma semântica do KofJS para os casos do playground.
+ * kof-interpreter — execução de Kof 0.4.0-beta no browser, 100% estático
+ * (GitHub Pages, sem servidor). A semântica é a mesma do backend JS oficial
+ * (`kof-runtime.mjs`, gerado por `dev.kof.compiler.js.*`): Int=wrap Int32 com
+ * divisão truncante, Long=BigInt, Double=wrapper Fp com Double.toString do JDK,
+ * Char imprime o caráter (D-NARROW), records/imutáveis, enums, if-expr, switch
+ * com patterns + guards, null-safety, `spawn`/`await` cooperativo e stdlib
+ * 0.4.x (math/strings/encoding/time/uuid/validation/net/random/security).
+ *
+ * Não é o compilador oficial (Java); é uma portação fiel o bastante para o
+ * playground. Todo erro sai com código + linha, espelhando `kof check`
+ * (SEM053, PARSE085, DB001, HTTP003, ...). Nunca silencia: R6.
  */
+import { parseProgram } from "./kof/parser";
+import { KofInterpreter } from "./kof/interp";
+import type { StdCtx } from "./kof/stdlib";
+import { KofDiag } from "./kof/diag";
+import { KofRuntimeError } from "./kof/values";
+
 export type KofResult = { output: string; error?: string };
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-function stripTypes(code: string): string {
-  let s = code;
-  // 1) remove tipo de retorno: ): Type
-  s = s.replace(
-    /\)\s*:\s*(String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\b/g,
-    ")",
-  );
-  // 2) remove anotação : Type  (var x: Int, param: String)
-  s = s.replace(
-    /:\s*(String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\b/g,
-    "",
-  );
-  // 3) remove tipo prefixado em declaração sem var/val:  Int wh = w  -> let wh = w
-  s = s.replace(
-    /(^|[;{\n])\s*(String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\s+(\w+)\s*=/gm,
-    "$1let $3 =",
-  );
-  // 4) remove tipo prefixado em params e resto:  Int v, String s  -> v, s
-  //    (após 3, ainda sobram casos como `f(Int n)` sem `=` )
-  s = s.replace(
-    /\b(?:String|Int|Long|Bool|Double|Float|Char|Void|List<[^>]+>|Set<[^>]+>|Map<[^>]+>|Int\[\]|String\[\]|Bool\[\])\s+(?=[a-zA-Z_]\w*\b)/g,
-    "",
-  );
-  return s;
-}
-
-function transformListOf(js: string): string {
-  let out = "";
-  let i = 0;
-  while (i < js.length) {
-    if (js.startsWith("listOf", i) && (i === 0 || !/[A-Za-z0-9_]/.test(js[i - 1]))) {
-      let j = i + 6;
-      while (j < js.length && /\s/.test(js[j])) j++;
-      // suporta listOf<Int>(...)  - pula <...>
-      if (j < js.length && js[j] === "<") {
-        let d = 1;
-        j++;
-        while (j < js.length && d > 0) {
-          if (js[j] === "<") d++;
-          else if (js[j] === ">") d--;
-          j++;
-        }
-        while (j < js.length && /\s/.test(js[j])) j++;
-      }
-      if (j < js.length && js[j] === "(") {
-        let depth = 1;
-        const start = j + 1;
-        let k = start;
-        while (k < js.length && depth > 0) {
-          if (js[k] === "(") depth++;
-          else if (js[k] === ")") depth--;
-          k++;
-        }
-        const inner = js.slice(start, k - 1);
-        out += "[" + transformListOf(inner) + "]";
-        i = k;
-        continue;
-      }
+/** entropia do SO via WebCrypto (com fallback — o runtime oficial usa SecureRandom) */
+function makeCtx(): StdCtx {
+  const g = globalThis as { crypto?: Crypto };
+  const byte = (): number => {
+    if (g.crypto?.getRandomValues) {
+      const a = new Uint8Array(1);
+      g.crypto.getRandomValues(a);
+      return a[0]!;
     }
-    out += js[i];
-    i++;
-  }
-  return out;
-}
-
-function extractMainBody(code: string): string {
-  const start = code.indexOf("main");
-  if (start !== -1) {
-    const brace = code.indexOf("{", start);
-    if (brace !== -1) {
-      let depth = 0;
-      let end = brace;
-      for (let i = brace; i < code.length; i++) {
-        if (code[i] === "{") depth++;
-        else if (code[i] === "}") {
-          depth--;
-          if (depth === 0) {
-            end = i;
-            break;
-          }
-        }
-      }
-      const body = code.slice(brace + 1, end);
-      const before = code.slice(0, start);
-      const after = code.slice(end + 1);
-      return before + "\n" + body + "\n" + after;
-    }
-  }
-  return code;
-}
-
-export function runKof(raw: string): KofResult {
-  const out: string[] = [];
-  const println = (...args: any[]) => out.push(args.map(String).join(" "));
-  const print = (...args: any[]) => {
-    if (out.length === 0) out.push(args.map(String).join(" "));
-    else out[out.length - 1] += args.map(String).join(" ");
+    return Math.floor(Math.random() * 256);
   };
+  return {
+    now: () => Date.now(),
+    randomByte: byte,
+    randomInt: (bound: number) => {
+      if (bound <= 0) return 0;
+      const range = 256 - (256 % bound);
+      let x = byte();
+      while (x >= range) x = byte();
+      return x % bound;
+    },
+  };
+}
 
+function diagnose(e: unknown): string {
+  if (e instanceof KofDiag) return e.toString();
+  if (e instanceof KofRuntimeError) return `✕ ${e.message} [${e.isThrow ? "RUN" : "ERR"}]`;
+  if (e instanceof Error) return `✕ ${e.message}`;
+  return `✕ ${String(e)}`;
+}
+
+/** executa um programa Kof completo; captura saída de println/print e erros */
+export async function runKof(raw: string): Promise<KofResult> {
+  const code = raw.replace(/\r\n/g, "\n");
+  if (!code.trim()) return { output: "", error: "código vazio" };
   try {
-    let code = raw.trim();
-    if (!code) return { output: "", error: "código vazio" };
-
-    code = code.replace(/^\s*(package|import)\s+.*$/gm, "");
-
-    let js = extractMainBody(code);
-    js = stripTypes(js);
-    js = transformListOf(js);
-
-    js = js
-      .replace(/\bval\s+/g, "let ")
-      .replace(/\bvar\s+/g, "let ")
-      .replace(/\bprintln\s*\(/g, "__kof_println(")
-      .replace(/\bprint\s*\(/g, "__kof_print(")
-      .replace(/for\s*\(\s*let\s+(\w+)\s+in\s+/g, "for (let $1 of ")
-      .replace(/\.size\b/g, ".length")
-      .replace(/\.contains\s*\(/g, ".includes(")
-      .replace(
-        /\bassert\s*\(\s*([^,)]+)(?:,\s*("[^"]*"|'[^']*'))?\s*\)/g,
-        'if(!($1)) throw new Error($2 || "assert falhou")',
-      )
-      .replace(/\bclass\s+\w+[\s\S]*?\{[\s\S]*?\n\}/g, "/* class removida no subset */")
-      .replace(/\brecord\s+\w+.*$/gm, "/* record */")
-      .replace(/\benum\s+\w+.*$/gm, "/* enum */")
-      .replace(
-        /^(\s*)(?!if\b|while\b|for\b|switch\b|catch\b|return\b)(\w+)\s*\(([^)]*)\)\s*\{/gm,
-        "$1function $2($3) {",
-      );
-
-    const hasMainFn = /function\s+main\s*\(/.test(js);
-    const execCode = `
-      const __kof_println = println;
-      const __kof_print = print;
-      const List = Array;
-      ${js}
-      ${hasMainFn ? "\nif (typeof main === 'function') main();" : ""}
-    `;
-
-    const fn = new Function("println", "print", execCode);
-    fn(println, print);
-
-    return { output: out.join("\n") };
-  } catch (e: any) {
-    const msg = e?.message ?? String(e);
-    const partial = out.join("\n");
-    return { output: partial, error: msg };
+    const prog = parseProgram(code);
+    const interp = new KofInterpreter(prog, makeCtx());
+    const output = await interp.run();
+    return { output };
+  } catch (e) {
+    return { output: "", error: diagnose(e) };
   }
 }
 
 export const playgroundExamples: { label: string; code: string }[] = [
   {
     label: "Olá",
-    code: `main() {\n    println("Olá, Kof!")\n    println("2 + 2 = " + (2+2))\n}`,
+    code: `main() {
+    println("Olá, Kof!")
+    println("2 + 2 = " + (2 + 2))
+    println("7 / 2 = " + (7 / 2) + "  // divisão inteira truncante")
+}`,
   },
   {
-    label: "Fatorial",
-    code: `fatorial(Int n): Int {\n    if (n <= 1) return 1\n    return n * fatorial(n - 1)\n}\nmain() {\n    println("5! = " + fatorial(5))\n    for (var i = 1; i <= 5; i = i+1) {\n        println(i + "! = " + fatorial(i))\n    }\n}`,
+    label: "Record",
+    code: `record Point(Int x, Int y)
+
+main() {
+    var p = Point(1, 2)
+    println(p)              // Point[x=1, y=2]
+    println("x=" + p.x + " y=" + p.y)
+    var q = Point(1, 2)
+    println("igualdade por conteúdo: " + (p == q))
+}`,
+  },
+  {
+    label: "Enum",
+    code: `enum Cor { Vermelho, Verde, Azul }
+
+main() {
+    for (var c in Cor.values()) {
+        println(c + " → " + c.ordinal())
+    }
+    var escolha = Cor.Verde
+    var nome = switch (escolha) {
+        Cor.Vermelho -> "pare"
+        Cor.Verde -> "siga"
+        Cor.Azul -> "atenção"
+    }
+    println("semáforo: " + nome)
+}`,
+  },
+  {
+    label: "Switch patterns",
+    code: `main() {
+    var valores = listOf(1, "dois", 3.5, null)
+    for (var v in valores) {
+        var desc = switch (v) {
+            is Int -> "inteiro " + v
+            is String -> "texto \\"" + v + "\\""
+            is Double -> "real " + v
+            null -> "nada"
+            else -> "?"
+        }
+        println(desc)
+    }
+}`,
+  },
+  {
+    label: "Null-safety",
+    code: `main() {
+    var nome: String? = null
+    println(nome ?: "anônimo")     // elvis
+    var x: String? = "Kof"
+    println(x?.length() ?: 0)      // chamada segura
+    // descomente para ver SEM049 (dereference de null):
+    // println(nome.length())
+}`,
   },
   {
     label: "Coleções",
-    code: `main() {\n    var nums = listOf(3, 1, 4, 1, 5)\n    println("lista: " + nums)\n    println("tamanho: " + nums.size)\n    var soma = 0\n    for (var n in nums) {\n        soma = soma + n\n    }\n    println("soma: " + soma)\n}`,
+    code: `main() {
+    var nums = listOf(3, 1, 4, 1, 5)
+    println("lista: " + nums + "  tamanho: " + nums.size())
+    var soma = 0
+    for (var n in nums) soma += n
+    println("soma: " + soma)
+    var m = mapOf("a" to 1, "b" to 2)
+    println("mapa: " + m + "  m[b]=" + m.get("b"))
+}`,
   },
   {
-    label: "Fibonacci",
-    code: `fib(Int n): Int {\n    if (n <= 1) return n\n    return fib(n-1) + fib(n-2)\n}\nmain() {\n    for (var i = 0; i < 8; i = i+1) {\n        println("fib(" + i + ") = " + fib(i))\n    }\n}`,
+    label: "spawn / await",
+    code: `dobro(Int n): Int {
+    return n * 2
+}
+
+main() {
+    var h = spawn {
+        println("tarefa em segundo plano")
+        println("dobro(21) = " + dobro(21))
+    }
+    println("continua sem bloquear")
+    await h
+}`,
   },
   {
-    label: "UI (preview estático)",
-    code: `// UI roda via KofJS -> DOM. No playground console mostramos lógica pura:\nprogressBar(Int v, Int max): String {\n    var filled = v * 20 / max\n    var out = ""\n    var i=0\n    while(i<20){\n        if(i < filled) out = out + "█"\n        else out = out + "░"\n        i=i+1\n    }\n    return out + " " + v + "/" + max\n}\nmain() {\n    println(progressBar(7, 10))\n    println(progressBar(15, 20))\n}`,
+    label: "Stdlib",
+    code: `main() {
+    println(math.sqrt(144))
+    println(strings.toSnakeCase("NomeCompleto"))
+    println(strings.slugify("Olá, Kof!"))
+    println(encoding.toBase64("Kof"))
+    println(uuid.isUuid("00000000-0000-4000-8000-000000000000"))
+    println(validation.isEmail("a@b.co"))
+}`,
+  },
+  {
+    label: "Gaps (honesto)",
+    code: `main() {
+    // no browser essas faces reportam o MESMO código que \`kof check\`:
+    var r = kof.db.connect("sqlite:test.db")   // → DB001
+    println(r)
+}`,
   },
 ];
