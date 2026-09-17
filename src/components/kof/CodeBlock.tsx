@@ -1,7 +1,30 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 const KEYWORDS = new Set([
-  "fun",
+  "switch",
+  "case",
+  "default",
+  "spawn",
+  "await",
+  "as",
+  "instanceof",
+  "enum",
+  "entity",
+  "extern",
+  "generated",
+  "unique",
+  "do",
+  "break",
+  "continue",
+  "assert",
+  "protected",
+  "abstract",
+  "override",
+  "native",
+  "synchronized",
+  "transient",
+  "volatile",
+  "super",
   "class",
   "var",
   "val",
@@ -32,6 +55,19 @@ const KEYWORDS = new Set([
 ]);
 
 const TYPES = new Set([
+  "bool",
+  "byte",
+  "short",
+  "int",
+  "long",
+  "float",
+  "double",
+  "char",
+  "string",
+  "void",
+  "Bool",
+  "Byte",
+  "Short",
   "String",
   "Int",
   "Long",
@@ -120,16 +156,26 @@ export function CodeBlock({
   showLineNumbers?: boolean;
   className?: string;
 }) {
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState<"idle" | "copying" | "copied" | "error">("idle");
   const lines = useMemo(() => code.replace(/\n$/, "").split("\n"), [code]);
 
+  useEffect(() => {
+    setCopyState("idle");
+  }, [code]);
+
+  useEffect(() => {
+    if (copyState !== "copied") return;
+    const timer = window.setTimeout(() => setCopyState("idle"), 1600);
+    return () => window.clearTimeout(timer);
+  }, [copyState]);
+
   const copy = async () => {
+    setCopyState("copying");
     try {
       await navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
+      setCopyState("copied");
     } catch {
-      /* clipboard unavailable */
+      setCopyState("error");
     }
   };
 
@@ -144,11 +190,20 @@ export function CodeBlock({
         <button
           type="button"
           onClick={copy}
-          className="rounded-sm px-2 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          disabled={copyState === "copying"}
+          className="rounded-sm px-2 py-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors hover:bg-accent hover:text-foreground disabled:opacity-50"
           aria-label="Copiar código"
         >
-          {copied ? "copiado" : "copiar"}
+          {copyState === "copied" ? "copiado" : copyState === "copying" ? "copiando…" : "copiar"}
         </button>
+      </div>
+      <div role="status" className="font-mono text-xs">
+        {copyState === "error" && (
+          <p className="px-3 py-2 text-destructive">
+            Não foi possível copiar. Tente novamente ou selecione o código e copie manualmente.
+          </p>
+        )}
+        {copyState === "copied" && <span className="sr-only">Código copiado.</span>}
       </div>
       <pre className="flex-1 overflow-auto overscroll-contain p-4 font-mono text-[13px] leading-6 sm:text-sm">
         <code>
@@ -157,7 +212,7 @@ export function CodeBlock({
               {showLineNumbers && (
                 <span
                   aria-hidden="true"
-                  className="mr-4 w-6 shrink-0 select-none text-right text-code-com"
+                  className="mr-4 min-w-6 shrink-0 select-none text-right text-code-com"
                 >
                   {idx + 1}
                 </span>

@@ -70,7 +70,8 @@ export const playgroundExamples: { label: string; code: string }[] = [
     code: `main() {
     println("Olá, Kof!")
     println("2 + 2 = " + (2 + 2))
-    println("7 / 2 = " + (7 / 2) + "  // divisão inteira truncante")
+    println("7 / 2 = " + (7 / 2) + "   // divisão inteira truncante")
+    println("2.5 + 1 = " + (2.5 + 1))   // Double no formato JDK: 3.5
 }`,
   },
   {
@@ -79,10 +80,10 @@ export const playgroundExamples: { label: string; code: string }[] = [
 
 main() {
     var p = Point(1, 2)
-    println(p)              // Point[x=1, y=2]
+    println(p)                  // Point[x=1, y=2]
     println("x=" + p.x + " y=" + p.y)
     var q = Point(1, 2)
-    println("igualdade por conteúdo: " + (p == q))
+    println("igual por conteúdo? " + (p == q))
 }`,
   },
   {
@@ -91,54 +92,62 @@ main() {
 
 main() {
     for (var c in Cor.values()) {
-        println(c + " → " + c.ordinal())
+        println(c + " → ordinal " + c.ordinal())
     }
-    var escolha = Cor.Verde
-    var nome = switch (escolha) {
-        Cor.Vermelho -> "pare"
-        Cor.Verde -> "siga"
-        Cor.Azul -> "atenção"
+    var nome = ""
+    switch (Cor.Verde) {
+        case Vermelho: { nome = "pare" }
+        case Verde:    { nome = "siga" }
+        case Azul:     { nome = "atenção" }
     }
     println("semáforo: " + nome)
 }`,
   },
   {
-    label: "Switch patterns",
-    code: `main() {
-    var valores = listOf(1, "dois", 3.5, null)
-    for (var v in valores) {
-        var desc = switch (v) {
-            is Int -> "inteiro " + v
-            is String -> "texto \\"" + v + "\\""
-            is Double -> "real " + v
-            null -> "nada"
-            else -> "?"
-        }
-        println(desc)
+    label: "Switch expr",
+    code: `record Circulo(Double raio)
+record Retangulo(Double largura, Double altura)
+
+main() {
+    var forma = Retangulo(3.0, 4.0)
+    var desc = switch (forma) {
+        case Circulo c -> "círculo raio " + c.raio()
+        case Retangulo r -> "retângulo " + r.largura() + "x" + r.altura()
+        default -> "desconhecido"
     }
+    println(desc)
 }`,
   },
   {
     label: "Null-safety",
-    code: `main() {
-    var nome: String? = null
-    println(nome ?: "anônimo")     // elvis
-    var x: String? = "Kof"
-    println(x?.length() ?: 0)      // chamada segura
-    // descomente para ver SEM049 (dereference de null):
-    // println(nome.length())
+    code: `String? find(Int id) {
+    if (id == 1) { return "mel" }
+    return null
+}
+
+main() {
+    var s = find(1)
+    if (s != null) {
+        println("achei: " + s + " (length " + s.length() + ")")
+    }
+    var v = find(42)
+    println(v == null)   // true
 }`,
   },
   {
     label: "Coleções",
     code: `main() {
     var nums = listOf(3, 1, 4, 1, 5)
-    println("lista: " + nums + "  tamanho: " + nums.size())
+    println("lista: " + nums + "  size: " + nums.size())
     var soma = 0
     for (var n in nums) soma += n
     println("soma: " + soma)
-    var m = mapOf("a" to 1, "b" to 2)
-    println("mapa: " + m + "  m[b]=" + m.get("b"))
+
+    var idades = mapOf()
+    idades.put("Ana", 26)
+    idades.put("Bob", 31)
+    println("idades: " + idades)
+    println("idades.get(Ana) = " + idades.get("Ana"))
 }`,
   },
   {
@@ -148,21 +157,20 @@ main() {
 }
 
 main() {
-    var h = spawn {
-        println("tarefa em segundo plano")
-        println("dobro(21) = " + dobro(21))
-    }
-    println("continua sem bloquear")
-    await h
+    val r = spawn dobro(21)      // Handle<Int>
+    println("trabalhando enquanto a soma acontece...")
+    val total = await r
+    println("dobro(21) = " + total)
 }`,
   },
   {
     label: "Stdlib",
     code: `main() {
     println(math.sqrt(144))
+    println(math.clamp(15, 0, 10))
     println(strings.toSnakeCase("NomeCompleto"))
     println(strings.slugify("Olá, Kof!"))
-    println(encoding.toBase64("Kof"))
+    println(encoding.base64Encode("Kof"))
     println(uuid.isUuid("00000000-0000-4000-8000-000000000000"))
     println(validation.isEmail("a@b.co"))
 }`,
@@ -170,9 +178,9 @@ main() {
   {
     label: "Gaps (honesto)",
     code: `main() {
-    // no browser essas faces reportam o MESMO código que \`kof check\`:
-    var r = kof.db.connect("sqlite:test.db")   // → DB001
-    println(r)
+    // no browser essa face reporta o MESMO código que \`kof check\`:
+    var db = db.connect("jdbc:h2:mem:test")   // → DB001
+    println(db)
 }`,
   },
 ];

@@ -1007,8 +1007,9 @@ function parseTop(p: Pr): Node {
 }
 
 /** após `nome(`: se o balanceamento fecha e vem `{`, `: Tipo {`, `= expr` → declaração */
-function looksLikeFnDecl(p: Pr, start: number): boolean {
-  let q = start + 2; // pula `nome` e `(`
+function looksLikeFnDecl(p: Pr, _start: number): boolean {
+  // peek() é relativo a p.pos (=== start): anda com offsets relativos
+  let q = 2; // pula `nome` e `(`
   let depth = 1;
   for (;;) {
     const tk = p.peek(q);
@@ -1024,7 +1025,6 @@ function looksLikeFnDecl(p: Pr, start: number): boolean {
   if (p.peek(q).v === "{") return true;
   if (p.peek(q).v === ":") {
     q++;
-    // pula tipo
     if (p.peek(q).k === "kw" || p.peek(q).k === "id") {
       q++;
       while (p.peek(q).v === "<") {
