@@ -1,5 +1,5 @@
 /**
- * Semântica KofJS (Kof4j 0.4.0-beta) — portação fiel dos helpers do
+ * Semântica KofJS (Kof4j 0.5.0-beta) — portação fiel dos helpers do
  * kof-runtime.mjs real (JsRuntimeCore / JsRuntimeUiNumFmt / JsRuntimeUiLayout):
  * Double.toString do JDK (§264), divisão inteira truncante, wrap Int32,
  * Long=BigInt (§81), igualdade de conteúdo kofValEq (§104c), kofFormat (§107),

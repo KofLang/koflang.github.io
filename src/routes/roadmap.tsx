@@ -130,6 +130,15 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "kof.uuid v4 (SECN000 cross-arch)",
       "arrays multidimensionais new T[a][b] (KofNewMultiArray — MULTIANEWARRAY JVM/JS/Interpreter)",
       "releases multiplataforma",
+      "GC auto-collect no Native (§260 G-6a, 19/09)",
+      "package registry MVP — publish + pull (D2-A, 19/09)",
+      "paridade DB total: mariadb/mysql/sqlite/mongodb em JVM/JS/Native x86+cross + ORM cross (0.5.0-beta, 27/09)",
+      "motores interop KofPy/KofR + timeout/cancel/JVM-x86-JS-Script-cross (0.5.0-beta, 27/09)",
+      "memory-safety: ownership pass + O-03 clear-null; Kofmd + kof md check/format (0.5.0-beta, 27/09)",
+      "secrets + makealive; LSP 32 namespaces; FFI structs ABI + callbacks JS (0.5.0-beta, 27/09)",
+      "supervisor OTP em todos os Native; multiarch GC/dtoa/canales/io/media/ssh/time/pow (0.5.0-beta, 27/09)",
+      "tree-shaking + workflow runner + debug info DWARF cross + type variance X5/X6 (0.5.0-beta, 27/09)",
+      "0.5.0-beta finalizada e mergeada em main (27/09)",
     ],
   },
   {
@@ -137,7 +146,7 @@ const groups: { status: Status; title: string; items: string[] }[] = [
     title: "Em desenvolvimento",
     items: [
       "Standard Library (contratos em estabilização)",
-      "GC auto-collect (safe-points + mapa de raízes por frame)",
+
       "Package manager além do MVP (registry)",
       "Debugger — além do MVP JVM (DAP sobre stdio já no JVM; JS source maps V3 linha ✅, DWARF Native linha ✅ parcial — variáveis/expressões e breakpoints nativos pendentes + VS Code ext)",
       "KofJS — plataforma web no browser (ES Modules via GraalJS); web server base ✅ (HttpServer + KofJsWebQueue); residual ws/sse/TLS/path params (WEB001)",
@@ -192,7 +201,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — o desenvolvimento segue no ramo 0.4.x (0.4.1-beta, 15/09) e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — a 0.5.0-beta foi finalizada e mergeada em main (27/09) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">

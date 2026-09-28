@@ -61,7 +61,7 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.4.1-beta, com artefatos para
+          Os downloads apontam para as releases oficiais no GitHub (0.5.0-beta, com artefatos para
           Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
           aqui.
         </p>
@@ -146,16 +146,16 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.4.1-beta
+Kof 0.5.0-beta
 Release channel: beta
 Tooling API: 21
 OS: linux
 Arch: x86_64
 Target: linux-x86_64
 JVM: Eclipse Adoptium 25 (embedded)
-Compiler: 0.4.1
-Runtime: 0.4.1
-Stdlib: 0.4.1
+Compiler: 0.5.0
+Runtime: 0.5.0
+Stdlib: 0.5.0
 Targets: jvm, native, js (alpha)
 LSP: available
 Editor support: available

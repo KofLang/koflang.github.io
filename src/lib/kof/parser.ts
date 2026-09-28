@@ -1,5 +1,5 @@
 /**
- * Parser Kof (playground) — descida recursiva sobre a linguagem da 0.4.0-beta:
+ * Parser Kof (playground) — descida recursiva sobre a linguagem da 0.5.0-beta:
  * funções com tipo antes (`Int f()`) ou depois (`f(): Int`), expression body
  * (`Int dobro(Int x) = x*2`), main(), classes com construtor primário,
  * records, enums, if-expr, switch com record/type patterns + guards (SG-014),

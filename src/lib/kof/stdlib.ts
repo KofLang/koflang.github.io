@@ -1,5 +1,5 @@
 /**
- * Stdlib Kof 0.4.x para o browser — algoritmos portados 1:1 das fatias do
+ * Stdlib Kof 0.5.0 para o browser — algoritmos portados 1:1 das fatias do
  * kof-runtime.mjs real (JsRuntimeUiStdlib / JsRuntimeUiWs / JsRuntimeUiNet /
  * JsRuntimeUiUuid / JsRuntimeUiRandom / JsRuntimeUiCrypto / JsRuntimeUiWeb /
  * JsRuntimeUiSecurity). Mesma saída dos 5 alvos onde o contrato é puro;
@@ -1329,7 +1329,7 @@ export function callStdlib(ns: string, fn: string, args: KofVal[], ctx: StdCtx):
   const group = GROUPS[ns];
   if (group) {
     const f = group[fn];
-    if (!f) throw new KofRuntimeError(`\`${ns}.${fn}\` não existe na stdlib Kof 0.4.x`);
+    if (!f) throw new KofRuntimeError(`\`${ns}.${fn}\` não existe na stdlib Kof 0.5.0`);
     return f(args, ctx);
   }
   if (GAPPED[ns]) throw new KofRuntimeError(GAPPED[ns]);

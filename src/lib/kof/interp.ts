@@ -1,5 +1,5 @@
 /**
- * Avaliador Kof (playground) — AST da 0.4.0-beta com semântica do backend JS
+ * Avaliador Kof (playground) — AST da 0.5.0-beta com semântica do backend JS
  * oficial (kof-runtime.mjs): records com toString/equals de conteúdo (§104c),
  * classes com construtor primário, enums com values()/valueOf()/name()/ordinal
  * + switch exaustivo (SEM031), pattern matching com guards (SG-014),

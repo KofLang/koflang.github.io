@@ -234,7 +234,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.4.1-beta</span>
+              <span className="text-signal">v0.5.0-beta</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -865,10 +865,10 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, desenvolvimento segue em 0.4.1-beta (15/09)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, 0.5.0-beta finalizada e mergeada em main (27/09)."
       >
         <div className="grid items-start gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.4.1-beta)" status="available">
+          <Card title="Concluído (0.5.0-beta)" status="available">
             <FeatureList
               items={[
                 "Base do compilador: lexer, parser, AST, sistema de tipos, análise semântica e Kof IR",
@@ -902,19 +902,26 @@ $ kof version`}
                 "overloading top-level e de método (4 backends); Long como BigInt no JS",
                 "GC mark-sweep no Native + runtime pruning (hello x86 32.5KB)",
                 "kof new + kof build --fat (1777+ testes)",
+                "paridade DB total: mariadb/mysql/sqlite/mongodb em JVM/JS/Native x86+cross + ORM cross (0.5.0)",
+                "motores interop KofPy/KofR + timeout/cancel (JVM/x86/JS/Script/cross) (0.5.0)",
+                "memory-safety: ownership pass + O-03 clear-null; Kofmd + kof md check/format (0.5.0)",
+                "secrets + makealive; LSP 32 namespaces; FFI structs ABI + callbacks JS (0.5.0)",
+                "supervisor OTP em todos os Native; multiarch GC/dtoa/canales/io/media/ssh/time/pow (0.5.0)",
+                "tree-shaking + registry + workflow runner + debug info DWARF cross (0.5.0)",
+                "GC auto-collect no Native (§260 G-6a) (0.5.0)",
+                "0.5.0-beta finalizada e mergeada em main (27/09)",
               ]}
             />
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
             <FeatureList
               items={[
-                "GC auto-collect (safe-points + mapa de raízes por frame)",
-                "package manager além do MVP (registry)",
-                "LSP + diagnostics reais (hover/completion, references/rename)",
+                "package registry além do MVP",
+                "LSP além do MVP",
                 "debugger além do MVP JVM (DWARF Native, source maps JS)",
                 "KofJS plataforma web no browser",
                 "web no Native/JS residual (TLS/ws/sse — WEB002 / WEB001)",
-                "riscv/aarch com gates honestos (SECN000 / SCHED001)",
+                "riscv/aarch64 em paridade (GC/dtoa/canales/io/media/ssh); MCU/riscv32 + gaps honestos",
               ]}
             />
           </Card>

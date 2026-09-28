@@ -135,7 +135,7 @@ main() {
         index="04"
         eyebrow="Estado da linguagem"
         title="O que já existe no frontend da linguagem"
-        lead="Recursos abaixo fazem parte da base do compilador (0.4.1-beta). A separação linguagem ≠ compilador ≠ target está documentada em docs/language-reference/ (gramática, sistema de tipos, semântica) e docs/compiler-architecture.md (implementação)."
+        lead="Recursos abaixo fazem parte da base do compilador (0.5.0-beta). A separação linguagem ≠ compilador ≠ target está documentada em docs/language-reference/ (gramática, sistema de tipos, semântica) e docs/compiler-architecture.md (implementação)."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
