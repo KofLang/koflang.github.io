@@ -99,7 +99,7 @@ const targets: {
   ↓
  Backend nativo (riscv64/aarch64)
   ↓
- ELF estático (sem libc)`,
+ ELF (qemu)`,
   },
   {
     name: "KofScript",
@@ -113,18 +113,18 @@ const targets: {
   },
   {
     name: "Web — KofJS",
-    status: "in-development",
+    status: "available",
     desc: "O mesmo frontend e a mesma Kof IR geram ES Modules (ECMAScript 2022+) executados na engine JS embarcada (GraalJS). Concorrência real via async/await (CONC003), kof.http com fetch async real (spawn + await), servidor web embutido (HttpServer GraalJS + KofJsWebQueue), Long como BigInt.",
     pipeline: `Kof
   ↓
- KofJS (alpha)
+ KofJS
   ↓
  JavaScript (GraalJS)`,
   },
   {
     name: "KofC",
     status: "available",
-    desc: "Subset C (int globals, void funcs, if/while, deref &/*) → ELF nativo x86_64 via kof_c. Nativo-only, sem JVM.",
+    desc: "Subset C (int globals, void funcs, if/while, deref &/*) → ELF x86_64/riscv64/aarch64 via kof_c (C1–C4 cross).",
     pipeline: `C subset (.c)
   ↓
  KofC compiler
@@ -166,7 +166,7 @@ function ArchDiagram() {
     {
       backend: "Backend nativo (riscv64/aarch64)",
       artifact: "ELF estático",
-      world: "OS/CPU (sem libc)",
+      world: "OS/CPU",
       status: "available",
     },
     {
@@ -250,7 +250,7 @@ function HomePage() {
 
             <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
               Menos código. Mais intenção. Uma linguagem moderna, estaticamente tipada, que compila
-              direto para JVM, binário nativo e web (KofJS, em alpha).
+              direto para JVM, binário nativo e web.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -523,7 +523,7 @@ software`}</Ascii>
         index="08"
         eyebrow="Memória"
         title="Você escreve código. O runtime cuida da memória."
-        lead="O código Kof não muda porque o target mudou. Nada de malloc, free, ponteiros ou lifetimes manuais. A JVM usa o GC da JVM; Native terá gerenciamento próprio. A abstração de memória pertence à plataforma, não ao usuário."
+        lead="O código Kof não muda porque o target mudou. Nada de malloc, free, ponteiros ou lifetimes manuais. A JVM usa o GC da JVM; Native tem gerenciamento próprio (free-list + mark-sweep + auto-collect). A abstração de memória pertence à plataforma, não ao usuário."
       >
         <CodeBlock
           filename="memoria.kf"
@@ -645,8 +645,8 @@ main() {
        ├── Database    ✅ disponível
        ├── Autenticação     ✅ disponível (app.security + OAuth2)
        ├── Mensageria       ✅ disponível
-       ├── Supervisão OTP   ✅ disponível (JVM+Script+Native x86)
-       ├── Async            🚧 em construção
+       ├── Supervisão OTP   ✅ disponível (JVM+Script+todos os Native)
+       ├── Async            ✅ disponível (spawn/await/selectAny/channels)
        └── Concorrência     ✅ disponível (spawn/await nos 4 targets)`}</Ascii>
             <CodeBlock
               language="shell"
@@ -896,7 +896,7 @@ $ kof version`}
                 "LSP references + rename e releases multiplataforma single-job",
                 "kof.strings / encoding / random / validation / time / net / math / uuid (v4 + v7)",
                 "arrays multidimensionais e kof.media (Image/Audio/Mic/Video + serveDir com Range)",
-                "kof.supervisor (OTP core: JVM + Script + Native x86)",
+                "kof.supervisor (OTP core: JVM + Script + todos os Native)",
                 "web server no KofJS (HttpServer GraalJS + fetch async)",
                 "app.security() + OAuth2 resource server (JVM)",
                 "overloading top-level e de método (4 backends); Long como BigInt no JS",

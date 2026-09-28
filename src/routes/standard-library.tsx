@@ -59,12 +59,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "banco de dados (kof.db)",
     status: "available",
-    note: "JDBC com query tipada e transaction {} commit/rollback real na JVM; SQLite nativo via .so direto e MySQL/MariaDB via wire protocol (prepared statements binários) no Native. Gap DB001 no KofJS e no cross riscv64/aarch64.",
+    note: "JDBC com query tipada e transaction {} commit/rollback real na JVM e delegate JDBC no KofJS; SQLite nativo + MySQL/MariaDB via wire protocol (prepared statements binários) no Native x86-64 e cross riscv64/aarch64; DB001 só para schemes sem wire (postgres nativo, oracle, mongo no JS/Native).",
   },
   {
     name: "ORM (kof.orm)",
     status: "available",
-    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM; Query DSL tipada (ORM001); validado em MariaDB 11 e PostgreSQL 16, com MongoDB. Gaps ORM001/ORM002 nos demais.",
+    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM e no Native (SQLite + MySQL, x86-64 e cross riscv64/aarch64); Query DSL tipada (ORM001); validado em MariaDB 11 e PostgreSQL 16, com MongoDB. ORM001 no JS.",
   },
   {
     name: "logs (kof.log)",
@@ -170,7 +170,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "supervisão OTP (kof.supervisor)",
     status: "available",
-    note: "host puro-Kof import kof.supervisor: observe-failure, restart individual, restart limit + escalate, stop cooperativo; JVM+Script+Native x86 (15/09); OTP001/OTP002 honestos no cross/JS.",
+    note: "host puro-Kof import kof.supervisor: observe-failure, restart individual, restart limit + escalate, stop cooperativo; JVM+Script+todos os Native; OTP001/OTP002 removidos (supervisor em todos os alvos).",
   },
   {
     name: "arrays multidimensionais",

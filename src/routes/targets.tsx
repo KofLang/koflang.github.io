@@ -14,7 +14,7 @@ export const Route = createFileRoute("/targets")({
       { property: "og:title", content: "Targets — Kof" },
       {
         property: "og:description",
-        content: "Kof IR para JVM bytecode, binário nativo e ES Modules (KofJS, alpha).",
+        content: "Kof IR para JVM bytecode, binário nativo e ES Modules.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "https://koflang.github.io/targets" },
@@ -64,10 +64,10 @@ Native Backend
   ↓
 Executable`}</Ascii>
             <p className="mt-4">
-              ELF x86-64 direto (syscalls, sem libc). GC com free-list{" "}
+              ELF x86-64 (libc dinâmica; sqlite/libm/pthread por uso). GC com free-list{" "}
               <span className="font-mono">kof_free_head</span> +{" "}
-              <span className="font-mono">kof_gc_collect</span> mark-sweep real + runtime por
-              alcançabilidade (hello: 627→37 símbolos, 32.5KB;{" "}
+              <span className="font-mono">kof_gc_collect</span> mark-sweep real + auto-collect +
+              runtime podado por alcançabilidade ({" "}
               <span className="font-mono">kof build --print-sizes</span>).
             </p>
           </Card>
@@ -106,18 +106,17 @@ Executable`}</Ascii>
           <Card title="Native — riscv64 / aarch64" status="available">
             <p>
               <span className="font-mono">native.risc</span> (riscv64) e{" "}
-              <span className="font-mono">native.arm</span> (aarch64) — ELF estático via{" "}
-              <span className="font-mono">cross-as/ld + qemu</span> com codegen real em asm puro e
-              stdlib (JSON, HTTP, spawn/await, String methods, kof.random, encoding, net.* — 19/19+
-              qemu, NATIVE002; NET001 fechado; gates honestos DB001/SECN000/SCHED001 no cross).
+              <span className="font-mono">native.arm</span> (aarch64) — codegen real em asm puro +
+              stdlib sob qemu (JSON, HTTP, spawn/await, String, io, db/orm, media, GC/dtoa/canais;
+              paridade DB total; gaps honestos PROC001/MCU e DB001 para schemes sem wire).
             </p>
             <Ascii className="mt-4">{`Kof IR
   ↓
  NativeBackend (riscv64/aarch64)
   ↓
- ELF estático (sem libc, estático)
+  ELF (qemu)
   ↓
- qemu`}</Ascii>
+  qemu`}</Ascii>
           </Card>
 
           <Card title="KofC — C subset" status="available">
@@ -125,7 +124,8 @@ Executable`}</Ascii>
               <span className="font-mono">kof c</span> — subset de C (
               <span className="font-mono">int</span> globals,{" "}
               <span className="font-mono">void</span> funcs,{" "}
-              <span className="font-mono">if/while/*(int*)/&amp;</span>) → ELF x86-64 nativo-only.
+              <span className="font-mono">if/while/*(int*)/&amp;</span>) → ELF
+              x86-64/riscv64/aarch64 (C1–C4 cross).
             </p>
             <Ascii className="mt-4">{`C subset
   ↓
