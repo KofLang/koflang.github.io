@@ -17,7 +17,6 @@ const NAV = [
 const EXTERNAL_NAV = [
   { href: FOUNDATION, label: "Fundação" },
   { href: CURSO, label: "Curso gratuito" },
-  { href: GITHUB, label: "GitHub" },
 ];
 
 export function Header() {
