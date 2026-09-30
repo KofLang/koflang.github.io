@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import logo from "@/assets/kof.png";
-import { CURSO, GITHUB, RELEASES, THEME_MAKER } from "./primitives";
+import { CURSO, FOUNDATION, FOUNDATION_APOIAR, GITHUB, RELEASES, THEME_MAKER } from "./primitives";
 
 const NAV = [
   { to: "/language", label: "Linguagem" },
@@ -15,6 +15,7 @@ const NAV = [
 ] as const;
 
 const EXTERNAL_NAV = [
+  { href: FOUNDATION, label: "Fundação" },
   { href: CURSO, label: "Curso gratuito" },
   { href: GITHUB, label: "GitHub" },
 ];
@@ -136,6 +137,16 @@ export function Footer() {
               </a>
             </li>
             <li>
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={FOUNDATION}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                The Kof Foundation
+              </a>
+            </li>
+            <li>
               <Link className="text-muted-foreground hover:text-foreground" to="/kof-editor">
                 Editor & Theme Maker
               </Link>
@@ -195,6 +206,16 @@ export function Footer() {
               <Link className="text-muted-foreground hover:text-foreground" to="/about">
                 Sobre
               </Link>
+            </li>
+            <li>
+              <a
+                className="text-muted-foreground hover:text-foreground"
+                href={FOUNDATION_APOIAR}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Apoiar a fundação
+              </a>
             </li>
           </ul>
         </div>

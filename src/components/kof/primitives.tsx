@@ -8,6 +8,9 @@ export const EDITOR = "https://koflang.github.io/Kof-Editor";
 export const EDITOR_GITHUB = "https://github.com/KofLang/Kof-Editor";
 export const THEME_MAKER = "https://koflang.github.io/Kof-editor-theme-maker";
 export const CURSO = "https://github.com/lunalully/curso-completo-de-kof";
+export const FOUNDATION = "https://kof-foundation.github.io/";
+export const FOUNDATION_APOIAR = `${FOUNDATION}apoiar`;
+export const FOUNDATION_APOIADORES = `${FOUNDATION}apoiadores`;
 
 export const COLLECTION_LINKS = [
   {
