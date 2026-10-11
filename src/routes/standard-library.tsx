@@ -155,7 +155,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "rede (kof.net)",
     status: "available",
-    note: "URI parse + fetch; NET001 fechado nos 6 alvos (x86_64/riscv64/aarch64/JS/JVM/Android).",
+    note: "URI parse + fetch; NET001 fechado nos 6 alvos (x86_64/riscv64/aarch64/JS/JVM/Android). Front de sockets (listen/accept/connect/UDP): real na JVM e nos Native x86-64 + cross riscv64/aarch64 (NET002 aposentado, 02/10); recusado em JS na v1 (NETN001 em compile-time, nunca silencioso).",
   },
   {
     name: "identidade (kof.uuid)",

@@ -112,8 +112,9 @@ Executable`}</Ascii>
             <p>
               <span className="font-mono">native.risc</span> (riscv64) e{" "}
               <span className="font-mono">native.arm</span> (aarch64) — codegen real em asm puro +
-              stdlib sob qemu (JSON, HTTP, spawn/await, String, io, db/orm, media, GC/dtoa/canais;
-              paridade DB total; gaps honestos PROC001/MCU e DB001 para schemes sem wire). Três
+              stdlib sob qemu (JSON, HTTP, spawn/await, String, io, db (SQLite real no cross desde
+              15/09)/orm, GC/dtoa/canais; MySQL/MariaDB wire só no x86-64 — cross recusa DB001 com
+              honestidade, assim como schemes sem wire). kof.media é JVM-only (MEDIA001/003). Três
               defeitos de reclaim do GC cross corrigidos 11/10 (§602); callbacks FFI cross via
               trampoline (mesma fonte roda JVM, riscv64 e aarch64 byte-for-byte); MCU/riscv32
               planeado.

@@ -116,7 +116,7 @@ const targets: {
   {
     name: "Native (RISC-V/ARM64)",
     status: "available",
-    desc: "Targets nativos riscv64 (native.risc) e aarch64 (native.arm) — codegen real em asm puro + qemu. Stdlib JSON, HTTP, spawn/await, String, io, db/orm, media, GC/dtoa/canais (19/19 qemu); três defeitos de reclaim do GC cross corrigidos 11/10 (§602); callbacks FFI cross via trampoline (M1 completa).",
+    desc: "Targets nativos riscv64 (native.risc) e aarch64 (native.arm) — codegen real em asm puro + qemu. Stdlib JSON, HTTP, spawn/await, String, io, db/orm (SQLite), GC/dtoa/canais (19/19 qemu); três defeitos de reclaim do GC cross corrigidos 11/10 (§602); callbacks FFI cross via trampoline (M1 completa). kof.media é JVM-only (MEDIA001/003 nomeados no cross).",
     pipeline: `Kof
   ↓
  Kof IR
@@ -952,7 +952,7 @@ $ kof version`}
                 "motores interop KofPy/KofR + timeout/cancel (JVM/x86/JS/Script/cross) (0.5.0)",
                 "memory-safety: ownership pass + O-03 clear-null; Kofmd + kof md check/format (0.5.0)",
                 "secrets + makealive; LSP 32 namespaces; FFI structs ABI + callbacks JS (0.5.0)",
-                "supervisor OTP em todos os Native; multiarch GC/dtoa/canales/io/media/ssh/time/pow (0.5.0)",
+                "supervisor OTP em todos os Native; multiarch GC/dtoa/canais/io/ssh/time/pow (0.5.0)",
                 "tree-shaking + registry + workflow runner + debug info DWARF cross (0.5.0)",
                 "GC auto-collect no Native (§260 G-6a) (0.5.0)",
                 "sealed + switch exaustivo (SEM080/SEM081); variância out/in + projeção use-site (SEM082) (0.6.0)",
