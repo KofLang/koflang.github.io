@@ -59,12 +59,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "banco de dados (kof.db)",
     status: "available",
-    note: "JDBC com query tipada e transaction {} commit/rollback real na JVM e delegate JDBC no KofJS; SQLite nativo + MySQL/MariaDB via wire protocol (prepared statements binários) no Native x86-64 e cross riscv64/aarch64; DB001 só para schemes sem wire (postgres nativo, oracle, mongo no JS/Native).",
+    note: "JDBC com query tipada e transaction {} commit/rollback real na JVM e delegate JDBC no KofJS; SQLite nativo em todos os targets (cross riscv64/aarch64 fechado 15/09); MySQL/MariaDB via wire protocol (prepared statements binários) no Native x86-64 (cross recusa DB001, R7); DB001 também para schemes sem wire (postgres nativo, oracle, mongo no JS/Native).",
   },
   {
     name: "ORM (kof.orm)",
     status: "available",
-    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM e no Native (SQLite + MySQL, x86-64 e cross riscv64/aarch64); Query DSL tipada (ORM001); validado em MariaDB 11 e PostgreSQL 16, com MongoDB. ORM001 no JS.",
+    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM e no Native (SQLite nos dois arquitecturas Native; MySQL via wire só x86-64); Query DSL tipada (ORM001); as 13 faces ORM medidas contra MariaDB 12.3.2; MongoDB real só na JVM. ORM001 no JS.",
   },
   {
     name: "logs (kof.log)",
@@ -74,7 +74,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "configuração (kof.config)",
     status: "available",
-    note: "Arquivo > env > profile, tipado. Interpolação ${key} nos 3 targets. Bloco ui-config + funções de config (0.4.0). JVM e Native (asm próprio); CONF001 no KofJS.",
+    note: "Arquivo > env > profile, tipado. Interpolação ${key} nos 3 targets. Bloco ui-config + funções de config (0.4.0). JVM, Native (asm próprio) e KofJS — CONF001 fechado 16/09.",
   },
   {
     name: "tempo (kof.time)",
@@ -125,7 +125,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "cliente HTTP",
     status: "available",
-    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets (HTTP002 fechado no Native).",
+    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets. No Native: HTTP/1.1 asm com timeout/retry/circuit reais (§259, 17/09); https e DNS por nome são gaps honestos (recusam/throw, nunca silenciam).",
   },
   {
     name: "cache (kof.cache)",
@@ -140,7 +140,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "processos (kof.process)",
     status: "available",
-    note: "process.run (bloqueia) e process.spawn (stdin/stdout vivos, F10) — JVM, Native e JS. process.exit(code) nos 3 targets.",
+    note: "process.run (bloqueia) e process.spawn (stdout vivo: readLine/exitCode/alive/kill; stdin /dev/null — write é no-op honesto, §355) — JVM, Native x86+cross e JS. process.exit(code) nos 3 targets.",
   },
   {
     name: "aleatório (kof.random)",
@@ -160,7 +160,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "identidade (kof.uuid)",
     status: "available",
-    note: "uuid.v4 (RFC 4122) + v7 time-ordered (RFC 9562) + isUuid nos 5 alvos; SECN000 gate honesto no cross.",
+    note: "uuid.v4 (RFC 4122) + v7 time-ordered (RFC 9562) + isUuid nos 5 alvos; gate cross UUID001 removido (10/09).",
   },
   {
     name: "mídia (kof.media)",
@@ -170,7 +170,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "supervisão OTP (kof.supervisor)",
     status: "available",
-    note: "host puro-Kof import kof.supervisor: observe-failure, restart individual, restart limit + escalate, stop cooperativo; JVM+Script+todos os Native; OTP001/OTP002 removidos (supervisor em todos os alvos).",
+    note: "host puro-Kof import kof.supervisor: observe-failure, restart individual, restart limit + escalate, stop cooperativo; JVM+Script+todos os Native+JS; OTP001/OTP002 removidos (18-19/09) — supervisor em todos os alvos.",
   },
   {
     name: "arrays multidimensionais",
