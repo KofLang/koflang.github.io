@@ -28,7 +28,8 @@ export const Route = createFileRoute("/download")({
 
 const platforms = [
   { name: "Linux", arch: "x86_64" },
-  { name: "macOS", arch: "universal" },
+  { name: "macOS", arch: "arm64 (Apple Silicon)" },
+  { name: "macOS", arch: "x86_64 (Intel)" },
   { name: "Windows", arch: "x86_64" },
 ];
 
@@ -41,10 +42,10 @@ function DownloadPage() {
         title="Instale o Kof. Só isso."
         lead="Kof é distribuída como uma plataforma autocontida. O usuário não precisa instalar Java separadamente para utilizar a distribuição oficial."
       >
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {platforms.map((p) => (
             <a
-              key={p.name}
+              key={`${p.name}-${p.arch}`}
               href={RELEASES}
               target="_blank"
               rel="noreferrer noopener"
@@ -61,10 +62,19 @@ function DownloadPage() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Os downloads apontam para as releases oficiais no GitHub (0.5.0-beta, com artefatos para
-          Linux x86_64, macOS e Windows + SHA256SUMS). Nenhum link de build inexistente é publicado
-          aqui.
+          Os downloads apontam para as releases oficiais no GitHub (0.6.0, com artefatos para Linux
+          x86_64, macOS arm64, macOS x86_64 e Windows x86_64 + SHA256SUMS). Nenhum link de build
+          inexistente é publicado aqui.
         </p>
+        <CodeBlock
+          className="mt-6"
+          language="shell"
+          filename="instalação"
+          showLineNumbers={false}
+          code={`$ curl -fsSL https://raw.githubusercontent.com/KofLang/Kof4j/main/scripts/install.sh | bash
+# detecta a plataforma, resolve a release mais recente,
+# verifica SHA-256 e instala em ~/.local/share/kof`}
+        />
       </Section>
 
       <Section
@@ -146,17 +156,17 @@ function DownloadPage() {
           showLineNumbers={false}
           code={`$ kof info
 
-Kof 0.5.0-beta
+Kof 0.6.0
 Release channel: beta
 Tooling API: 21
 OS: linux
 Arch: x86_64
 Target: linux-x86_64
-JVM: Eclipse Adoptium 25 (embedded)
-Compiler: 0.5.0
-Runtime: 0.5.0
-Stdlib: 0.5.0
-Targets: jvm, native, js (alpha)
+JVM: Eclipse Adoptium 25.x (embedded)
+Compiler: 0.6.0
+Runtime: 0.6.0
+Stdlib: 0.6.0
+Targets: jvm, native, native.risc, native.arm, js, android (+ script, kof c)
 LSP: available
 Editor support: available
 Install: ...`}

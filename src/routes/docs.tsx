@@ -52,6 +52,7 @@ function DocsPage() {
             code={`$ kof build
 $ kof run
 $ kof serve
+$ kof deploy
 $ kof check
 $ kof test
 $ kof debug

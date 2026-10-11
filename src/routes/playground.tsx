@@ -37,13 +37,13 @@ export const Route = createFileRoute("/playground")({
       {
         name: "description",
         content:
-          "Playground Kof 0.5.0-beta no browser: interpretador Kof real com mesma semântica do backend KofJS oficial — records, enums, classes, switch patterns, null-safety, coleções, spawn/await e stdlib 0.5.0. 100% estático no GitHub Pages.",
+          "Playground Kof 0.6.0 no browser: interpretador Kof real com a mesma semântica do backend KofJS oficial para a base da linguagem — records, enums, classes, switch patterns, null-safety, coleções, spawn/await e stdlib de 9 namespaces. sealed e variância da 0.6.0 ainda fora do interpretador. 100% estático no GitHub Pages.",
       },
       { property: "og:title", content: "Playground — Kof" },
       {
         property: "og:description",
         content:
-          "Kof 0.5.0-beta no browser — mesma semântica do KofJS oficial para records, enums, switch patterns, null-safety, coleções e stdlib 0.5.0. Gaps reportam o mesmo código que kof check.",
+          "Kof 0.6.0 no browser — mesma semântica do KofJS oficial para records, enums, switch patterns, null-safety, coleções e stdlib da base. Gaps reportam o mesmo código que kof check.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://koflang.github.io/playground" },
@@ -199,8 +199,10 @@ function PlaygroundPage() {
             classes com herança e <code>this</code>, <code>switch</code> com patterns e{" "}
             <code>switch-expr</code>, null-safety, coleções com <code>map/filter/reduce</code>,
             lambdas, <code>try/catch/finally</code>, <code>spawn/await</code> com{" "}
-            <code>poll/done</code>, arrays multidim e stdlib 0.5.0 completa (9 namespaces). Abaixo,
-            os 14 módulos de{" "}
+            <code>poll/done</code>, arrays multidim e stdlib portada para o browser (9 namespaces) —
+            a base da linguagem; sintaxe nova da 0.6.0 (<code>sealed</code>, variância{" "}
+            <code>out/in</code>, <code>interop.schema</code>) ainda não roda no interpretador do
+            browser. Abaixo, os 14 módulos de{" "}
             <a
               href="https://github.com/KofLang/kof-ui-widgets"
               target="_blank"
@@ -231,8 +233,8 @@ function PlaygroundPage() {
           Kof real no browser — <code>Int/Long/Double/Float/Char</code>,{" "}
           <code>records/enums/classes</code>, <code>if-expr/switch</code> com patterns,{" "}
           <code>for-in/while</code>, <code>try/catch/finally</code> (<code>throw String</code>),{" "}
-          <code>spawn/await</code> e 9 namespaces da stdlib 0.5.0. Única limitação: Pages é
-          estático. Executar ou Ctrl+Enter; links compartilhados só carregam o código.
+          <code>spawn/await</code> e 9 namespaces da stdlib. Única limitação: Pages é estático.
+          Executar ou Ctrl+Enter; links compartilhados só carregam o código.
         </p>
         <div role="status" className="mb-4 text-sm text-muted-foreground">
           {shareState === "copied" &&
@@ -526,7 +528,9 @@ function PlaygroundPage() {
             <h3 className="font-mono text-sm font-semibold text-ok">Roda com paridade</h3>
             <ul className="mt-2 list-disc pl-5 text-sm text-muted-foreground">
               <li>Mesma semântica do KofJS oficial (records, enums, switch patterns, coleções)</li>
-              <li>Stdlib 0.5.0 completa: math/strings/encoding/time/uuid/validation/net/random</li>
+              <li>
+                Stdlib da base (9 namespaces): math/strings/encoding/time/uuid/validation/net/random
+              </li>
               <li>Erros com código + linha iguais ao `kof check` (R6, nunca silencia)</li>
             </ul>
           </div>

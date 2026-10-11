@@ -23,9 +23,33 @@ export const Route = createFileRoute("/")({
 
 const heroCode = `record User(String name, String email)
 
+sealed class Shape
+
+class Circle extends Shape {
+    Int r
+    public constructor(Int r) {
+        this.r = r
+    }
+}
+
+class Square extends Shape {
+    Int side
+    public constructor(Int side) {
+        this.side = side
+    }
+}
+
+String describe(Shape s) {
+    return switch (s) {
+        case Circle c -> "circle"
+        case Square q -> "square"
+    }
+}
+
 main() {
     var user = User("Mel", "mel@example.com")
     println(user.name())
+    println(describe(Circle(2)))
 }`;
 
 const philosophyCards: { title: string; body: string }[] = [
@@ -68,7 +92,7 @@ const targets: {
   {
     name: "JVM",
     status: "available",
-    desc: "Integração com o ecossistema Java e execução na JVM. O backend gera bytecode diretamente — Java é plataforma, não linguagem intermediária.",
+    desc: "Integração com o ecossistema Java e execução na JVM (bytecode V21 via ASM). O backend gera bytecode diretamente — Java é plataforma, não linguagem intermediária. Android é variante deste backend (--target android + --apk).",
     pipeline: `Kof
   ↓
  Kof IR
@@ -80,7 +104,7 @@ const targets: {
   {
     name: "Native (x86_64)",
     status: "available",
-    desc: "Binários nativos sem exigir que o programador gerencie memória manualmente. GC free-list + mark-sweep real (kof_gc_collect); runtime por alcançabilidade — hello em 32.5KB; auto-collect em progresso.",
+    desc: "Binários ELF sem exigir que o programador gerencie memória manualmente. GC free-list + mark-sweep real (kof_gc_collect) com auto-collect ligado; runtime podado por alcançabilidade — hello em 32.5KB; FFI com callbacks nativos por trampoline gerado.",
     pipeline: `Kof
   ↓
  Kof IR
@@ -92,7 +116,7 @@ const targets: {
   {
     name: "Native (RISC-V/ARM64)",
     status: "available",
-    desc: "Targets nativos RISC-V e ARM64 via toolchains cruzados (riscv64-linux-gnu-as/ld, qemu). Codegen real em asm puro — stdlib (JSON, HTTP, spawn/await, String methods — 19/19 qemu, NATIVE002; gates DB001/SECN000/SCHED001 no cross).",
+    desc: "Targets nativos riscv64 (native.risc) e aarch64 (native.arm) — codegen real em asm puro + qemu. Stdlib JSON, HTTP, spawn/await, String, io, db/orm, media, GC/dtoa/canais (19/19 qemu); três defeitos de reclaim do GC cross corrigidos 11/10 (§602); callbacks FFI cross via trampoline (M1 completa).",
     pipeline: `Kof
   ↓
  Kof IR
@@ -122,9 +146,21 @@ const targets: {
  JavaScript (GraalJS)`,
   },
   {
+    name: "Android",
+    status: "available",
+    desc: "Variante do backend JVM: kof build --target android gera projeto com host em Kof; --apk standalone (aapt2/d8/zipalign/apksigner direto da CLI) + release signing. spawn usa platform threads (ART sem virtual threads — AND001 fechado); a UI roda no WebView KofJS.",
+    pipeline: `Kof
+  ↓
+ Kof IR
+  ↓
+ JvmBackend (release 21)
+  ↓
+ APK`,
+  },
+  {
     name: "KofC",
     status: "available",
-    desc: "Subset C (int globals, void funcs, if/while, deref &/*) → ELF x86_64/riscv64/aarch64 via kof_c (C1–C4 cross).",
+    desc: "Subset C (int globals, void funcs, if/while, deref &/*) → ELF x86_64/riscv64/aarch64 via kof c (C1–C4 cross).",
     pipeline: `C subset (.c)
   ↓
  KofC compiler
@@ -157,6 +193,9 @@ const stdlibChips: { name: string; status: Status }[] = [
   { name: "identificadores (kof.uuid)", status: "available" },
   { name: "mídia (kof.media)", status: "available" },
   { name: "supervisão OTP (kof.supervisor)", status: "available" },
+  { name: "interop Python/R (KofPy/KofR)", status: "available" },
+  { name: "FFI (extern + callbacks)", status: "available" },
+  { name: "buffer (Buffer U8)", status: "available" },
 ];
 
 function ArchDiagram() {
@@ -179,6 +218,12 @@ function ArchDiagram() {
       backend: "KofJS",
       artifact: "ES Modules",
       world: "JS engine / Browser",
+      status: "available",
+    },
+    {
+      backend: "Android",
+      artifact: "APK",
+      world: "ART (variante JVM)",
       status: "available",
     },
     { backend: "KofC", artifact: "ELF", world: "OS/CPU (C subset)", status: "available" },
@@ -234,7 +279,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.5.0-beta</span>
+              <span className="text-signal">v0.6.0</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -557,8 +602,8 @@ main() {
           ))}
         </div>
         <p className="mt-4 font-mono text-[11px] text-muted-foreground">
-          Disponível indica capacidade já utilizável em ao menos um target (hoje, principalmente
-          JVM). Gaps por target são diagnosticados em compile-time com códigos como CONC001 — nunca
+          Disponível indica capacidade já utilizável — hoje a maior parte com paridade JVM, Native e
+          JS. Gaps por target são diagnosticados em compile-time com códigos como CONC001 — nunca
           silenciosamente.
         </p>
         <Link
@@ -724,6 +769,7 @@ Biblioteca padrão`}</Ascii>
             code={`$ kof build
 $ kof run
 $ kof serve
+$ kof deploy
 $ kof check
 $ kof test
 $ kof debug
@@ -865,10 +911,10 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, 0.5.0-beta finalizada e mergeada em main (27/09)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10 — com o auto-cascade por commit avaliando lab→testing→stable."
       >
         <div className="grid items-start gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.5.0-beta)" status="available">
+          <Card title="Concluído (0.6.0)" status="available">
             <FeatureList
               items={[
                 "Base do compilador: lexer, parser, AST, sistema de tipos, análise semântica e Kof IR",
@@ -901,7 +947,7 @@ $ kof version`}
                 "app.security() + OAuth2 resource server (JVM)",
                 "overloading top-level e de método (4 backends); Long como BigInt no JS",
                 "GC mark-sweep no Native + runtime pruning (hello x86 32.5KB)",
-                "kof new + kof build --fat (1777+ testes)",
+                "kof new + kof build --fat (suite 5876 testes no CI)",
                 "paridade DB total: mariadb/mysql/sqlite/mongodb em JVM/JS/Native x86+cross + ORM cross (0.5.0)",
                 "motores interop KofPy/KofR + timeout/cancel (JVM/x86/JS/Script/cross) (0.5.0)",
                 "memory-safety: ownership pass + O-03 clear-null; Kofmd + kof md check/format (0.5.0)",
@@ -909,7 +955,12 @@ $ kof version`}
                 "supervisor OTP em todos os Native; multiarch GC/dtoa/canales/io/media/ssh/time/pow (0.5.0)",
                 "tree-shaking + registry + workflow runner + debug info DWARF cross (0.5.0)",
                 "GC auto-collect no Native (§260 G-6a) (0.5.0)",
-                "0.5.0-beta finalizada e mergeada em main (27/09)",
+                "sealed + switch exaustivo (SEM080/SEM081); variância out/in + projeção use-site (SEM082) (0.6.0)",
+                "reflexão de fronteira interop.schema(R) — intrínseco compile-time, 4 targets (0.6.0)",
+                "memory-safety M1 completa: callbacks FFI no Native x86-64 e cross riscv64/aarch64 via trampoline (0.6.0)",
+                "GC cross riscv64/aarch64 corrigido (§602); math.pi()/e()/tau() fold para literal (0.6.0)",
+                "kof.ui accessibility — superfície intent-based + defaults automáticos por widget (0.6.0)",
+                "0.6.0 finalizada, mergeada em main e lançada nas 4 plataformas (11/10)",
               ]}
             />
           </Card>
@@ -921,7 +972,8 @@ $ kof version`}
                 "debugger além do MVP JVM (DWARF Native, source maps JS)",
                 "KofJS plataforma web no browser",
                 "web no Native/JS residual (TLS/ws/sse — WEB002 / WEB001)",
-                "riscv/aarch64 em paridade (GC/dtoa/canales/io/media/ssh); MCU/riscv32 + gaps honestos",
+                "FFI: callback com retorno String (FFI001) e structs variadic/opaque",
+                "WASM/WASI (lane em desenvolvimento — plano em docs/wasm-wasi-plan.md)",
               ]}
             />
           </Card>
@@ -932,6 +984,7 @@ $ kof version`}
                 "Language Reference já em docs/language-reference/ (evoluindo)",
                 "conformance suite — embrião E2E",
                 "full web platform e auto-hospedagem",
+                "MCU / riscv32 (gaps honestos nomeados)",
               ]}
             />
           </Card>

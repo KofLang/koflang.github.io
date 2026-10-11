@@ -8,7 +8,7 @@ export const Route = createFileRoute("/standard-library")({
       {
         name: "description",
         content:
-          "A stdlib da Kof: coleções com Map/Set, enum, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security, kof.validation e kof.observability disponíveis; async e concorrência além da JVM em construção.",
+          "A stdlib da Kof: coleções com Map/Set, enum, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security, kof.validation, kof.observability, kof.supervisor, KofPy/KofR, FFI e Buffer disponíveis; gaps por target nomeados em compile-time.",
       },
       { property: "og:title", content: "Standard Library — Kof" },
       {
@@ -84,12 +84,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "matemática (kof.math)",
     status: "available",
-    note: "Double completo nos 5 alvos (MATH001 fechado): sqrt/pow/lerp/percentage/isInteger/isDecimal/roundTo + parse{Int,Long,Double}OrDefault; NaN IEEE em todos os alvos.",
+    note: "Double completo nos 5 alvos (MATH001 fechado): sqrt/pow/lerp/percentage/isInteger/isDecimal/roundTo + parse{Int,Long,Double}OrDefault; NaN IEEE em todos os alvos. pi()/e()/tau() com fold para literal double — fecha COMP001 no link Nativo (0.6.0); golden math-pow-constants 216/216.",
   },
   {
     name: "interface (kof.ui)",
     status: "available",
-    note: "Window, widgets, bind e layout; renderização DOM via KofJS no webview nativo (WebKitGTK) ou browser.",
+    note: "Window, widgets, bind e layout; renderização DOM via KofJS no webview nativo (WebKitGTK) ou browser. Accessibility 0.6.0: superfície intent-based + defaults automáticos por widget (#789).",
   },
   {
     name: "segurança (kof.security)",
@@ -176,6 +176,26 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     name: "arrays multidimensionais",
     status: "available",
     note: "new T[a][b] cria TODAS as dims via KofNewMultiArray (MULTIANEWARRAY JVM, Array.newInstance interp, kofMultiArray JS).",
+  },
+  {
+    name: "interop Python (KofPy)",
+    status: "available",
+    note: "Engine real over python3 -u -c + RPC linha-JSON com json.decode<T> tipado (stateless replay): callInt/Double/Bool/String/Json + timeout/cancel — JVM, Native x86-64 e cross riscv64/aarch64, JS e Script certificados no CI. ANDROID/MCU/RISCV32: INTEROP005 honesto.",
+  },
+  {
+    name: "interop R (KofR)",
+    status: "available",
+    note: "Engine real over Rscript --vanilla -e com o MESMO face do KofPy (callInt/Double/Bool/String/Json + timeout/cancel); spec embutida na expressão -e como string literal, jsonlite decodifica no lado R. InteropRE2ETest 10/10 skipped-0 no CI (Rscript 4.x + jsonlite).",
+  },
+  {
+    name: "FFI (extern)",
+    status: "available",
+    note: 'extern "<lib>" + library(): ABI escalar direto nos 3 nativos (SysV/LP64/AAPCS64, ≥9-arg spill, String↔char*, void/Bool/Float); JVM+Nativo com structs record by-value, T[]→ptr, String[]→char** e Buffer(U8) INOUT; callbacks (upcalls) bind no JVM, JS host, Native x86-64 E cross via trampoline (M1, 11/10). Restante não-bindável → FFI001/FFI002 na linha da declaração, nunca stub silencioso.',
+  },
+  {
+    name: "buffer (Buffer U8)",
+    status: "available",
+    note: "buffer.alloc / Buffer.bytes() / println(Buffer) — Buffer[cap] zero-filled, layout header 24/cap 16/payload 24; token FFI B para INOUT copy-in/copy-back nos 3 nativos + JVM (byte-parity via libc memset sob qemu).",
   },
 ];
 

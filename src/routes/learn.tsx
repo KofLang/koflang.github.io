@@ -136,20 +136,22 @@ main() {
         lead="docs/ diz como Kof é, learn/ ensina como usar, training/ alimenta quem gera código. A referência (learn/ + training/) está no navegador de /docs; o curso completo mora nesta página."
       >
         <div className="grid gap-4 lg:grid-cols-2">
-          <Card title="learn/ — humanos (00 → 39)">
+          <Card title="learn/ — humanos (00 → 42)">
             <p>
-              00 Introdução → 39 Standard Library universal + native/. Capítulos numerados, cada um
-              um guia prático — pesquisável em /docs.
+              00 Introdução → 42 Games, passando por low-level (40) e Android (41), além de standard
+              library e native/. Capítulos numerados, cada um um guia prático — pesquisável em
+              /docs.
             </p>
             <Ascii className="mt-4">{`learn/
  00-introduction.md
  01-installation.md
  ...
- 35-kof-ui.md
- 36-security.md
  37-kofjs.md
  38-editors.md
- 39-stdlib.md`}</Ascii>
+ 39-stdlib.md
+ 40-low-level.md
+ 41-android.md
+ 42-games.md`}</Ascii>
             <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
               <Link
                 to="/docs"

@@ -203,8 +203,8 @@ $ kof-editor caminho.kf         # abre com um arquivo
 $ kof-editor --stop             # para servidor e janela`}
         />
         <p className="mt-4 text-sm text-muted-foreground">
-          Requisitos: Kof instalado (<span className="font-mono">kof install</span>) e JDK 21+
-          embutido na distribuição.
+          Requisitos: Kof instalado (<span className="font-mono">kof install</span>) — o OpenJDK 25
+          vem embutido na distribuição, sem instalar Java separadamente.
         </p>
       </Section>
 

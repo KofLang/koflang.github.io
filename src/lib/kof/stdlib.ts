@@ -1,5 +1,5 @@
 /**
- * Stdlib Kof 0.5.0 para o browser — algoritmos portados 1:1 das fatias do
+ * Stdlib Kof (base 0.6.0) para o browser — algoritmos portados 1:1 das fatias do
  * kof-runtime.mjs real (JsRuntimeUiStdlib / JsRuntimeUiWs / JsRuntimeUiNet /
  * JsRuntimeUiUuid / JsRuntimeUiRandom / JsRuntimeUiCrypto / JsRuntimeUiWeb /
  * JsRuntimeUiSecurity). Mesma saída dos 5 alvos onde o contrato é puro;
@@ -67,7 +67,7 @@ const mathFns: Record<string, (a: KofVal[], c: StdCtx) => KofVal> = {
   },
   // S1b.3 — half-away-from-zero por escala decimal determinística (kofMathRoundTo)
   roundTo: (a) => {
-    let v = Number(asNum(a[0]));
+    const v = Number(asNum(a[0]));
     const decimals = Number(asNum(a[1]));
     if (v !== v || v === Infinity || v === -Infinity) return v;
     let m = decimals < 0 ? -decimals : decimals;
@@ -432,7 +432,7 @@ function stringToFloat(v: KofVal | undefined): number {
 function utf8Bytes(str: string): number[] {
   const out: number[] = [];
   for (let i = 0; i < str.length; i++) {
-    let c = str.charCodeAt(i);
+    const c = str.charCodeAt(i);
     if (c < 0x80) out.push(c);
     else if (c < 0x800) {
       out.push(0xc0 | (c >> 6), 0x80 | (c & 63));
@@ -1329,7 +1329,8 @@ export function callStdlib(ns: string, fn: string, args: KofVal[], ctx: StdCtx):
   const group = GROUPS[ns];
   if (group) {
     const f = group[fn];
-    if (!f) throw new KofRuntimeError(`\`${ns}.${fn}\` não existe na stdlib Kof 0.5.0`);
+    if (!f)
+      throw new KofRuntimeError(`\`${ns}.${fn}\` não existe na stdlib Kof portada para o browser`);
     return f(args, ctx);
   }
   if (GAPPED[ns]) throw new KofRuntimeError(GAPPED[ns]);

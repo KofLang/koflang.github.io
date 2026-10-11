@@ -135,12 +135,12 @@ main() {
         index="04"
         eyebrow="Estado da linguagem"
         title="O que já existe no frontend da linguagem"
-        lead="Recursos abaixo fazem parte da base do compilador (0.5.0-beta). A separação linguagem ≠ compilador ≠ target está documentada em docs/language-reference/ (gramática, sistema de tipos, semântica) e docs/compiler-architecture.md (implementação)."
+        lead="Recursos abaixo fazem parte da base do compilador (0.6.0). A separação linguagem ≠ compilador ≠ target está documentada em docs/language-reference/ (gramática, sistema de tipos, semântica) e docs/compiler-architecture.md (implementação)."
       >
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            "classes e primary constructor",
-            "records (SEM038 imutável, 0.3.5+)",
+            "classes com constructor (new opcional; sem getter/setter — campo direto)",
+            "records (SEM038 imutável, 0.3.5+; class X(...) também é record)",
             "inheritance + dispatch virtual",
             "interfaces (SEM043 exaustividade)",
             "constructors + sobrecarga",
@@ -162,6 +162,9 @@ main() {
             "arrays multidim new T[a][b] (MULTIANEWARRAY)",
             "functions sem fun/fn/func (PARSE085 reservadas)",
             "private/protected checados (SEM046)",
+            "sealed + switch exaustivo sobre subtipos diretos (SEM080/SEM081, 0.6.0)",
+            "variância out/in em declaração + projeção use-site (SEM082, 0.6.0)",
+            "FFI extern com callbacks (trampoline no Native, 0.6.0)",
             "language specification (docs/language-reference/)",
             "conformance suite (embrião E2E, previsto)",
           ].map((f) => {

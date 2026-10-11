@@ -4,7 +4,8 @@
  * gerado por `dev.kof.compiler.js.*`): Int=wrap Int32 com divisão truncante,
  * Long=BigInt, Double=wrapper Fp com Double.toString do JDK, Char imprimindo o
  * caráter (D-NARROW), records/enums/classes, switch com patterns + guards,
- * null-safety, `spawn`/`await` e stdlib 0.5.0 completa. Única limitação é a
+ * null-safety, `spawn`/`await` e stdlib portada (9 namespaces). A base da linguagem é a da 0.6.0 —
+ * faces novas (`sealed`, variância, `interop.schema`) ainda fora do escopo do browser. Única limitação é a
  * arquitetura do Pages (sem host para `kof.db`/`kof.io`/`kof.web` → DB001/WEB001,
  * nunca silencia: R6, mesmo código que `kof check`).
  */

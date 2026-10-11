@@ -9,7 +9,7 @@ export const Route = createFileRoute("/targets")({
       {
         name: "description",
         content:
-          "JVM, Native e KofJS (web): um único frontend de linguagem, Kof IR e backends dedicados. Kof não é um transpiler. KofScript é execução direta.",
+          "JVM, Native (x86_64, riscv64, aarch64), KofJS, Android e KofScript: um único frontend de linguagem, Kof IR e backends dedicados. Kof não é um transpiler. KofScript é execução direta.",
       },
       { property: "og:title", content: "Targets — Kof" },
       {
@@ -64,11 +64,16 @@ Native Backend
   ↓
 Executable`}</Ascii>
             <p className="mt-4">
-              ELF x86-64 (libc dinâmica; sqlite/libm/pthread por uso). GC com free-list{" "}
+              ELF x86-64 — runtime asm próprio, sem libc no caminho base; FFI/process/dtoa ligam
+              libc sob demanda (por uso). GC com free-list{" "}
               <span className="font-mono">kof_free_head</span> +{" "}
               <span className="font-mono">kof_gc_collect</span> mark-sweep real + auto-collect +
               runtime podado por alcançabilidade ({" "}
-              <span className="font-mono">kof build --print-sizes</span>).
+              <span className="font-mono">kof build --print-sizes</span>). FFI{" "}
+              <span className="font-mono">extern</span> com callbacks nativos via trampoline gerado{" "}
+              <span className="font-mono">kof_cb_tramp_&lt;desc&gt;</span> (M1 completa, 11/10 — só
+              callback com retorno <span className="font-mono">String</span> segue{" "}
+              <span className="font-mono">FFI001</span>).
             </p>
           </Card>
 
@@ -108,7 +113,10 @@ Executable`}</Ascii>
               <span className="font-mono">native.risc</span> (riscv64) e{" "}
               <span className="font-mono">native.arm</span> (aarch64) — codegen real em asm puro +
               stdlib sob qemu (JSON, HTTP, spawn/await, String, io, db/orm, media, GC/dtoa/canais;
-              paridade DB total; gaps honestos PROC001/MCU e DB001 para schemes sem wire).
+              paridade DB total; gaps honestos PROC001/MCU e DB001 para schemes sem wire). Três
+              defeitos de reclaim do GC cross corrigidos 11/10 (§602); callbacks FFI cross via
+              trampoline (mesma fonte roda JVM, riscv64 e aarch64 byte-for-byte); MCU/riscv32
+              planeado.
             </p>
             <Ascii className="mt-4">{`Kof IR
   ↓

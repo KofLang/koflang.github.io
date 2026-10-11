@@ -1,5 +1,6 @@
 /**
- * Parser Kof (playground) — descida recursiva sobre a linguagem da 0.5.0-beta:
+ * Parser Kof (playground) — descida recursiva sobre a base da linguagem (0.6.0;
+ * `sealed`/variância e demais faces novas fora do escopo do browser):
  * funções com tipo antes (`Int f()`) ou depois (`f(): Int`), expression body
  * (`Int dobro(Int x) = x*2`), main(), classes com construtor primário,
  * records, enums, if-expr, switch com record/type patterns + guards (SG-014),
@@ -651,7 +652,7 @@ function parseExpr(p: Pr): Expr {
     const els = p.at("if") ? parseExpr(p) : p.at("{") ? parseExprInBraces(p) : parseExpr(p);
     return { kind: "IfExpr", cond, then, els, line };
   }
-  let left = parseBinary(p, 0);
+  const left = parseBinary(p, 0);
   const t = p.peek();
   if (t.k === "op" && ASSIGN_OPS.has(t.v)) {
     p.pos++;

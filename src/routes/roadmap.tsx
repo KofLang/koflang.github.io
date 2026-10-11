@@ -139,6 +139,15 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "supervisor OTP em todos os Native; multiarch GC/dtoa/canales/io/media/ssh/time/pow (0.5.0-beta, 27/09)",
       "tree-shaking + workflow runner + debug info DWARF cross + type variance X5/X6 (0.5.0-beta, 27/09)",
       "0.5.0-beta finalizada e mergeada em main (27/09)",
+      "sealed + switch exaustivo (SEM080/SEM081) nos 3 backends (0.6.0, 11/10)",
+      "variância out/in em declaração + projeção use-site List<out T>/List<in T> (SEM082) (0.6.0, 11/10)",
+      "reflexão de fronteira interop.schema(R) — intrínseco compile-time, zero reflexão em runtime (0.6.0, 11/10)",
+      "memory-safety M1 completa: callbacks FFI no Native x86-64 E cross riscv64/aarch64 via trampoline gerado (0.6.0, 11/10)",
+      "GC cross riscv64/aarch64: 3 defeitos de reclaim corrigidos (§602) — KofGcE2ETest 8/0F (0.6.0, 11/10)",
+      "math.pi()/e()/tau() fold para literal double — fecha COMP001 no link Nativo; golden math-pow-constants 54 cases 216/216 (0.6.0, 11/10)",
+      "kof.ui accessibility: superfície intent-based + defaults automáticos por widget (#789) (0.6.0, 11/10)",
+      "auto-cascade por commit: lab→testing→stable→prerelease com guard fail-closed (11/10)",
+      "0.6.0 oficial: mergeada em main (#806), releases finais nas 4 plataformas, Latest live (11/10)",
     ],
   },
   {
@@ -152,6 +161,8 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "KofJS — plataforma web no browser (ES Modules via GraalJS); web server base ✅ (HttpServer + KofJsWebQueue); residual ws/sse/TLS/path params (WEB001)",
       "kof.web no Native — residual WEB002: TLS, path params, keep-alive, ws/sse",
       "kof.db/orm no JS — DB001/ORM001 (WASM planejado)",
+      "Kof WASM/WASI — lane ativa (wasm-wasi-plan.md): stdout, args, String e record toString on WASI; igualdade de records, nested e coleções em fatia",
+      "FFI: callback com retorno String (FFI001), structs com HFA no cross, variadics (3.5)",
       "Decompiler (Java → Kof) — deprioritizado pelo mantenedor; meta atual é estabilizar a release",
     ],
   },
@@ -165,6 +176,7 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "gRPC no kof.web — app.grpc + stubs de .proto, unary + server streaming (JVM primeiro)",
       "OpenTelemetry — export/propagação completa (tracing leve W3C já entregue)",
       "Auto-hospedagem (compilador escrito em Kof)",
+      "MCU / riscv32 (gaps honestos nomeados)",
     ],
   },
 ];
@@ -201,7 +213,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — a 0.5.0-beta foi finalizada e mergeada em main (27/09) e o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — a 0.5.0-beta foi mergeada em main (27/09), a 0.6.0 é release oficial (11/10) e o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">
@@ -213,10 +225,12 @@ function RoadmapPage() {
             </p>
           </div>
           <div className="rounded-md border border-border bg-surface p-5">
-            <p className="mono-label">Objetivo de automação</p>
+            <p className="mono-label">Automação de release — landed</p>
             <p className="mt-4 text-sm text-muted-foreground">
-              Cada commit em <span className="font-mono">main</span> deve futuramente disparar
-              automaticamente a atualização de versão e release conforme as regras do projeto.
+              Desde 11/10 cada push na <span className="font-mono">lab</span> dispara o{" "}
+              <span className="font-mono">auto-cascade</span>: avaliação automática
+              lab→testing→stable→prerelease com guarda fail-closed (só promove o que foi medido). O
+              corte da 0.6.0 já rodou nesse pipeline.
             </p>
             <a
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
