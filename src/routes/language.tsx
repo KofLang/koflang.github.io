@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CodeBlock } from "@/components/kof/CodeBlock";
-import { Ascii, Card, Section, StatusBadge } from "@/components/kof/primitives";
+import { GITHUB, Ascii, Card, Section, StatusBadge } from "@/components/kof/primitives";
+import { KOF_CHANGELOG } from "@/lib/kof-changelog";
 
 export const Route = createFileRoute("/language")({
   head: () => ({
@@ -200,6 +201,56 @@ main() {
   ┌───┬───┬───────┬────┬──────┐
   ↓   ↓   ↓       ↓    ↓      ↓
  JVM Native Script KofJS KofC`}</Ascii>
+      </Section>
+
+      <Section
+        index="06"
+        eyebrow="Changelog"
+        title="Cada versão, colapsável."
+        lead="O histórico completo da linguagem, uma versão por bloco — da 0.0.3 (21/08) à 0.6.3. Cada bloco resume os registros documentados da seção correspondente no changelog oficial; o detalhe item a item vive no repositório."
+      >
+        <div className="space-y-2">
+          {KOF_CHANGELOG.map((release) => (
+            <details
+              key={release.version}
+              className="group rounded-md border border-border bg-surface"
+            >
+              <summary className="flex cursor-pointer list-none items-baseline gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
+                <span className="font-mono text-sm font-medium text-foreground">
+                  {release.version}
+                </span>
+                {release.tag && (
+                  <span className="rounded-sm border border-signal/40 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-signal">
+                    {release.tag}
+                  </span>
+                )}
+                <span className="font-mono text-xs text-muted-foreground">{release.date}</span>
+                <span className="ml-auto self-center font-mono text-base leading-none text-muted-foreground transition-transform group-open:rotate-45">
+                  +
+                </span>
+              </summary>
+              <ul className="border-t border-border px-4 py-3">
+                {release.items.map((item) => (
+                  <li key={item} className="py-1 text-sm leading-relaxed text-muted-foreground">
+                    · {item}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 font-mono text-xs text-muted-foreground">
+          Curado a partir de{" "}
+          <a
+            className="text-signal hover:underline"
+            href={`${GITHUB}/blob/main/CHANGELOG.pt_BR.md`}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            CHANGELOG.pt_BR.md
+          </a>{" "}
+          no repositório oficial — as alfas 0.0.1–0.0.2 precedem o registro seção a seção.
+        </p>
       </Section>
     </main>
   );
