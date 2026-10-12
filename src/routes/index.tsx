@@ -279,7 +279,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.6.0</span>
+              <span className="text-signal">v0.6.3</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -911,10 +911,10 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10 — com o auto-cascade por commit avaliando lab→testing→stable."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10, e a linha de patch 0.6.1→0.6.2→0.6.3 já rodou no auto-cascade por commit (Latest ao vivo: 0.6.3)."
       >
         <div className="grid items-start gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.6.0)" status="available">
+          <Card title="Concluído (0.6.x)" status="available">
             <FeatureList
               items={[
                 "Base do compilador: lexer, parser, AST, sistema de tipos, análise semântica e Kof IR",
@@ -947,7 +947,7 @@ $ kof version`}
                 "app.security() + OAuth2 resource server (JVM)",
                 "overloading top-level e de método (4 backends); Long como BigInt no JS",
                 "GC mark-sweep no Native + runtime pruning (hello x86 32.5KB)",
-                "kof new + kof build --fat (suite 5876 testes no CI)",
+                "kof new + kof build --fat (suite 6078 testes no CI — stamp 0.6.3)",
                 "DB: SQLite em todos os targets (cross fechado 15/09), MySQL/MariaDB wire em JVM + Native x86-64 e ORM cross — MongoDB real só JVM/Android (DB001 honesto no JS/Native) (0.5.0)",
                 "motores interop KofPy/KofR + timeout/cancel (JVM/x86/JS/Script/cross) (0.5.0)",
                 "memory-safety: ownership pass + O-03 clear-null; Kofmd + kof md check/format (0.5.0)",
@@ -961,6 +961,8 @@ $ kof version`}
                 "GC cross riscv64/aarch64 corrigido (§602); math.pi()/e()/tau() fold para literal (0.6.0)",
                 "kof.ui accessibility — superfície intent-based + defaults automáticos por widget (0.6.0)",
                 "0.6.0 finalizada, mergeada em main e lançada nas 4 plataformas (11/10)",
+                "linha de patch pela auto-cascade: 0.6.1, 0.6.2 e 0.6.3 publicadas como Latest nas 4 plataformas (11-12/10) — a 0.6.3 traz fixes de json (§659/§659d/§667), AV1 tx_type (§679/§680) e profile ratio (#820)",
+                "kof.orm entity-history: orm.createHistory<User>(db) grava revisões (INSERT/UPDATE/DELETE com snapshot) e history/at/changes + actor/correlation_id rodam na JVM/Android; JS/Native/cross = ORM001 honesto em compile-time",
               ]}
             />
           </Card>
@@ -973,7 +975,7 @@ $ kof version`}
                 "KofJS plataforma web no browser",
                 "web no Native/JS residual (TLS/ws/sse — WEB002 / WEB001)",
                 "FFI: callback com retorno String (FFI001) e structs variadic/opaque",
-                "WASM/WASI (lane em desenvolvimento — plano em docs/wasm-wasi-plan.md)",
+                "WASM/WASI — lane ativa: stdout, args, String e records (toString/==/.equals() content-equality, campos aninhados) byte-iguais ao oracle JVM; faltam Double e coleções (fatias F/G), depois o flip 15.4",
               ]}
             />
           </Card>

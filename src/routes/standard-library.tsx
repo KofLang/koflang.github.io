@@ -64,7 +64,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "ORM (kof.orm)",
     status: "available",
-    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM e no Native (SQLite nos dois arquitecturas Native; MySQL via wire só x86-64); Query DSL tipada (ORM001); as 13 faces ORM medidas contra MariaDB 12.3.2; MongoDB real só na JVM. ORM001 no JS.",
+    note: "entity, CRUD, where com operadores, saveAll, page, deleteAll e migrate na JVM e no Native (SQLite nos dois arquitecturas Native; MySQL via wire só x86-64); Query DSL tipada (ORM001); as 13 faces ORM medidas contra MariaDB 12.3.2; MongoDB real só na JVM. Entity-history (0.6.2+): orm.createHistory<User>(db) grava revisões INSERT/UPDATE/DELETE com snapshot JSON e expõe history/at/changes com actor/correlation_id — JVM/Android; JS/Native/cross reportam ORM001 em compile-time (fase 5 no nativo); entidade sem flag = recusa HIST002. ORM001 no JS.",
   },
   {
     name: "logs (kof.log)",
