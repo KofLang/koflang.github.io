@@ -37,13 +37,13 @@ export const Route = createFileRoute("/playground")({
       {
         name: "description",
         content:
-          "Playground Kof 0.6.3 no browser: interpretador Kof real com a mesma semântica do backend KofJS oficial para a base da linguagem — records, enums, classes, switch patterns, null-safety, coleções, spawn/await e stdlib de 9 namespaces. sealed e variância (geração 0.6) ainda fora do interpretador. 100% estático no GitHub Pages.",
+          "Playground Kof 0.6.4 no browser: interpretador Kof real com a mesma semântica do backend KofJS oficial para a base da linguagem — records, enums, classes, switch patterns, null-safety, coleções, spawn/await e stdlib de 9 namespaces. sealed e variância (geração 0.6) ainda fora do interpretador. 100% estático no GitHub Pages.",
       },
       { property: "og:title", content: "Playground — Kof" },
       {
         property: "og:description",
         content:
-          "Kof 0.6.3 no browser — mesma semântica do KofJS oficial para records, enums, switch patterns, null-safety, coleções e stdlib da base. Gaps reportam o mesmo código que kof check.",
+          "Kof 0.6.4 no browser — mesma semântica do KofJS oficial para records, enums, switch patterns, null-safety, coleções e stdlib da base. Gaps reportam o mesmo código que kof check.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://koflang.github.io/playground" },

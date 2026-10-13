@@ -150,7 +150,8 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "auto-cascade por commit: lab→testing→stable→prerelease com guard fail-closed (11/10)",
       "0.6.0 oficial: mergeada em main (#806), releases finais nas 4 plataformas, Latest live (11/10)",
       "linha de patch pela auto-cascade: 0.6.1 (guards de tipo em kof.time §666, mq §657) e 0.6.2 (pad com char-literal restaurado, catalog orm.createHistory) publicadas como Latest nas 4 plataformas (11-12/10); 0.6.3 com fixes de json record-field §659/§659d, json.decode<String> §667, AV1 tx_type §679/§680 e profile ratio #820 (suite stamp 6078/0F/0E) — publicada como Latest (12/10) após o gate recusar honestamente o primeiro corte (export duplicado no ES module do runtime)",
-      "kof.orm entity-history (0.6.2+): orm.createHistory<User>(db) grava revisões INSERT/UPDATE/DELETE com snapshot JSON; faces history/at/changes + actor/correlation_id na JVM/Android; JS/Native/cross = ORM001 honesto em compile-time (fase 5 no backend nativo); entidade sem flag de histórico = HIST002",
+      "0.6.4 publicada como Latest nas 4 plataformas (13/10, suite stamp 6248/0F/0E): evolução da linguagem `for (var c in s)` (for-in aceita String, variável Char, 4 alvos), case Tipo nu é type test em switch sealed (#817), val anotado imutável (#816), record estendendo classe mantém igualdade por conteúdo nos 4 alvos (#818), casts com UM significado — as lança no nativo (§678), as Byte/Short estreitam (§695), as Char mascara 16 bits (§697), instanceof polimórfico consertado no cross riscv64/aarch64 (§688) + frame >2 KiB (§687), divisão por zero e SEM102 unificados (§692/§693), hang do DAP #815 com causa raiz corrigida, AVIF CFL + primeiro tile stream intercalado real (3ai→3at)",
+      "kof.orm entity-history (0.6.2+): orm.createHistory<User>(db) grava revisões INSERT/UPDATE/DELETE com snapshot JSON; faces history/at/changes + actor/correlation_id na JVM/Android; Fase 5 core (0.6.4): create/save/delete + consulta ascendente TAMBÉM no Native x86-64 em asm puro — JS/cross reportam ORM001 honesto em compile-time; entidade sem flag de histórico = HIST002",
     ],
   },
   {
@@ -216,7 +217,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — a 0.5.0-beta foi mergeada em main (27/09), a 0.6.0 é release oficial (11/10) e a linha de patch 0.6.1→0.6.2→0.6.3 foi publicada em ~24h pela auto-cascade; o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — a 0.5.0-beta foi mergeada em main (27/09), a 0.6.0 é release oficial (11/10) e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4 foi publicada em ~48h pela auto-cascade; o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">
@@ -233,8 +234,8 @@ function RoadmapPage() {
               Desde 11/10 cada push na <span className="font-mono">lab</span> dispara o{" "}
               <span className="font-mono">auto-cascade</span>: avaliação automática
               lab→testing→stable→prerelease com guarda fail-closed (só promove o que foi medido). O
-              cortes 0.6.0, 0.6.1, 0.6.2 e 0.6.3 já rodaram nesse pipeline — incluindo a recusa
-              honesta do gate à 0.6.3 quando o ES module do runtime saiu com export duplicado
+              cortes 0.6.0, 0.6.1, 0.6.2, 0.6.3 e 0.6.4 já rodaram nesse pipeline — incluindo a
+              recusa honesta do gate à 0.6.3 quando o ES module do runtime saiu com export duplicado
               (re-cortada após o fix, no dia seguinte).
             </p>
             <a

@@ -164,6 +164,8 @@ main() {
             "functions sem fun/fn/func (PARSE085 reservadas)",
             "private/protected checados (SEM046)",
             "sealed + switch exaustivo sobre subtipos diretos (SEM080/SEM081, 0.6.0)",
+            "for-in sobre String — `for (var c in s)`, variável Char nos 4 alvos (0.6.4)",
+            "`case Tipo ->` nu como type test em switch sobre sealed (0.6.4)",
             "variância out/in em declaração + projeção use-site (SEM082, 0.6.0)",
             "FFI extern com callbacks (trampoline no Native, 0.6.0)",
             "language specification (docs/language-reference/)",
@@ -207,7 +209,7 @@ main() {
         index="06"
         eyebrow="Changelog"
         title="Cada versão, colapsável."
-        lead="O histórico completo da linguagem, uma versão por bloco — da 0.0.3 (21/08) à 0.6.3. Cada bloco resume os registros documentados da seção correspondente no changelog oficial; o detalhe item a item vive no repositório."
+        lead="O histórico completo da linguagem, uma versão por bloco — da 0.0.3 (21/08) à 0.6.4. Cada bloco resume os registros documentados da seção correspondente no changelog oficial; o detalhe item a item vive no repositório."
       >
         <div className="space-y-2">
           {KOF_CHANGELOG.map((release) => (

@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.3).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.4).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,24 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.6.4",
+    date: "13/10",
+    tag: "Latest",
+    items: [
+      "evolução da linguagem: `for (var c in s)` — o for-in aceita String (variável do loop é Char) nos 4 alvos, pelo mesmo desugar de índice via length/charAt; o que era recusa SEM058 desde 14/09 vira o contrato natural que o backend JS já tinha",
+      "linguagem: `case Tipo ->` nu em switch sobre sealed é TYPE TEST (#817); `val` anotado (`val x: Int = 1`) impõe imutabilidade como o inferido (#816); record estendendo classe do usuário mantém toString/equals/hashCode por CONTEÚDO nos 4 alvos (#818)",
+      "casts unificados nos 4 alvos (§678 fechado): `as` que falha LANÇA também nos nativos; `x as T?` é o cast suave sempre-null; `as Byte`/`as Short` estreitam de verdade no nativo (§695); `as Char` mascara para 16 bits no nativo (§697)",
+      "cross riscv64/aarch64: `instanceof` polimórfico não trava mais para sempre no super-walk da kof_super_table (§688); frame Kof acima de ~2 KiB não morre no assembler (§687)",
+      "semântica medida: campo desconhecido em coleção/String recusado com SEM102 (§692); divisão inteira por zero de runtime com UM significado nos 4 alvos (§693); String.valueOf(coleção) imprime a forma de contêiner Kof nos nativos (§686); (-bigLong) as Int não satura mais no Script (§694)",
+      "entity-history Fase 5 core: createHistory/save_recorded/delete_recorded + consulta ascendente AGORA NO NATIVE x86-64 em asm puro (cross e JS seguem ORM001 honesto); tabela de consultas §9.2 completa com história por revisão (fatia 2e)",
+      "debugger: o hang do DAP (#815) revelou causa raiz — corrida de ordem resposta/evento no cliente JDWP — corrigida; adaptador travado agora é falha rápida e nomeada",
+      "AVIF: caminho CFL fechado e verificado contra o libaom (fatias 3ai→3an), grade de blocos do driver (3as) e o PRIMEIRO stream de tile intercalado real com costura de leitor compartilhado (3at)",
+      "suite stampada: 6248 verdes / 0F / 0E; suíte oficial de equivalência cresce para 74 casos (zip-pairs, record-values)",
+    ],
+  },
+  {
     version: "0.6.3",
     date: "12/10",
-    tag: "Latest",
     items: [
       "json: decodificação de campo de record corrigida (§659), face `.0` de ponto flutuante no JSON (§659d) e `json.decode<String>` em 4 targets (§667)",
       "AV1/AVIF: o driver de tiles intra passa a ler `tx_type` em blocos ≤16x16 (§679) e na ordem certa do bitstream (§680) — byte-exato contra o oracle libaom",

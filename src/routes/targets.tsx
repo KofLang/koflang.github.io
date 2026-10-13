@@ -73,7 +73,9 @@ Executable`}</Ascii>
               <span className="font-mono">extern</span> com callbacks nativos via trampoline gerado{" "}
               <span className="font-mono">kof_cb_tramp_&lt;desc&gt;</span> (M1 completa, 11/10 — só
               callback com retorno <span className="font-mono">String</span> segue{" "}
-              <span className="font-mono">FFI001</span>).
+              <span className="font-mono">FFI001</span>). Entity-history do ORM
+              (createHistory/save/delete_recorded + consulta) também roda aqui em asm puro desde a
+              0.6.4 (13/10).
             </p>
           </Card>
 
