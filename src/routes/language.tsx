@@ -209,7 +209,7 @@ main() {
         index="06"
         eyebrow="Changelog"
         title="Cada versão, colapsável."
-        lead="O histórico completo da linguagem, uma versão por bloco — da 0.0.3 (21/08) à 0.6.4. Cada bloco resume os registros documentados da seção correspondente no changelog oficial; o detalhe item a item vive no repositório."
+        lead="O histórico completo da linguagem, uma versão por bloco — da 0.0.3 (21/08) à 0.6.5. Cada bloco resume os registros documentados da seção correspondente no changelog oficial; o detalhe item a item vive no repositório."
       >
         <div className="space-y-2">
           {KOF_CHANGELOG.map((release) => (

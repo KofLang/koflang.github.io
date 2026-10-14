@@ -151,7 +151,8 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "0.6.0 oficial: mergeada em main (#806), releases finais nas 4 plataformas, Latest live (11/10)",
       "linha de patch pela auto-cascade: 0.6.1 (guards de tipo em kof.time §666, mq §657) e 0.6.2 (pad com char-literal restaurado, catalog orm.createHistory) publicadas como Latest nas 4 plataformas (11-12/10); 0.6.3 com fixes de json record-field §659/§659d, json.decode<String> §667, AV1 tx_type §679/§680 e profile ratio #820 (suite stamp 6078/0F/0E) — publicada como Latest (12/10) após o gate recusar honestamente o primeiro corte (export duplicado no ES module do runtime)",
       "0.6.4 publicada como Latest nas 4 plataformas (13/10, suite stamp 6248/0F/0E): evolução da linguagem `for (var c in s)` (for-in aceita String, variável Char, 4 alvos), case Tipo nu é type test em switch sealed (#817), val anotado imutável (#816), record estendendo classe mantém igualdade por conteúdo nos 4 alvos (#818), casts com UM significado — as lança no nativo (§678), as Byte/Short estreitam (§695), as Char mascara 16 bits (§697), instanceof polimórfico consertado no cross riscv64/aarch64 (§688) + frame >2 KiB (§687), divisão por zero e SEM102 unificados (§692/§693), hang do DAP #815 com causa raiz corrigida, AVIF CFL + primeiro tile stream intercalado real (3ai→3at)",
-      "kof.orm entity-history (0.6.2+): orm.createHistory<User>(db) grava revisões INSERT/UPDATE/DELETE com snapshot JSON; faces history/at/changes + actor/correlation_id na JVM/Android; Fase 5 core (0.6.4): create/save/delete + consulta ascendente TAMBÉM no Native x86-64 em asm puro — JS/cross reportam ORM001 honesto em compile-time; entidade sem flag de histórico = HIST002",
+      "kof.orm entity-history (0.6.2+): orm.createHistory<User>(db) grava revisões INSERT/UPDATE/DELETE com snapshot JSON; faces history/at/changes + actor/correlation_id na JVM/Android; Fase 5 COMPLETA (0.6.5): create/save/delete + consulta (inclusive paginada history_page/history_one) no Native x86-64 em asm puro — JS/cross reportam ORM001 honesto em compile-time; entidade sem flag de histórico = HIST002",
+      "0.6.5 cortada em main (13–14/10, corte extraordinário da mantenedora): Byte/Short fora de faixa unificados no store (§696), shifts de Int como o JVM em todo alvo (§698), divisão por zero LANÇA no cross (§699), switch Int case 0 no JS (§700), entity-history Fase 5 completa no nativo; release PENDENTE — o gate recusou as tags por 2 falhas determinísticas do DecompileTest, Latest segue a 0.6.4",
     ],
   },
   {
@@ -167,7 +168,7 @@ const groups: { status: Status; title: string; items: string[] }[] = [
       "kof.db/orm no JS — DB001/ORM001 (WASM planejado)",
       "Kof WASM/WASI — lane ativa (15.3d slice E): stdout, args, String.valueOf, records com toString/==/!=/.equals() content-equality e campos aninhados byte-iguais ao oracle JVM (wasmtime 13/13); faltam Double fields e coleções (fatias F/G), depois o flip 15.4",
       "FFI: callback com retorno String (FFI001), structs com HFA no cross, variadics (3.5)",
-      "Decompiler (Java → Kof) — deprioritizado pelo mantenedor; meta atual é estabilizar a release",
+      "Decompiler (Java → Kof) — reaberto 28/09 e promovido a trabalho corrente 14/10 (D-FUTURE-PROMOTION): concat/&&/||/break/shifts/multidim/instanceof-binding/string-switch recuperam, Math.sqrt/pow → math; cobertura ~54%, teto honesto nas faces que exigem decisão (lei do diamante)",
     ],
   },
   {
@@ -233,10 +234,11 @@ function RoadmapPage() {
             <p className="mt-4 text-sm text-muted-foreground">
               Desde 11/10 cada push na <span className="font-mono">lab</span> dispara o{" "}
               <span className="font-mono">auto-cascade</span>: avaliação automática
-              lab→testing→stable→prerelease com guarda fail-closed (só promove o que foi medido). O
-              cortes 0.6.0, 0.6.1, 0.6.2, 0.6.3 e 0.6.4 já rodaram nesse pipeline — incluindo a
-              recusa honesta do gate à 0.6.3 quando o ES module do runtime saiu com export duplicado
-              (re-cortada após o fix, no dia seguinte).
+              lab→testing→stable→prerelease com guarda fail-closed (só promove o que foi medido). Os
+              cortes 0.6.0, 0.6.1, 0.6.2, 0.6.3, 0.6.4 e 0.6.5 já rodaram nesse pipeline — incluindo
+              duas recusas honestas do gate: a 0.6.3 quando o ES module do runtime saiu com export
+              duplicado (re-cortada no dia seguinte), e a 0.6.5 em 14/10, com as tags travadas por 2
+              falhas determinísticas do DecompileTest até a fix-focused session.
             </p>
             <a
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"

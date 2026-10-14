@@ -13,6 +13,20 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.6.5",
+    date: "13–14/10",
+    tag: "corte em main — release pendente",
+    items: [
+      "corte EXTRAORDINÁRIO ordenado pela mantenedora (exceção explícita da regra de 1/dia) — mergeada em main pela auto-cascade, mas o gate de release recusou honestamente a publicação: 2 falhas determinísticas do DecompileTest (interação da lane do decompiler com o rewiring do BytecodeDecoder) bloqueiam as tags; Latest segue a 0.6.4",
+      "semântica unificada: local/atribuição/retorno `Byte`/`Short` fora de faixa agora estreita no store nos 4 alvos (antes o JVM crashava, o Script estreitava e native/JS mantinham o valor cru — §696); shifts de Int seguem o JVM em todo alvo — `1 << 33` vale `2` também no cross, `-5 >>> 1` idem (§698); divisão por zero de runtime LANÇA nos cross (§699, medição da face inferida do §693)",
+      "JS: `switch` sobre Int com `case 0` compila (antes crash interno COMP002 — §700); `try` aninhado em `try` com `finally` interno compila (§702); `break` aninhado em `if` dentro de case de `switch` emite JS correto (§701)",
+      "entity-history FASE 5 COMPLETA: as variantes nativas `history_page`/`history_one` pousaram no asm x86-64 (com 4 causas-raiz consertadas, incluindo o slot @@CONN@@ compartilhado que segfaultava a página) — o plano foi promovido de future/ para docs/",
+      "decompiler REABERTO e promovido a trabalho corrente (D-FUTURE-PROMOTION, 14/10): concat multi-argumento invertida corrigida (emergia código errado compilável!), `&&`/`||`/cadeias/break/shifts/multidim/instanceof-binding/string-switch/maxOf realista recuperam, Math.sqrt/pow mapeiam para o namespace math; cobertura ~47%→54%",
+      "gêmeo capturado do §664: local de tipo função mutado em closure caixa com o FunctionType DECLARADO (antes VerifyError na closure) — o par do §664 da 0.6.1",
+      "novos gaps catalogados (honestos, abertos): §706 argumento de tipo genérico aninhado (`Box<Box<Int>>`) quebra o acessor externo no JVM; §703/§704 emitência JS errada/inválida em casos raros de return/break dentro de try-finally em loops",
+    ],
+  },
+  {
     version: "0.6.4",
     date: "13/10",
     tag: "Latest",

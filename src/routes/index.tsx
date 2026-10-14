@@ -963,7 +963,8 @@ $ kof version`}
                 "0.6.0 finalizada, mergeada em main e lançada nas 4 plataformas (11/10)",
                 "linha de patch pela auto-cascade: 0.6.1, 0.6.2 e 0.6.3 publicadas como Latest nas 4 plataformas (11-12/10) — a 0.6.3 traz fixes de json (§659/§659d/§667), AV1 tx_type (§679/§680) e profile ratio (#820)",
                 "0.6.4 (Latest, 13/10): for-in sobre String (`for (var c in s)`), casts com um significado nos 4 alvos (§678/§695/§697), instanceof polimórfico consertado no cross (§688), entity-history no Native x86-64 em asm, hang do DAP com causa raiz corrigida (#815)",
-                "kof.orm entity-history: orm.createHistory<User>(db) grava revisões (INSERT/UPDATE/DELETE com snapshot) e history/at/changes + actor/correlation_id rodam na JVM/Android; JS/Native/cross = ORM001 honesto em compile-time",
+                "0.6.5 cortada em main (13–14/10): Byte/Short fora de faixa, shifts de Int e divisão por zero unificados nos 4 alvos (§696/§698/§699), entity-history Fase 5 completa no nativo, decompiler reaberto como trabalho corrente; release PENDENTE — o gate recusou as tags (2 falhas determinísticas do DecompileTest); Latest segue a 0.6.4",
+                "kof.orm entity-history: orm.createHistory<User>(db) grava revisões (INSERT/UPDATE/DELETE com snapshot) e history/at/changes + actor/correlation_id rodam na JVM/Android + Native x86-64 em asm (Fase 5 completa, 0.6.5); JS/cross = ORM001 honesto em compile-time",
               ]}
             />
           </Card>
@@ -977,6 +978,7 @@ $ kof version`}
                 "web no Native/JS residual (TLS/ws/sse — WEB002 / WEB001)",
                 "FFI: callback com retorno String (FFI001) e structs variadic/opaque",
                 "WASM/WASI — lane ativa: stdout, args, String e records (toString/==/.equals() content-equality, campos aninhados) byte-iguais ao oracle JVM; faltam Double e coleções (fatias F/G), depois o flip 15.4",
+                "Decompiler (Java → Kof) — reaberto como trabalho corrente (14/10): cobertura ~54%; faces restantes aguardam decisão da mantenedora",
               ]}
             />
           </Card>
