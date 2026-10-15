@@ -16,6 +16,8 @@ import {
   TRAINING,
   type Status,
 } from "@/components/kof/primitives";
+import { EraAccordion } from "@/components/kof/era-accordion";
+import { concluidoEras, emDesenvolvimento, planejado } from "@/lib/kof-roadmap";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -914,84 +916,14 @@ $ kof version`}
         lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10, e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4 já rodou no auto-cascade por commit (Latest ao vivo: 0.6.4)."
       >
         <div className="grid items-start gap-4 lg:grid-cols-3">
-          <Card title="Concluído (0.6.x)" status="available">
-            <FeatureList
-              items={[
-                "Base do compilador: lexer, parser, AST, sistema de tipos, análise semântica e Kof IR",
-                "Backends JVM, Native (x86_64 free-list GC + mark-sweep) e KofJS",
-                "Classes, records, herança, interfaces, generics e lambdas com capturas",
-                "Exceções reais e coleções com Map/Set nos três targets",
-                "enum com == por conteúdo e switch exaustivo (SEM031); switch-expressão (SYN001) nos 3 targets",
-                "kof build / run / serve / test / debug / bench / profile / inspect / fmt",
-                "kof.web: status/headerSet, WebSocket RFC 6455, SSE nativo, accept loop HTTP/1.1",
-                "kof.db + kof.orm com Query DSL tipada e transaction commit/rollback real",
-                "kof.mq (pub/sub nos 3 targets) e cliente HTTP (JVM + JS + Native)",
-                "kof.security v1 + web security (rate limit, sessões, API keys) nos três targets",
-                "TLS via web.listenSecure na JVM",
-                "kof.validation e kof.observability (histogram/metrics no Native) nos três targets",
-                "kof.ui e pattern matching (case String s, Point(x,y), instanceof)",
-                "null safety String?/Int? e List map/filter/reduce",
-                "imports multi-arquivo, KofScript (repl, watch) e KofCcompiler",
-                "targets native.risc / native.arm com codegen real e stdlib (19/19 qemu)",
-                "process.run / process.spawn (stdout vivo: readLine/exitCode/kill; stdin /dev/null — write é no-op honesto)",
-                "kof fmt com parser real, idempotente; sobrecarga de construtores e widening de return",
-                "kof.config com interpolação de ${key} nos 3 targets; lifecycle application",
-                "W3C spans, kof.log no JS (LOG001) e time no Native (TIME001)",
-                "package manager MVP (kof deps) e MySQL prepared statements binário",
-                "concorrência real no JS (CONC003) e ponto flutuante no Native (FLT001)",
-                "LSP references + rename e releases multiplataforma single-job",
-                "kof.strings / encoding / random / validation / time / net / math / uuid (v4 + v7)",
-                "arrays multidimensionais e kof.media (Image/Audio/Mic/Video + serveDir com Range)",
-                "kof.supervisor (OTP core: JVM + Script + todos os Native + JS)",
-                "web server no KofJS (HttpServer GraalJS + fetch async)",
-                "app.security() + OAuth2 resource server (JVM)",
-                "overloading top-level e de método (4 backends); Long como BigInt no JS",
-                "GC mark-sweep no Native + runtime pruning (hello x86 32.5KB)",
-                "kof new + kof build --fat (suite 6248 testes no CI — stamp 0.6.4)",
-                "DB: SQLite em todos os targets (cross fechado 15/09), MySQL/MariaDB wire em JVM + Native x86-64 e ORM cross — MongoDB real só JVM/Android (DB001 honesto no JS/Native) (0.5.0)",
-                "motores interop KofPy/KofR + timeout/cancel (JVM/x86/JS/Script/cross) (0.5.0)",
-                "memory-safety: ownership pass + O-03 clear-null; Kofmd + kof md check/format (0.5.0)",
-                "secrets + makealive; LSP 32 namespaces; FFI structs ABI + callbacks JS (0.5.0)",
-                "supervisor OTP em todos os Native; multiarch GC/dtoa/canais/io/ssh/time/pow (0.5.0)",
-                "tree-shaking + registry + workflow runner + debug info DWARF cross (0.5.0)",
-                "GC auto-collect no Native (§260 G-6a) (0.5.0)",
-                "sealed + switch exaustivo (SEM080/SEM081); variância out/in + projeção use-site (SEM082) (0.6.0)",
-                "reflexão de fronteira interop.schema(R) — intrínseco compile-time, 4 targets (0.6.0)",
-                "memory-safety M1 completa: callbacks FFI no Native x86-64 e cross riscv64/aarch64 via trampoline (0.6.0)",
-                "GC cross riscv64/aarch64 corrigido (§602); math.pi()/e()/tau() fold para literal (0.6.0)",
-                "kof.ui accessibility — superfície intent-based + defaults automáticos por widget (0.6.0)",
-                "0.6.0 finalizada, mergeada em main e lançada nas 4 plataformas (11/10)",
-                "linha de patch pela auto-cascade: 0.6.1, 0.6.2 e 0.6.3 publicadas como Latest nas 4 plataformas (11-12/10) — a 0.6.3 traz fixes de json (§659/§659d/§667), AV1 tx_type (§679/§680) e profile ratio (#820)",
-                "0.6.4 (Latest, 13/10): for-in sobre String (`for (var c in s)`), casts com um significado nos 4 alvos (§678/§695/§697), instanceof polimórfico consertado no cross (§688), entity-history no Native x86-64 em asm, hang do DAP com causa raiz corrigida (#815)",
-                "0.6.5 cortada em main (13–14/10): Byte/Short fora de faixa, shifts de Int e divisão por zero unificados nos 4 alvos (§696/§698/§699), entity-history Fase 5 completa no nativo, decompiler reaberto como trabalho corrente; release PENDENTE — o gate recusou as tags (2 falhas determinísticas do DecompileTest); Latest segue a 0.6.4",
-                "kof.orm entity-history: orm.createHistory<User>(db) grava revisões (INSERT/UPDATE/DELETE com snapshot) e history/at/changes + actor/correlation_id rodam na JVM/Android + Native x86-64 em asm (Fase 5 completa, 0.6.5); JS/cross = ORM001 honesto em compile-time",
-              ]}
-            />
+          <Card title="Concluído" status="available">
+            <EraAccordion eras={concluidoEras} />
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            <FeatureList
-              items={[
-                "package registry além do MVP",
-                "LSP além do MVP",
-                "debugger além do MVP JVM (DWARF Native, source maps JS)",
-                "KofJS plataforma web no browser",
-                "web no Native/JS residual (TLS/ws/sse — WEB002 / WEB001)",
-                "FFI: callback com retorno String (FFI001) e structs variadic/opaque",
-                "WASM/WASI — lane ativa: stdout, args, String e records (toString/==/.equals() content-equality, campos aninhados) byte-iguais ao oracle JVM; faltam Double e coleções (fatias F/G), depois o flip 15.4",
-                "Decompiler (Java → Kof) — reaberto como trabalho corrente (14/10): cobertura ~54%; faces restantes aguardam decisão da mantenedora",
-              ]}
-            />
+            <FeatureList items={emDesenvolvimento} />
           </Card>
           <Card title="Planejado" status="planned">
-            <FeatureList
-              items={[
-                "KofScript — REPL e watch já via KofInterpreter; runtime dedicado é o próprio interpreter",
-                "Language Reference já em docs/language-reference/ (evoluindo)",
-                "conformance suite — embrião E2E",
-                "full web platform e auto-hospedagem",
-                "MCU / riscv32 (gaps honestos nomeados)",
-              ]}
-            />
+            <FeatureList items={planejado} />
           </Card>
         </div>
         <Link
