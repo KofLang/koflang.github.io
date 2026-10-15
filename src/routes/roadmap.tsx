@@ -94,7 +94,8 @@ function RoadmapPage() {
               cortes 0.6.0, 0.6.1, 0.6.2, 0.6.3, 0.6.4 e 0.6.5 já rodaram nesse pipeline — incluindo
               duas recusas honestas do gate: a 0.6.3 quando o ES module do runtime saiu com export
               duplicado (re-cortada no dia seguinte), e a 0.6.5 em 14/10, com as tags travadas por 2
-              falhas determinísticas do DecompileTest até a fix-focused session.
+              falhas determinísticas do DecompileTest — já corrigidas na lab (132/132, 15/10), com
+              re-corte pendente.
             </p>
             <a
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
