@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { GITHUB, Section, StatusBadge } from "@/components/kof/primitives";
-import { EraAccordion } from "@/components/kof/era-accordion";
+import { CollapseList, EraAccordion } from "@/components/kof/era-accordion";
 import { concluidoEras, emDesenvolvimento, planejado } from "@/lib/kof-roadmap";
 
 export const Route = createFileRoute("/roadmap")({
@@ -41,35 +41,31 @@ function RoadmapPage() {
               <h3 className="font-mono text-sm uppercase tracking-widest">Concluído</h3>
               <StatusBadge status="available" />
             </div>
-            <EraAccordion eras={concluidoEras} openLast />
+            <EraAccordion eras={concluidoEras} />
           </div>
 
-          <div className="rounded-md border border-border bg-surface">
-            <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
+          <div className="rounded-md border border-border bg-surface p-3">
+            <div className="flex items-center justify-between gap-3 px-1 py-2">
               <h3 className="font-mono text-sm uppercase tracking-widest">Em desenvolvimento</h3>
               <StatusBadge status="in-development" />
             </div>
-            <ul className="divide-y divide-border">
-              {emDesenvolvimento.map((item) => (
-                <li key={item} className="px-4 py-2.5 font-mono text-sm text-muted-foreground">
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <CollapseList
+              label="Frente ativa"
+              hint="o que está sendo construído"
+              items={emDesenvolvimento}
+            />
           </div>
 
-          <div className="rounded-md border border-border bg-surface">
-            <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
+          <div className="rounded-md border border-border bg-surface p-3">
+            <div className="flex items-center justify-between gap-3 px-1 py-2">
               <h3 className="font-mono text-sm uppercase tracking-widest">Planejado</h3>
               <StatusBadge status="planned" />
             </div>
-            <ul className="divide-y divide-border">
-              {planejado.map((item) => (
-                <li key={item} className="px-4 py-2.5 font-mono text-sm text-muted-foreground">
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <CollapseList
+              label="Próximos passos"
+              hint="para onde o projeto vai"
+              items={planejado}
+            />
           </div>
         </div>
       </Section>

@@ -16,7 +16,7 @@ import {
   TRAINING,
   type Status,
 } from "@/components/kof/primitives";
-import { EraAccordion } from "@/components/kof/era-accordion";
+import { CollapseList, EraAccordion } from "@/components/kof/era-accordion";
 import { concluidoEras, emDesenvolvimento, planejado } from "@/lib/kof-roadmap";
 
 export const Route = createFileRoute("/")({
@@ -920,10 +920,10 @@ $ kof version`}
             <EraAccordion eras={concluidoEras} />
           </Card>
           <Card title="Em desenvolvimento" status="in-development">
-            <FeatureList items={emDesenvolvimento} />
+            <CollapseList label="Frente ativa" items={emDesenvolvimento} />
           </Card>
           <Card title="Planejado" status="planned">
-            <FeatureList items={planejado} />
+            <CollapseList label="Próximos passos" items={planejado} />
           </Card>
         </div>
         <Link
