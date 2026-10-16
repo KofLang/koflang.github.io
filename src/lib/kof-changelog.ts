@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.4).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.5).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -14,22 +14,24 @@ export type ChangelogRelease = {
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
     version: "0.6.5",
-    date: "13–14/10",
-    tag: "corte em main — release pendente",
+    date: "13–16/10",
+    tag: "Latest",
     items: [
-      "corte EXTRAORDINÁRIO ordenado pela mantenedora (exceção explícita da regra de 1/dia) — mergeada em main pela auto-cascade, mas o gate de release recusou honestamente a publicação: 2 falhas determinísticas do DecompileTest (interação da lane do decompiler com o rewiring do BytecodeDecoder) bloqueiam as tags; as falhas já foram corrigidas na lab (15/10, DecompileTest 132/132) e o re-corte está pendente — Latest segue a 0.6.4",
-      "semântica unificada: local/atribuição/retorno `Byte`/`Short` fora de faixa agora estreita no store nos 4 alvos (antes o JVM crashava, o Script estreitava e native/JS mantinham o valor cru — §696); shifts de Int seguem o JVM em todo alvo — `1 << 33` vale `2` também no cross, `-5 >>> 1` idem (§698); divisão por zero de runtime LANÇA nos cross (§699, medição da face inferida do §693)",
-      "JS: `switch` sobre Int com `case 0` compila (antes crash interno COMP002 — §700); `try` aninhado em `try` com `finally` interno compila (§702); `break` aninhado em `if` dentro de case de `switch` emite JS correto (§701)",
-      "entity-history FASE 5 COMPLETA: as variantes nativas `history_page`/`history_one` pousaram no asm x86-64 (com 4 causas-raiz consertadas, incluindo o slot @@CONN@@ compartilhado que segfaultava a página) — o plano foi promovido de future/ para docs/",
-      "decompiler REABERTO e promovido a trabalho corrente (D-FUTURE-PROMOTION, 14/10): concat multi-argumento invertida corrigida (emergia código errado compilável!), `&&`/`||`/cadeias/break/shifts/multidim/instanceof-binding/string-switch/maxOf realista recuperam, Math.sqrt/pow mapeiam para o namespace math; cobertura ~47%→54%",
-      "gêmeo capturado do §664: local de tipo função mutado em closure caixa com o FunctionType DECLARADO (antes VerifyError na closure) — o par do §664 da 0.6.1",
-      "novos gaps catalogados (honestos, abertos): §706 argumento de tipo genérico aninhado (`Box<Box<Int>>`) quebra o acessor externo no JVM; §703/§704 emitência JS errada/inválida em casos raros de return/break dentro de try-finally em loops",
+      "corte EXTRAORDINÁRIO ordenado pela mantenedora (exceção explícita da regra de 1/dia); as tags só saíram na 3ª tentativa de CI em 16/10 — cada uma das 3 recusas do gate virou um fix real (regen da tabela PortuKof, `mkdir` do histdbg, skip dos corpus de dados no run-golden), não um retry cego",
+      "KofBOL (D-KOFBOL) — plataforma de migração de legado COBOL: `kof legacy <copybook>` + libs/legacy em Kof puro (fixed-width PIC, EBCDIC CP037, COMP-3, copybook com OCCURS/88/REDEFINES, adapter com return-codes, transporte, mensageria/batch, transações); limites nomeados LEG001–LEG019; `kof compare` faz o teste diferencial Java↔Kof",
+      "bibliotecas oficiais novas em Kof puro: leitor ZIP (RFC 1951) e GZIP (RFC 1952) em `libs/archive` (#852); `sha256File(path)` em `libs/security` (#853); `time.formatInstantIso(Long)` no kof.time (#857 — JS/Native diagnosticam TIME005, honesto)",
+      "CLI: `kof run/deploy --jvm-option <opt>` (#855) e `kof test --module-root <dir> --tests-only` (#856)",
+      "semântica unificada nos 4 alvos: `Byte`/`Short` fora de faixa estreitam no store (§696), shifts de Int seguem o JVM também no cross/JS (§698), divisão por zero de runtime LANÇA no cross (§699); JS: switch Int com case 0 (§700), try aninhado com finally interno (§702), break em if dentro de case (§701); `catch (String e)` volta a receber a String do contrato congelado, não o objeto Error (#843)",
+      "entity-history FASE 5 COMPLETA: variantes nativas `history_page`/`history_one` no asm x86-64 (4 causas-raiz consertadas); plano promovido de future/ para docs/",
+      "decompiler (reaberto como trabalho corrente): concat multi-argumento invertida corrigida, `&&`/`||`/cadeias/break/shifts/multidim/for-each wide/instanceof-binding/string-switch/maxOf recuperam, Math.sqrt/pow → math; DecompileTest 150/150; domínios eleições/aluguel/matemático validados out-of-the-box",
+      "gêmeo capturado do §664: local de tipo função mutado em closure caixa com o FunctionType DECLARADO (antes VerifyError) — par do §664 da 0.6.1",
+      "gaps catalogados (honestos): §745 ABERTO — `List` com tipo de elemento NU derruba os nativos (SIGSEGV) ao adicionar primitivo (JVM/Script/JS corretos); §706 ABERTO — `Box<Box<Int>>` quebra o acessor externo no JVM; §734 FECHADO (face JS do COMP-3); §741/§743/§744 FECHADOS (equalsIgnoreCase nativo, array, coleção)",
     ],
   },
   {
     version: "0.6.4",
     date: "13/10",
-    tag: "Latest",
+    tag: "publicada 13/10",
     items: [
       "evolução da linguagem: `for (var c in s)` — o for-in aceita String (variável do loop é Char) nos 4 alvos, pelo mesmo desugar de índice via length/charAt; o que era recusa SEM058 desde 14/09 vira o contrato natural que o backend JS já tinha",
       "linguagem: `case Tipo ->` nu em switch sobre sealed é TYPE TEST (#817); `val` anotado (`val x: Int = 1`) impõe imutabilidade como o inferido (#816); record estendendo classe do usuário mantém toString/equals/hashCode por CONTEÚDO nos 4 alvos (#818)",

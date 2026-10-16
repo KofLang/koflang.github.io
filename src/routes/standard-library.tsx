@@ -8,7 +8,7 @@ export const Route = createFileRoute("/standard-library")({
       {
         name: "description",
         content:
-          "A stdlib da Kof: coleções com Map/Set, enum, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security, kof.validation, kof.observability, kof.supervisor, KofPy/KofR, FFI e Buffer disponíveis; gaps por target nomeados em compile-time.",
+          "A stdlib da Kof: coleções com Map/Set, enum, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security, kof.validation, kof.observability, kof.supervisor, KofPy/KofR, FFI e Buffer disponíveis; migração COBOL (kof legacy/KofBOL) e libs oficiais (ZIP, GZIP, sha256File); gaps por target nomeados em compile-time.",
       },
       { property: "og:title", content: "Standard Library — Kof" },
       {
@@ -79,7 +79,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "tempo (kof.time)",
     status: "available",
-    note: "now(), sleep, interval, every()/at() + isLeapYear/daysInMonth/dayOfWeek/daysBetween/addDays/diffDays (TIME002) / todayIso/formatDateIso/parseDateIso/hoursBetween/tzOffsetSeconds (TIME003 honesto) nos 5 alvos (TIME001 fechado no Native).",
+    note: "now(), sleep, interval, every()/at() + isLeapYear/daysInMonth/dayOfWeek/daysBetween/addDays/diffDays (TIME002) / todayIso/formatDateIso/parseDateIso/hoursBetween/tzOffsetSeconds (TIME003 honesto) nos 5 alvos (TIME001 fechado no Native). formatInstantIso(Long millis) — instante UTC completo (0.6.5, #857; JS/Native diagnosticam TIME005).",
   },
   {
     name: "matemática (kof.math)",
@@ -186,6 +186,16 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     name: "interop R (KofR)",
     status: "available",
     note: "Engine real over Rscript --vanilla -e com o MESMO face do KofPy (callInt/Double/Bool/String/Json + timeout/cancel); spec embutida na expressão -e como string literal, jsonlite decodifica no lado R. InteropRE2ETest 10/10 skipped-0 no CI (Rscript 4.x + jsonlite).",
+  },
+  {
+    name: "migração COBOL — kof legacy (KofBOL)",
+    status: "available",
+    note: "Plataforma de legado (0.6.5): `kof legacy <copybook>` gera contrato Kof a partir de copybook fixo (PIC X/9, OCCURS, 88, REDEFINES); libs/legacy em Kof puro com fixed-width, EBCDIC CP037, COMP-3, adapter com return-codes (banda 0/4/8/12/16 como DADO), transporte, mensageria/batch e transações. Limites nomeados LEG001–LEG019 (nunca drop silencioso); kof compare faz o teste diferencial Java↔Kof.",
+  },
+  {
+    name: "bibliotecas oficiais (libs)",
+    status: "available",
+    note: "Pacotes importáveis escritos em Kof puro, mesmo padrão da stdlib: libs/archive — leitor ZIP (#852 s1) e GZIP/RFC 1952 (#852 s2) por composição; libs/security — sha256File(path) (#853); libs/legacy (KofBOL). Provas E2E no CI por face.",
   },
   {
     name: "FFI (extern)",

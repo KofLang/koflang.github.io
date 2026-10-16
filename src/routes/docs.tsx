@@ -63,6 +63,7 @@ $ kof decompile
 $ kof translate
 $ kof compare
 $ kof migrate
+$ kof legacy
 $ kof fmt
 $ kof new
 $ kof init
