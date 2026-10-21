@@ -8,7 +8,7 @@ export const Route = createFileRoute("/standard-library")({
       {
         name: "description",
         content:
-          "A stdlib da Kof: coleções com Map/Set, enum, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security, kof.validation, kof.observability, kof.supervisor, KofPy/KofR, FFI e Buffer disponíveis; migração COBOL (kof legacy/KofBOL) e libs oficiais (ZIP, GZIP, sha256File); gaps por target nomeados em compile-time.",
+          "A stdlib da Kof: coleções com Map/Set, enum, strings, kof.io, JSON, kof.web, kof.db, kof.orm, kof.mq, cliente HTTP, kof.security, kof.validation, kof.observability, kof.supervisor, KofPy/KofR, FFI e Buffer disponíveis; migração COBOL (kof legacy/KofBOL) e libs oficiais (ZIP/GZIP/TAR + GzipWriter, sha256File); gaps por target nomeados em compile-time.",
       },
       { property: "og:title", content: "Standard Library — Kof" },
       {
@@ -195,7 +195,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "bibliotecas oficiais (libs)",
     status: "available",
-    note: "Pacotes importáveis escritos em Kof puro, mesmo padrão da stdlib: libs/archive — leitor ZIP (#852 s1) e GZIP/RFC 1952 (#852 s2) por composição; libs/security — sha256File(path) (#853); libs/legacy (KofBOL). Provas E2E no CI por face.",
+    note: "Pacotes importáveis escritos em Kof puro, mesmo padrão da stdlib: libs/archive — leitor ZIP (#852 s1), GZIP/RFC 1952 (#852 s2) + TAR/ustar com nomes longos GNU (#852 s3, `.tar.gz` por composição) e GzipWriter de escrita (#852, 0.6.6); libs/security — sha256File(path) (#853); libs/legacy (KofBOL). Provas E2E no CI por face.",
   },
   {
     name: "FFI (extern)",

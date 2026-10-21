@@ -282,7 +282,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.6.5</span>
+              <span className="text-signal">v0.6.6</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -914,7 +914,7 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10, e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5 já rodou no auto-cascade por commit (Latest ao vivo: 0.6.5, 16/10)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10, e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5→0.6.6 já rodou no auto-cascade por commit (Latest ao vivo: 0.6.6, 19/10)."
       >
         <div className="grid items-start gap-4 lg:grid-cols-3">
           <Card title="Concluído" status="available">

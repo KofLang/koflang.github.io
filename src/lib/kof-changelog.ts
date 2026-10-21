@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.5).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.6).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,24 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.6.6",
+    date: "17–19/10",
+    tag: "Latest",
+    items: [
+      "publicada em 19/10 nas 4 plataformas — primeira tentativa de CI que passa (1h14m), sem recusas desta vez",
+      "libs/archive completa a face de escrita: `GzipWriter` (RFC 1952, blocos DEFLATE STORED) e o leitor **TAR** (POSIX ustar + nomes longos GNU, checksum conferido, pax recusado pelo nome) — `tarEntriesFrom(gzipRead(...))` lê `.tar.gz` sem máquina nova (issue #852)",
+      "nativos corrigidos: `Enum.valueOf(String)` não faz mais SEGFAULT (§750, golden `enum-valueof` trava os 4 alvos); bridge de vtable de classe base genérica abstrata passa a ocupar o slot certo (§720 face nativa, golden `generic-abstract-base`); `strings.padLeft/padRight` com caracteres NÃO-BMP corrigido e travado por golden",
+      "contratos fixados por goldens novos: `record` em coleção no toString (§746), `math.abs(Int.MIN_VALUE)`, faces de separador/padrão vazio em split",
+      "AVIF: quadro não alinhado 20x20 decodifica EXATAMENTE (§753); golden de paleta na linha MI-16 (#889 do image-vision)",
+      "tooling: `kof lsp` não guarda mais buffer vazio no `didChange` (#894); pin do ASM 9.10.1 repousado com verificação independente (§652)",
+      "decompiler: **80 validações consecutivas SEM código novo** (domínios praia, receita, cinema, goal, filme, gas, guarda-roupa...) — DecompileTest 209/209, bateria 313/313; `String.repeat` → `strings.repeat`; o `||` dentro de loop com join compartilhado do `continue` recupera",
+      "honestidade que virou lição: a guarda `NAT009` do §745 (recusa em compile-time para `List` de elemento nu + primitivo) foi REVERTIDA em 18/10 — recusava o contrato GOLDEN §374 (`xs.add(2)` no top level) e deixou 9 faces do AV1 vermelhas (1.0-blocks #889); o §745 segue ABERTO/PARCIAL (crash só dentro de lambda), com o fix real (boxing na fronteira de erasure ou gate ciente do contexto da lambda) aguardando decisão da mantenedora",
+    ],
+  },
+  {
     version: "0.6.5",
     date: "13–16/10",
-    tag: "Latest",
+    tag: "publicada 16/10",
     items: [
       "corte EXTRAORDINÁRIO ordenado pela mantenedora (exceção explícita da regra de 1/dia); as tags só saíram na 3ª tentativa de CI em 16/10 — cada uma das 3 recusas do gate virou um fix real (regen da tabela PortuKof, `mkdir` do histdbg, skip dos corpus de dados no run-golden), não um retry cego",
       "KofBOL (D-KOFBOL) — plataforma de migração de legado COBOL: `kof legacy <copybook>` + libs/legacy em Kof puro (fixed-width PIC, EBCDIC CP037, COMP-3, copybook com OCCURS/88/REDEFINES, adapter com return-codes, transporte, mensageria/batch, transações); limites nomeados LEG001–LEG019; `kof compare` faz o teste diferencial Java↔Kof",
