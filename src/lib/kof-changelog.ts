@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.6).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.7).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,24 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.6.7",
+    date: "22–27/10",
+    tag: "Latest",
+    items: [
+      "publicada em 27/10 nas 4 plataformas — CI de primeira (1h01m); suite 7536 verdes / 0F na árvore de fechamento",
+      'WASM/WASI fatia F (strings) COMPLETA: `String` ==/!=, length (code units UTF-16), isEmpty/equals/concat, startsWith/endsWith, indexOf, charAt/substring com mapeamento UTF-16→UTF-8, trim, lastIndexOf, compareTo, replace, fromIndex, contains — byte-iguais ao oracle JVM (wasmtime); `String.valueOf(Char)` e `"texto" + <numero|bool>` deixam de recusar WASM002',
+      "WASI: família INT de math (abs/sign/min/max/clamp + predicates) e aritmética DOUBLE pura (sqrt/toRadians/toDegrees/lerp/percentage) avaliam; cadeias lógicas `&&`/`||` e JOIN de if-EXPRESSION na máquina de um único temporário (braços heterogêneos seguem recusados, registrado); Double integral imprime (fatia F 2m)",
+      "base WASI: `WasmOpSupport` declara o que o target suporta e guarda drift nas duas direções (§22); jump threading ligado em produção (D-JS-ROBUST, backend JS intocado); `AsmMetrics` conta asm emitido; export duplicado corrigido; FFI downcall já alinhado a 16 bytes não quebra a stack mais (#974)",
+      "primeiros PRs de contribuidor externo mergeados (4): override de `toString` do usuário, toString herdado no nativo, cast de dupla-avaliação no JS e cast catchable no nativo",
+      "nativos: SIGSEGV de captura de `this` em lambda cross corrigido (§758)",
+      "decompiler: DO-WHILE multi-bloco e seus break/continue recuperam (última forma aberta do do-while); DecompileTest 252/252",
+      "AVIF: requisito de temporal-delimiter removido (TD é opcional no ISOBMFF) e gate de film-grain fiel (passes 140/141)",
+    ],
+  },
+  {
     version: "0.6.6",
     date: "17–19/10",
-    tag: "Latest",
+    tag: "publicada 19/10",
     items: [
       "publicada em 19/10 nas 4 plataformas — primeira tentativa de CI que passa (1h14m), sem recusas desta vez",
       "libs/archive completa a face de escrita: `GzipWriter` (RFC 1952, blocos DEFLATE STORED) e o leitor **TAR** (POSIX ustar + nomes longos GNU, checksum conferido, pax recusado pelo nome) — `tarEntriesFrom(gzipRead(...))` lê `.tar.gz` sem máquina nova (issue #852)",
