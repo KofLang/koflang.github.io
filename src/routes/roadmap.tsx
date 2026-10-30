@@ -74,7 +74,7 @@ function RoadmapPage() {
         index="02"
         eyebrow="Versionamento"
         title="MAJOR.MINOR.PATCH — e o pontinho da vergonha."
-        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — a 0.5.0-beta foi mergeada em main (27/09), a 0.6.0 é release oficial (11/10) e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5→0.6.6→0.6.7 foi publicada pela auto-cascade em ~16 dias (a 0.6.5 precisou de 3 tentativas de CI; as demais passaram de primeira); o PATCH continua subindo bastante."
+        lead="A regra de evolução é simples: major releases > major fixes > bugfixes. A primeira release estável, a 0.1.0, já foi lançada — a 0.5.0-beta foi mergeada em main (27/09), a 0.6.0 é release oficial (11/10) e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5→0.6.6→0.6.7→0.6.8 foi publicada pela auto-cascade em ~19 dias (a 0.6.5 precisou de 3 tentativas de CI; as demais passaram de primeira); o PATCH continua subindo bastante."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="rounded-md border border-border bg-surface p-5">
@@ -91,11 +91,11 @@ function RoadmapPage() {
               Desde 11/10 cada push na <span className="font-mono">lab</span> dispara o{" "}
               <span className="font-mono">auto-cascade</span>: avaliação automática
               lab→testing→stable→prerelease com guarda fail-closed (só promove o que foi medido). Os
-              cortes 0.6.0, 0.6.1, 0.6.2, 0.6.3, 0.6.4, 0.6.5, 0.6.6 e 0.6.7 já rodaram nesse
+              cortes 0.6.0, 0.6.1, 0.6.2, 0.6.3, 0.6.4, 0.6.5, 0.6.6, 0.6.7 e 0.6.8 já rodaram nesse
               pipeline — incluindo recusas honestas do gate: a 0.6.3 quando o ES module do runtime
               saiu com export duplicado (re-cortada no dia seguinte), e a 0.6.5, cujas tags só
               saíram na 3ª tentativa de CI em 16/10 — cada recusa virou um fix real, não um retry
-              cego; as três releases seguintes (0.6.6, 0.6.7) passaram de primeira.
+              cego; as três releases seguintes (0.6.6, 0.6.7, 0.6.8) passaram de primeira.
             </p>
             <a
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"

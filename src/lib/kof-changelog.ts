@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.7).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.8).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,24 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.6.8",
+    date: "27–30/10",
+    tag: "Latest",
+    items: [
+      "publicada em 30/10 nas 4 plataformas — CI de primeira (1h13m); suite 7611 verdes / 0F no corte",
+      "WASI ganha CLASSES: instâncias (CLASS-1), despacho virtual, super-métodos, campos de classe e classes em List/Set/Map e arrays (CLASS-2→CLASS-2j, fatias A onde anotado) — byte-idênticas ao oracle JVM; COLEÇÕES no bump heap: List/Set/Map nas larguras escalares, membros String, listas aninhadas, records em coleções (LIST/SET/MAP-REC, igualdade por conteúdo) e a chave escalar do Map COMPLETA (Map<String|Int|Long, Int|Long|String|Double|Bool|Char>); arrays new Int/String/Bool/Char/Long/Double[n] no heap",
+      "dois Q0 reais achados pelas sondas: a célula de Set/Map alocava 16 bytes com o cap em cell+16 (o grow nunca disparava e os appends passavam por cima dos blocos vizinhos) e o get/remove do Map tinha os braços hit/miss trocados — corrigidos e travados por sondas byte-iguais",
+      "WASI math/libm: abs/floor/ceil/min/max e clamp/sign para Double, roundTo e a família trig (sin pequeno/médio/largo, tan, atan, asin, acos, atan2) em port fiel ao fdlibm — byte-idêntico ao StrictMath/oráculo JVM; o braço cos do sin largo segue trap honesto (decisão da mantenedora); o drift glibc×fdlibm (~3% do intervalo 1e8–1e9, 1 ulp) foi medido e registrado",
+      "Schubfach COMPLETO: Double.toString byte-a-byte no WASI — records com campos Double no toString fecham a fatia F face 2",
+      "o JOIN de if-expressão com braços HETEROGÊNEOS agora avalia no WASI (caixa de erasure §284 portada ao terceiro backend) e o render de Map<String, Char|Bool|Double|String> completa; o ternário de profundidade 4 do desugar nullable cruza a máquina de estados",
+      "GC no WASI: GC-1 (mark-sweep disparado por exaustão), GC-2 (roteamento de safe points + fix da gray-list) e GC-3 (integridade do sweep + validação do candidato conservador) pousados byte-idênticos; o GC-4 (coleta nos allocs de runtime) foi TENTADO E REVERTIDO — o sim de pilha conservador não é exato o bastante; fica bloqueado no tracker de pilha em emit-time (design D-gated), decisão da mantenedora",
+      "fixes e extras: #975 — break de for-in aninhado em if era DROPADO no JS (valor errado silencioso, COMP002); #976 — o gate §368 over-fire em atribuição composta e stores estreitantes destrava a cadeia 0.6.8; println(!false) emitia módulo WASI inválido; String.replace(Char, Char) no WASI; tabela de aliases math 35→37 (atan/asin) e diagnósticos SEM014/SEM021 regenerados",
+    ],
+  },
+  {
     version: "0.6.7",
     date: "22–27/10",
-    tag: "Latest",
+    tag: "publicada 27/10",
     items: [
       "publicada em 27/10 nas 4 plataformas — CI de primeira (1h01m); suite 7536 verdes / 0F na árvore de fechamento",
       'WASM/WASI fatia F (strings) COMPLETA: `String` ==/!=, length (code units UTF-16), isEmpty/equals/concat, startsWith/endsWith, indexOf, charAt/substring com mapeamento UTF-16→UTF-8, trim, lastIndexOf, compareTo, replace, fromIndex, contains — byte-iguais ao oracle JVM (wasmtime); `String.valueOf(Char)` e `"texto" + <numero|bool>` deixam de recusar WASM002',
