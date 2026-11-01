@@ -99,7 +99,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "validação (kof.validation)",
     status: "available",
-    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis/isNis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard), formatCpf/formatCep/formatCnpj (pontuação BR) — 4-5 alvos; violação VAL001.",
+    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis/isNis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard), formatCpf/formatCep/formatCnpj (pontuação BR) — 4-5 alvos; violação VAL001. `matches` no nativo é substring literal, não regex do JVM (valor errado em silêncio — #979 aberto, 31/10).",
   },
   {
     name: "observabilidade (kof.observability)",

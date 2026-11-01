@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.8).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.9).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,22 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.6.9",
+    date: "31/10",
+    tag: "Latest",
+    items: [
+      "publicada em 31/10 nas 4 plataformas — CI de primeira (~1h17m); suite 7617 verdes / 0F no corte (6274d7300); release enxuta de bugfix e diagnóstico",
+      "#978 — `kof deploy`: a linha de artefato e a atesta de publicação agora carregam o sha do .tar.gz, não o do jar interno (os dois apontavam para o jar)",
+      "#977 — membro desconhecido em receiver primitivo agora é diagnosticado (SEM102) em todos os alvos, nunca mais valor garbage silencioso por target",
+      "probe #30 — eixo Float verificado com paridade byte nos 4 targets (0 divergência): fecha a lacuna de largura numérica restante",
+      "#979 ABERTO (honesto) — `validation.matches` no nativo é busca de substring LITERAL, não o contrato regex do JVM: valores errados em silêncio, e a matriz de paridade dizia ✅ — 1.0-block, frente da lane native/asm",
+      "plano de endurecimento de TLS registrado em docs/future (de self-signed de dev para TLS de produção)",
+    ],
+  },
+  {
     version: "0.6.8",
     date: "27–30/10",
-    tag: "Latest",
+    tag: "publicada 30/10",
     items: [
       "publicada em 30/10 nas 4 plataformas — CI de primeira (1h13m); suite 7611 verdes / 0F no corte",
       "WASI ganha CLASSES: instâncias (CLASS-1), despacho virtual, super-métodos, campos de classe e classes em List/Set/Map e arrays (CLASS-2→CLASS-2j, fatias A onde anotado) — byte-idênticas ao oracle JVM; COLEÇÕES no bump heap: List/Set/Map nas larguras escalares, membros String, listas aninhadas, records em coleções (LIST/SET/MAP-REC, igualdade por conteúdo) e a chave escalar do Map COMPLETA (Map<String|Int|Long, Int|Long|String|Double|Bool|Char>); arrays new Int/String/Bool/Char/Long/Double[n] no heap",
