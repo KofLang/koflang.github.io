@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.9).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.10).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,24 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.6.10",
+    date: "01/11",
+    tag: "Latest",
+    items: [
+      "publicada em 01/11 nas 4 plataformas — CI na 2ª tentativa (~1h); suite 7696 verdes / 0F carimbada no corte (7231950ac; 7680/0F também em 84a88f74f). A 1ª recusa do gate foi um teste FLAKE do harness (borrow-race de 2ms que perdia o agendamento em runner lento) — root-caused e corrigido no lab com a asserção MEM020 intacta; nunca waiveada",
+      "WASI fecha os ÚLTIMOS construtos de linguagem núcleo fora do subset escalar: TRY-1 — `try`/`catch`/`throw(String)` de instrução avaliam (rodada 85; 9 faces T1–T9 com stdout byte-idêntico ao JVM real) e T-2 — `finally`/catchAll (rodada 86; faces T10–T16, incl. throw dentro do `finally` SUBSTITUINDO a exceção como no Java) — com ZERO runtime e ZERO instrução wasm nova; catch tipado não-String ainda recusa WASM002 honestamente (T-3 na fila)",
+      "MATH-POW-1 — `math.pow(Double, Double)` pousa no WASI pelo port fdlibm `__ieee754_pow`, a ÚLTIMA fatia libm da família math: 89 faces medidas — 85 byte-idênticas a `Math.pow` e 4 EXATAS a `StrictMath.pow` (o intrínseco do JVM difere 1 ulp ali; diferencial pinado, não drift do port); a recusa de 28/10 foi REVERTIDA com prova nova",
+      "onda de contribuidor fechada na release: #981 (modificadores top-level re-landed), #980 (§765 — `throw` dentro de operando de `return` em `try` é capturado no Script/Native como no JVM), #982 (§766 — `Zip.extractTo` preserva diretórios aninhados a qualquer profundidade e lança em escrita falha) e #985 (18 alertas CodeQL em wasm/formatter/ffi/bytecode-recover)",
+      "nativo sem 1.0-blocks, exceto um: #933 (o grow do `Map<String, Int>` corrompia o heap — capacidade gravada em bytes e array de valores pela metade), #934 (marshaling `extern String` para de depender da ORDEM de compilação — a tabela vira pré-passe) e #931/#932 (lei de shadowing: `extern poll(...)`/`writeFile(...)` do usuário não são mais roubados pelo builtin homônimo) fecham — sobe 1 só 1.0-block aberto: #979 (`validation.matches` nativo)",
+      "#996 — método desconhecido em receiver `String` é diagnosticado (SEM025) mesmo quando existe classe com esse nome (o ramo de ctor implícito disparava para qualquer receiver)",
+      "#852 — leitor ZIP INCREMENTAL em Kof puro: `ZipReader` + `ZipEntryStream` + `image.InflateStream` sobre DEFLATE retomável (`open(entry, maxBytes)` → `readChunk(): Int[]?`); um archive de 12 MB é listado com ≤ 70 KB lidos e streama sob `-Xmx40m` onde o `Zip(path)` legado morria com OutOfMemoryError. Ficou ABERTO de propósito: #995 (qualquer `import archive.Zip` ainda fura a compilação JS — IOJS001, provado por teste dedicado) e #993 (compressor DEFLATE em Kof puro — o `GzipWriter` só escreve STORED)",
+      "o corte foi BLOQUEADO pelo check_500 e destravado no mesmo dia: `CompilerPipeline` 600→460, `NativeRiscvAsmMapset0` 606→440 e `WasmPowMain` 845→342/203/338 splitados por responsabilidade, com ASM emitido byte-idêntico provado por diff",
+    ],
+  },
+  {
     version: "0.6.9",
     date: "31/10",
-    tag: "Latest",
+    tag: "publicada 31/10",
     items: [
       "publicada em 31/10 nas 4 plataformas — CI de primeira (~1h17m); suite 7617 verdes / 0F no corte (6274d7300); release enxuta de bugfix e diagnóstico",
       "#978 — `kof deploy`: a linha de artefato e a atesta de publicação agora carregam o sha do .tar.gz, não o do jar interno (os dois apontavam para o jar)",

@@ -195,7 +195,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "bibliotecas oficiais (libs)",
     status: "available",
-    note: "Pacotes importáveis escritos em Kof puro, mesmo padrão da stdlib: libs/archive — leitor ZIP (#852 s1), GZIP/RFC 1952 (#852 s2) + TAR/ustar com nomes longos GNU (#852 s3, `.tar.gz` por composição) e GzipWriter de escrita (#852, 0.6.6); libs/security — sha256File(path) (#853); libs/legacy (KofBOL). Provas E2E no CI por face.",
+    note: "Pacotes importáveis escritos em Kof puro, mesmo padrão da stdlib: libs/archive — leitor ZIP (#852 s1), GZIP/RFC 1952 (#852 s2) + TAR/ustar com nomes longos GNU (#852 s3, `.tar.gz` por composição) e GzipWriter de escrita (#852, 0.6.6); desde a 0.6.10, `ZipReader`/`ZipEntryStream` leem ZIP de forma INCREMENTAL sobre DEFLATE retomável (`open(entry, maxBytes)` → `readChunk()` — 12 MB listados com ≤ 70 KB lidos sob `-Xmx40m`); lacunas honestas no JS: qualquer `import archive.Zip` fura a compilação (IOJS001, #995 aberto) e o compressor DEFLATE puro falta (#993 — o `GzipWriter` só escreve STORED). libs/security — sha256File(path) (#853); libs/legacy (KofBOL). Provas E2E no CI por face.",
   },
   {
     name: "FFI (extern)",
