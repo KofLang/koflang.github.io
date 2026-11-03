@@ -160,6 +160,13 @@ export const concluidoEras: RoadmapEra[] = [
       "0.6.10 publicada como Latest nas 4 plataformas (01/11, CI na 2ª tentativa — a 1ª recusa foi um teste flake do harness (borrow-race), root-caused e corrigido no lab com a asserção MEM020 intacta, nunca waiveada; suite 7696/0F): WASI fecha os ÚLTIMOS construtos de linguagem núcleo fora do subset escalar — TRY-1 (`try`/`catch`/`throw(String)`) e T-2 (`finally`/catchAll) com ZERO instrução wasm nova; `math.pow` fdlibm pousa como última fatia libm (85 faces == Math, 4 == StrictMath — a recusa de 28/10 foi revertida com prova); onda de contribuidor (#980 throw-em-return, #981 modificadores, #982 Zip.extractTo, #985 CodeQL) e os 1.0-blocks nativos #931–#934 fecham (extern sem ordem de compilação, Map sem corrupção de heap, shadowing de builtin), sobrando 1 só (#979); #852 `ZipReader` incremental sobre DEFLATE retomável; o corte foi bloqueado pelo check_500 e destravado no mesmo dia com splits byte-idênticos",
     ],
   },
+  {
+    label: "Linha 0.7.x",
+    hint: "02/11 →",
+    items: [
+      "0.7.0 MENOR publicada como Latest nas 4 plataformas (noite de 02/11, CI de primeira, suite 7710/0F): bump por ORDEM da mantenedora (`D-RELEASE-0.7.0` — a linha 0.6.x para na 0.6.10, os 10 patches completaram o objetivo da lane); conteúdo real desde a 0.6.10 é pequeno e honesto: #991 (método da classe dona dentro de Column/Row resolve de novo — regressão desde a 0.6.5, #827), kof.io ganha `File(p).createNew(): Bool` (#854, PR #992 — cria com O_EXCL e fecha o race TOCTOU do `ZipReader.extractTo`) e a higiene pré-corte (paridade PT do SEM102 com catálogo re-regenerado, 500/test-hygiene/portukof todos rc=0, face do borrow-race trocada por barrier_mark determinístico na CI, splits de kof.io/BuiltinCallTyper); segue 1 só 1.0-block aberto: #979 (`validation.matches` nativo, re-medido vivo no tip da 0.7.0)",
+    ],
+  },
 ];
 
 export const emDesenvolvimento: string[] = [
@@ -174,6 +181,7 @@ export const emDesenvolvimento: string[] = [
   "Decompiler (Java → Kof) — reaberto 28/09 e promovido a trabalho corrente 14/10 (D-FUTURE-PROMOTION): validações de domínios OUT-OF-THE-BOX sem código novo; DO-WHILE multi-bloco e break/continue recuperam (última forma aberta), guard self-loop, String.repeat → strings.repeat; DecompileTest 252/252",
   "Nativo: `validation.matches` responde com busca de substring LITERAL, não o contrato regex do JVM — valores errados em silêncio (o ✅ da matriz de paridade era falso); #979 aberto como 1.0-block, frente da lane native/asm (31/10)",
   "libs/archive no JS: qualquer `import archive.Zip` fura a compilação (IOJS001 — o lowering do JS cobre todas as funções do módulo importado, não só as alcançáveis; provado por teste dedicado, #995 aberto 01/11); compressor DEFLATE em Kof puro (#993) por fazer — o `GzipWriter` só escreve STORED",
+  "em lab (pós-0.7.0, SEM release — nada disso está em tag): o plano de endurecimento de TLS fez a volta completa no lab (fatias 0–4, pousado em docs/tls-hardening.md): servidor com `web.secureHost`/`listenSecure` + seleção SNI por (slice 1), hot-reload de certificado `app.reloadTls` com troca atômica (slice 2), `kof.http` JVM passa a verificar cadeia + hostname POR PADRÃO com trust-all só via `http.insecure()` explícito que avisa uma vez (slice 3), e cliente ACME completo (`acme.jwsEs256`/`newAccount`/`newOrder`/`dns01Txt`/`finalize`) com EMISSÃO REAL de certificado contra Pebble 1.0.1 no CI (slice 4) — tudo JVM-first, com os gaps nomeados na hora (WEB008 no JS/Native p/ ACME). Só announce quando sair tag",
   "Nativo §745 ABERTO/PARCIAL: `List` de elemento nu com `add` de primitivo DENTRO de lambda dá valor errado/morte nos nativos (JVM/Script/JS corretos); a guarda `NAT009` tentada em 16/10 foi REVERTIDA em 18/10 (#889) porque recusava o contrato golden §374 — o `add` no top level funciona; fix real (boxing na fronteira de erasure ou gate ciente do contexto da lambda) aguarda decisão da mantenedora",
 ];
 

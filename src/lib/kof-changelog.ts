@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.6.10).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.7.0).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,21 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.7.0",
+    date: "02/11",
+    tag: "Latest",
+    items: [
+      "MENOR publicada na noite de 02/11 nas 4 plataformas — CI de primeira; suite 7710/0F carimbada no corte; gates rc=0 em todos os hops (500, test-hygiene e portukof concertados ANTES do corte). O bump é por ORDEM da mantenedora (`D-RELEASE-0.7.0`): a linha 0.6.x encerra na 0.6.10 — não há 0.6.11; não espere revolução de linguagem nesta tag, o corte é pequeno e honesto",
+      "#991 — um método da classe dona chamado de dentro do `Column`/`Row` volta a resolver (era regressão desde a 0.6.5, #827); um-linha na inferência, fechada com prova",
+      "kof.io ganha `File(p).createNew(): Bool` (#854, PR #992): cria o arquivo atomicamente (O_EXCL) e fecha o race TOCTOU do `ZipReader.extractTo`, que testava-existência antes de criar; a lei do #996 (shadowing de ctor por receiver `String`) foi re-aplicada no segundo sitio do `createNew`",
+      "higiene de CI que a release carrega: a face do borrow-race (o flake que fez a 0.6.10 recusar) deixou de usar sleep e virou barrier_mark determinístico no fixture C; o diagnóstico SEM102 de campo primitivo ganhou a variante PT que faltava (catálogo 170 códigos / 293 variantes, paridade rc=0); splits de kof.io/BuiltinCallTyper para o check_500",
+      "estado honesto: sobe 1 só 1.0-block aberto — #979 (`validation.matches` no nativo ainda é substring literal), RE-MEDIDO vivo no tip da 0.7.0 (JVM verdadeiro×4 vs nativo falso/verdadeiro/falso/falso; a suíte nativa passa porque só asserta substrings literais); #995 (Zip no JS) e #993 (compressor DEFLATE) seguem abertos; o plano de TLS de produção fez a volta completa no lab (servidor SNI + hot-reload + `https` estrito por padrão + cliente ACME com emissão real contra Pebble) mas AINDA SEM TAG — nada disso é 'disponível' nesta release",
+    ],
+  },
+  {
     version: "0.6.10",
     date: "01/11",
-    tag: "Latest",
+    tag: "publicada 01/11",
     items: [
       "publicada em 01/11 nas 4 plataformas — CI na 2ª tentativa (~1h); suite 7696 verdes / 0F carimbada no corte (7231950ac; 7680/0F também em 84a88f74f). A 1ª recusa do gate foi um teste FLAKE do harness (borrow-race de 2ms que perdia o agendamento em runner lento) — root-caused e corrigido no lab com a asserção MEM020 intacta; nunca waiveada",
       "WASI fecha os ÚLTIMOS construtos de linguagem núcleo fora do subset escalar: TRY-1 — `try`/`catch`/`throw(String)` de instrução avaliam (rodada 85; 9 faces T1–T9 com stdout byte-idêntico ao JVM real) e T-2 — `finally`/catchAll (rodada 86; faces T10–T16, incl. throw dentro do `finally` SUBSTITUINDO a exceção como no Java) — com ZERO runtime e ZERO instrução wasm nova; catch tipado não-String ainda recusa WASM002 honestamente (T-3 na fila)",
