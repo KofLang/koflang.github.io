@@ -54,7 +54,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "HTTP (kof.web)",
     status: "available",
-    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM; app.security() (rate-limit→CORS→headers→session→CSRF→auth→RBAC) e OAuth2 resource server na JVM. WEB002 no Native (server HTTP/1.1 base ✅; TLS/ws/sse/path params pendentes). KofJS: servidor GraalJS HttpServer + KofJsWebQueue ✅ (03/09); residual ws/sse/TLS = WEB001. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM.",
+    note: "web.app(), rotas com path params, middleware, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM. Desde a 0.7.1, TLS DE PRODUÇÃO na JVM: SNI multi-host com `web.secureHost(host, certPem, keyPem)` + `app.listenSecure(port, listOf(secureHost(...)))` (SNI desconhecido = HTTP 421 + WEB007, nunca serve o certificado padrão), hot-reload de certificado `app.reloadTls(certPem, keyPem)` com troca atômica (falha = WEB007 catchable, o estado velho segue servindo) e cliente ACME completo (`acme.jwsEs256`/`newAccount`/`newOrder`/`dns01Txt`/`challenge`/`finalize`, DNS-01, emissão REAL provada contra Pebble 1.0.1 no CI) — ACME fora da JVM recusa WEB008. app.security() (rate-limit→CORS→headers→session→CSRF→auth→RBAC) e OAuth2 resource server na JVM. WEB002 no Native (server HTTP/1.1 base ✅; TLS/ws/sse/path params pendentes). KofJS: servidor GraalJS HttpServer + KofJsWebQueue ✅ (03/09); residual ws/sse/TLS = WEB001. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM.",
   },
   {
     name: "banco de dados (kof.db)",
@@ -84,7 +84,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "matemática (kof.math)",
     status: "available",
-    note: "Double completo nos 5 alvos (MATH001 fechado): sqrt/pow/lerp/percentage/isInteger/isDecimal/roundTo + parse{Int,Long,Double}OrDefault; NaN IEEE em todos os alvos. pi()/e()/tau() com fold para literal double — fecha COMP001 no link Nativo (0.6.0); golden math-pow-constants 216/216.",
+    note: "O núcleo Double é paridade total nos alvos — sqrt/pow/abs/min/max/lerp/percentage/isInteger/isDecimal/roundTo + parse{Int,Long,Double}OrDefault + NaN IEEE (probe 04/11 contra o jar 0.7.1: byte-idêntico 4/4). Na JVM/JS/Script, a família completa: trig + `floor`/`ceil`. No NATIVE (x86-64 e cross) há recusa HONESTA, nunca valor silencioso: a trig family recusa MATH001 desde §621 (07/10) e o arredondamento `floor`/`ceil` + os escalares dabs/dmin/dmax/dclamp/dsign também (linha MATH-D da matriz, medida 04/11 — aguarda o asm SSE/SSE4.1 da lane nativa). WASI tem floor/ceil IEEE e o trig/pow fdlibm byte-idênticos (0.6.8/0.6.10). pi()/e()/tau() com fold para literal double em todos (fecha COMP001 no link Nativo, 0.6.0); golden math-pow-constants 216/216.",
   },
   {
     name: "interface (kof.ui)",
@@ -125,7 +125,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "cliente HTTP",
     status: "available",
-    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets. No Native: HTTP/1.1 asm com timeout/retry/circuit reais (§259, 17/09); https e DNS por nome são gaps honestos (recusam/throw, nunca silenciam).",
+    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets. Desde a 0.7.1, https ESTRITO é o default na JVM — verificação de cadeia + hostname sempre; trust-all só via opt-in explícito `http.insecure()` (avisa TLS-TRUST-ALL), e o opt-in recusa HTTP002 no JS/Native por desenho (sem trust-all nessas pontas). No Native: HTTP/1.1 asm com timeout/retry/circuit reais (§259, 17/09); https e DNS por nome são gaps honestos (recusam/throw, nunca silenciam).",
   },
   {
     name: "cache (kof.cache)",
@@ -195,7 +195,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "bibliotecas oficiais (libs)",
     status: "available",
-    note: "Pacotes importáveis escritos em Kof puro, mesmo padrão da stdlib: libs/archive — leitor ZIP (#852 s1), GZIP/RFC 1952 (#852 s2) + TAR/ustar com nomes longos GNU (#852 s3, `.tar.gz` por composição) e GzipWriter de escrita (#852, 0.6.6); desde a 0.6.10, `ZipReader`/`ZipEntryStream` leem ZIP de forma INCREMENTAL sobre DEFLATE retomável (`open(entry, maxBytes)` → `readChunk()` — 12 MB listados com ≤ 70 KB lidos sob `-Xmx40m`); o `extractTo` não tem mais race TOCTOU desde a 0.7.0 (`File.createNew`, #854); lacunas honestas no JS: qualquer `import archive.Zip` fura a compilação (IOJS001, #995 aberto) e o compressor DEFLATE puro falta (#993 — o `GzipWriter` só escreve STORED). libs/security — sha256File(path) (#853); libs/legacy (KofBOL). Provas E2E no CI por face.",
+    note: "Pacotes importáveis escritos em Kof puro, mesmo padrão da stdlib: libs/archive — leitor ZIP (#852 s1), GZIP/RFC 1952 (#852 s2) + TAR/ustar com nomes longos GNU (#852 s3, `.tar.gz` por composição) e GzipWriter de escrita (#852, 0.6.6); desde a 0.6.10, `ZipReader`/`ZipEntryStream` leem ZIP de forma INCREMENTAL sobre DEFLATE retomável (`open(entry, maxBytes)` → `readChunk()` — 12 MB listados com ≤ 70 KB lidos sob `-Xmx40m`); o `extractTo` não tem mais race TOCTOU desde a 0.7.0 (`File.createNew`, #854); lacunas honestas no JS: qualquer `import archive.Zip` fura a compilação (IOJS001, #995 aberto) e o compressor DEFLATE puro falta (#993 — o `GzipWriter` só escreve STORED). libs/security — sha256File(path) (#853); libs/legacy (KofBOL). A onda 0.7.1 somou seis libs universais em Kof puro (E2E 2/2 JVM+Script cada, recusando em código nomeado em vez de zero silencioso): `stats` (descritiva: mean/median/min/max/pvariance/stddev/percentile — STATS001/002; distribuições de probabilidade travam em R3/FFI), `svg` (documento/retângulo/linha/texto com escaping XML + barChart determinístico de geometria INT — SVG001; o render-engine fica do lado FFI), `sentinel` (detecção de ameaças: anel de eventos com poda por janela, burst por (source, kind), alerta JSON — defensivo por contrato), `audit` (corrente à prova de adulteração sobre `crypto.sha256` auditada — `verifyChain()` quebra LOUD em remoção/reordenação/edição/splice), `bio` (leitores FASTA/FASTQ/VCF com BIO001–003 + pipeline QC stats→filter→report; BAM é binário e fica bloqueado) e `experiments` (runs/métricas/parâmetros sobre `kof.db` + export JSON-Lines). Provas E2E no CI por face.",
   },
   {
     name: "FFI (extern)",

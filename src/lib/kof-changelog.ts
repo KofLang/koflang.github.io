@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.7.0).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.7.1).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,22 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.7.1",
+    date: "04/11",
+    tag: "Latest",
+    items: [
+      "publicada 04/11 nas 4 plataformas (07:19Z) — CI na 2ª tentativa, com a história honesta: a 1ª recusa NÃO foi flake, foi um bug REAL de sequenciamento da chain (a promoção saiu de um commit com VERSION ainda 0.7.0 e o candidato esbarrou nas tags `kof-0.7.0-*` já existentes); root-caused e corrigido propagando o commit de bump às 4 branches ANTES do dispatch, sem waiver. Suite carimbada 7749/0F em 66c589e7a (SUITE-DIRTY 0; o flake de borrow-race #1000 não se repetiu no carimbo)",
+      "TLS DE PRODUÇÃO LIBERADA (o plano de endurecimento fechou as 4 fatias definidas, JVM-first): servidor com SNI — `web.secureHost(host, certPem, keyPem)` + `app.listenSecure(port, listOf(secureHost(...)))` com seleção de contexto pelo ClientHello (a JDK `SSLSocket` não expõe SNI — medido) e SNI desconhecido = HTTP 421 + WEB007, nunca o certificado padrão; hot-reload de certificado `app.reloadTls(certPem, keyPem)` com troca atômica (reload que falha = WEB007 catchable como String e o estado velho segue servindo); `kof.http` na JVM agora VERIFICA cadeia + hostname POR PADRÃO — https estrito é o default e o trust-all é opt-in explícito `http.insecure()` com aviso TLS-TRUST-ALL (JS/Native: recusa honesta HTTP002 do opt-in); cliente ACME completo (`acme.jwsEs256` RFC 7515, `newAccount` com thumbprint RFC 7638, `newOrder`/`dns01Txt`/`challenge` DNS-01, `finalize` com chave efêmera + CSR DER feito à mão) com EMISSÃO REAL de certificado contra Pebble 1.0.1 no CI. Prova: família 32/32 (KofWebTlsTest 14/14 + KofWebTlsVerifyTest 5/5 + KofAcmeClientTest 4/4 + KofAcmePebbleE2ETest 1/1 + KofHttpE2ETest 8/8). Gap nomeado: WEB008 — ACME fora da JVM",
+      "onda universal-platform em bibliotecas de Kof PURO (Stages 4–7 promovidos de `future/` por ordem direta da mantenedora): `libs/experiments` (runs/métricas/parâmetros sobre `kof.db` + export JSON-Lines), `libs/stats` (mean/median/minimum/maximum/pvariance/stddev/percentile — amostra vazia STATS001, p fora de faixa STATS002, nunca zero silencioso), `libs/svg` (documento/retângulo/linha/texto com escaping XML + `barChart` determinístico de geometria quantizada em INT — série vazia SVG001), `libs/sentinel` (detecção de ameaças: anel de eventos com poda por janela, burst por (source, kind), alerta JSON — defensivo, nunca bloqueia), `libs/audit` (corrente à prova de adulteração sobre `crypto.sha256` AUDITADA da stdlib: cada entrada amarra na ponta; `verifyChain()` quebra LOUD em remoção/reordenação/edição/splice) e `libs/bio` (leitores FASTA/FASTQ/VCF com BIO001–BIO003 + pipeline QC stats→filter→report, vazio = QC001). Provas E2E 2/2 JVM+Script por lib, RED-first. A fila de candidatas em Kof puro está EXAUSTA: as metades restantes (distribuições de probabilidade e o engine de SVG travam em R3/FFI, BAM é binário, os wiring são composição do chamador por desenho) ficam registradas linha a linha no plano",
+      "WASI: 15.2-STRSIG — helpers top-level com assinatura String (retorno E parâmetro) entram no subset escalar (pousou depois do corte da 0.7.0, carona nesta tag)",
+      "reparo do gate CodeQL ANTES do corte (#1001, aberto pela própria lane de deploy): o binding morto `un` removido da fonte no ramo wasi-bool do `WasmStateCode` (no-op semântico; WasmWasiE2ETest 8/8) e o alerta de chained-type-tests triado no baseline como contrato medido do backend WASI (o refactor pattern-switch seria churn de alto risco) — o gate vermelho travava os PRs dependabot #997/#998/#988",
+      "estado honesto: o corte sai com 3 abertos na lista 1.0-block — #979 (`validation.matches` no nativo ainda é substring literal), #999 (NOVO: diretório-fonte com prefixo de ponto falha no JVM com COMP001 e produz FALSE GREEN em `sub/.agent`) e #1000 (o flake de borrow-race é bug REAL do harness, com raiz medida; não se repetiu no carimbo). Pós-release no main SEM tag: bump dependabot do mariadb #998 — nada disso é anunciado aqui",
+    ],
+  },
+  {
     version: "0.7.0",
     date: "02/11",
-    tag: "Latest",
+    tag: "publicada 02/11",
     items: [
       "MENOR publicada na noite de 02/11 nas 4 plataformas — CI de primeira; suite 7710/0F carimbada no corte; gates rc=0 em todos os hops (500, test-hygiene e portukof concertados ANTES do corte). O bump é por ORDEM da mantenedora (`D-RELEASE-0.7.0`): a linha 0.6.x encerra na 0.6.10 — não há 0.6.11; não espere revolução de linguagem nesta tag, o corte é pequeno e honesto",
       "#991 — um método da classe dona chamado de dentro do `Column`/`Row` volta a resolver (era regressão desde a 0.6.5, #827); um-linha na inferência, fechada com prova",
