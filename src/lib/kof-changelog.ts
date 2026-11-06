@@ -1,6 +1,6 @@
 /**
  * kof-changelog — histórico versão a versão curado a partir do
- * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.7.1).
+ * CHANGELOG.md / CHANGELOG.pt_BR.md oficiais em KofLang/Kof4j (0.0.3 → 0.7.2).
  * Uma entrada por release documentada; `items` são resumos fiéis dos registros
  * da seção (os registros completos vivem no changelog do repositório).
  */
@@ -13,9 +13,21 @@ export type ChangelogRelease = {
 
 export const KOF_CHANGELOG: ChangelogRelease[] = [
   {
+    version: "0.7.2",
+    date: "05/11",
+    tag: "Latest",
+    items: [
+      'publicada 05/11 nas 4 plataformas (09:09Z) — CI de PRIMEIRA: o fix de sequenciamento da 0.7.1 segurou (o bump viaja às 4 branches ANTES do dispatch; a nota do corte registra "bump-first held"), run 41990666559 verde sem recusa. Suite carimbada 7756/0F em 2c920c4c1 (relançada de propósito quando o `Workflow.kf` pousou depois do stamp anterior + re-medida a face do surefire 3.6.1)',
+      "#1002 fechado (parser): `await`/`spawn` NU, sem operando na linha, ROUBAVA a expressão da linha seguinte — com caras diferentes por alvo (JVM morria em VerifyError silencioso, Script vazava NoSuchElementException, JS dava COMP002, Native emitia `kof_await(void)` em silêncio); o operando agora precisa começar NA MESMA LINHA do keyword nos dois sítios de parse, com recusa PARSE041 nomeando a keyword; pinos PortuKof EN+PT re-regenerados (294/294, paridade rc=0); prova RED-first SpawnAwaitOperandLineE2ETest 5/5 + KofAwaitTest 8/8",
+      'universal-platform continua — e o drift do "fila exausta" foi corrigido junto (foi a própria mantenedora que pegou): a linha 7.3 fecha com o `libs/bio/Workflow.kf`, que monta o pipeline QC stats→filter→report como DAG REAL de `kof.workflow` (`job`/`after`/`run` → `KofWfReport`), com os estágios trocando dados por artefatos TSV duráveis no diretório do chamador (nada de round-trip JSON de record de lib — o §727 perde o tipo); lista vazia recusa QC001 em BUILD, filtro que esvazia é resultado LEGÍTIMO count=0, e um throw no corpo (BIO001) deixa o job `failed` com dependentes `skipped`. E2E 2/2 JVM+Script, RED-first. A fatia de wiring 5.9 (`sentinel/Http.kf` sobre `app.use`) foi desenhada e PARADA — saiu da árvore porque o #1080 abaixo torna o middleware inalcançável: "no red ships"',
+      "estado honesto que a release carrega: #1080 ABERTO (§935) — lambda de tipo-function com retorno NULÁVEL compila mas a classe gerada não implementa a interface funcional, e a primeira chamada morre em IncompatibleClassChangeError na JVM; na prática a cadeia de middleware do kof.web (`app.use`) está INALCANÇÁVEL ponta a ponta — HTTP 500 com qualquer middleware; um burst de bugs de contribuidor externo entrou em triagem (#1093–#1101: builder genérico herdado, cast silenciosamente errado, `as Object` em nulável, `kof fmt -w` reescrevendo arquivo inválido); os 1.0-blocks seguem em 3 (#979/#999/#1000); a release também carrega os bumps dependabot que destravaram (mariadb #998 + grupo maven-minor-patch #997). Verificação do dia: as sondas de paridade dos eixos 1–4 (aritmética/strings/coleções, records/dispatch/try, stdlib base, concorrência/enum/herança) rodam byte-idênticas 4/4 contra o oráculo JVM com o jar publicado — a única divergência catalogada continua sendo a MATH-D do Native",
+      "pós-tag no main/lab, SEM release (não anunciar como disponível): o export 5.10 landed no main (`libs/audit/Observability.kf` — `metricsToEntries` parseia o snapshot Prometheus do `observability.metrics()` em AuditEntries encadeadas `obs:<nome>=<valor>` verbatim, OBS001 na amostra malformada, + `exportMetrics` para uma trilha viva — a métrica entra no histórico à prova de adulteração) e a última fatia pura no lab (`libs/sentinel/LogPump.kf` — `ingestLog` lê o arquivo de redirecionamento do stderr que o OPERADOR aponta, kof.log medido WRITERS-ONLY, classifica por nível `log:<nível>`, LOGP001/LOGP002; o formato JSON não é parseado, registrado), 2/2 JVM+Script cada; com isso o plano declara o FRONT PURE-KOF FECHADO — reabrir depende de decisões da mantenedora (as 4 perguntas: escopo, dependências de terceiros, key-store 5.2, faces de wiring)",
+    ],
+  },
+  {
     version: "0.7.1",
     date: "04/11",
-    tag: "Latest",
+    tag: "publicada 04/11",
     items: [
       "publicada 04/11 nas 4 plataformas (07:19Z) — CI na 2ª tentativa, com a história honesta: a 1ª recusa NÃO foi flake, foi um bug REAL de sequenciamento da chain (a promoção saiu de um commit com VERSION ainda 0.7.0 e o candidato esbarrou nas tags `kof-0.7.0-*` já existentes); root-caused e corrigido propagando o commit de bump às 4 branches ANTES do dispatch, sem waiver. Suite carimbada 7749/0F em 66c589e7a (SUITE-DIRTY 0; o flake de borrow-race #1000 não se repetiu no carimbo)",
       "TLS DE PRODUÇÃO LIBERADA (o plano de endurecimento fechou as 4 fatias definidas, JVM-first): servidor com SNI — `web.secureHost(host, certPem, keyPem)` + `app.listenSecure(port, listOf(secureHost(...)))` com seleção de contexto pelo ClientHello (a JDK `SSLSocket` não expõe SNI — medido) e SNI desconhecido = HTTP 421 + WEB007, nunca o certificado padrão; hot-reload de certificado `app.reloadTls(certPem, keyPem)` com troca atômica (reload que falha = WEB007 catchable como String e o estado velho segue servindo); `kof.http` na JVM agora VERIFICA cadeia + hostname POR PADRÃO — https estrito é o default e o trust-all é opt-in explícito `http.insecure()` com aviso TLS-TRUST-ALL (JS/Native: recusa honesta HTTP002 do opt-in); cliente ACME completo (`acme.jwsEs256` RFC 7515, `newAccount` com thumbprint RFC 7638, `newOrder`/`dns01Txt`/`challenge` DNS-01, `finalize` com chave efêmera + CSR DER feito à mão) com EMISSÃO REAL de certificado contra Pebble 1.0.1 no CI. Prova: família 32/32 (KofWebTlsTest 14/14 + KofWebTlsVerifyTest 5/5 + KofAcmeClientTest 4/4 + KofAcmePebbleE2ETest 1/1 + KofHttpE2ETest 8/8). Gap nomeado: WEB008 — ACME fora da JVM",

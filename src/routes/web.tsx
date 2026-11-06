@@ -69,11 +69,16 @@ $ kof serve app.kf --port 8080`}
               roda em virtual thread — sem servlet container, sem Spring.
             </Card>
             <Card title="HTTP e JSON na stdlib" status="available">
-              web.app(), rotas com path params, query, headers, middleware app.use, app.security()
+              web.app(), rotas com path params, query, headers, app.security()
               (rate-limit/CORS/CSRF/auth/RBAC) e OAuth2 resource server na JVM; servidor embutido
               também no KofJS (GraalJS HttpServer + KofJsWebQueue, 03/09) e HTTP/1.1 asm no Native
               (WEB002). Residual nos dois últimos: TLS, ws/sse, path params. JSON tipado
               (json.decode&lt;User&gt;) nos três targets.
+              <br />
+              Aviso honesto: o middleware <span className="font-mono">app.use</span> está
+              inalcançável hoje na JVM — HTTP 500 com qualquer middleware (lambda de retorno nulável
+              não implementa a interface funcional; bug aberto #1080, §935); a fatia que o
+              exercitaria foi removida da árvore até o fix.
             </Card>
           </div>
         </div>

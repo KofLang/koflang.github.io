@@ -282,7 +282,7 @@ function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 sm:px-8 sm:pt-24 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
           <div>
             <p className="mono-label flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="text-signal">v0.7.1</span>
+              <span className="text-signal">v0.7.2</span>
               <span aria-hidden="true">·</span>
               <span>em desenvolvimento ativo</span>
               <span aria-hidden="true">·</span>
@@ -659,7 +659,7 @@ main() {
         index="10"
         eyebrow="Web"
         title="Construa uma aplicação web sem construir antes um ecossistema de frameworks."
-        lead="kof.web já existe na JVM: rotas, middleware, JSON tipado e servidor HTTP embutido no runtime — sem Spring, sem servlet container, sem annotations."
+        lead="kof.web já existe na JVM: rotas, JSON tipado e servidor HTTP embutido no runtime — sem Spring, sem servlet container, sem annotations. Exceção honesta: o middleware app.use está inalcançável hoje (HTTP 500 com qualquer middleware — #1080 aberto, §935)."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <CodeBlock
@@ -914,7 +914,7 @@ $ kof version`}
         index="16"
         eyebrow="Roadmap"
         title="Sem datas falsas. Apenas estado."
-        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10, e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5→0.6.6→0.6.7→0.6.8→0.6.9→0.6.10 rodou no auto-cascade por commit; a menor 0.7.0 veio na sequência, por ordem da mantenedora, e a 0.7.1 chegou em 04/11 (Latest ao vivo: 0.7.1, 04/11)."
+        lead="O roadmap mostra o que existe, o que está sendo construído e para onde vamos — alimentado pelo estado real do repositório. Versionamento MAJOR.MINOR.PATCH; a 0.1.0 saiu 25/08, a 0.2.0-beta 27/08, a 0.4.0-beta 14/09, a 0.5.0-beta mergeada em main (27/09) e a 0.6.0 é release oficial desde 11/10, e a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5→0.6.6→0.6.7→0.6.8→0.6.9→0.6.10 rodou no auto-cascade por commit; a menor 0.7.0 veio na sequência, por ordem da mantenedora, a 0.7.1 chegou em 04/11 e a 0.7.2 em 05/11 (Latest ao vivo: 0.7.2, 05/11)."
       >
         <div className="grid items-start gap-4 lg:grid-cols-3">
           <Card title="Concluído" status="available">

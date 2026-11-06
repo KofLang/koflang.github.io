@@ -40,7 +40,7 @@ function AboutPage() {
         index="01"
         eyebrow="About"
         title="Estamos construindo uma linguagem de verdade."
-        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira estável (0.1.0) já saiu e o dia a dia chegou na 0.7.1, release Latest no GitHub — a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5→0.6.6→0.6.7→0.6.8→0.6.9→0.6.10 foi publicada em ~21 dias pela auto-cascade por commit, a menor 0.7.0 saiu na sequência (02/11) por ordem da mantenedora e a 0.7.1 pousou em 04/11 com TLS de produção e seis libs universais em Kof puro — e este site se compromete a não transformar isso em promessa vazia."
+        lead="Kof é uma linguagem de programação geral, fortemente tipada e estaticamente tipada, com compilador próprio, Kof IR e múltiplos backends. Está em desenvolvimento ativo — a primeira estável (0.1.0) já saiu e o dia a dia chegou na 0.7.2, release Latest no GitHub — a linha de patch 0.6.1→0.6.2→0.6.3→0.6.4→0.6.5→0.6.6→0.6.7→0.6.8→0.6.9→0.6.10 foi publicada em ~21 dias pela auto-cascade por commit, a menor 0.7.0 saiu na sequência (02/11) por ordem da mantenedora e a 0.7.1 pousou em 04/11 com TLS de produção e seis libs universais em Kof puro, e a 0.7.2 em 05/11 fechou o `await`/`spawn` nu com recusa honesta e levou o workflow QC para o `kof.workflow` — e este site se compromete a não transformar isso em promessa vazia."
       >
         <blockquote className="rounded-md border-l-2 border-signal bg-surface p-5 text-base leading-relaxed">
           Algumas pessoas olham para um problema e escrevem uma biblioteca. Outras escrevem um
