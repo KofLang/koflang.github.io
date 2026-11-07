@@ -659,7 +659,7 @@ main() {
         index="10"
         eyebrow="Web"
         title="Construa uma aplicação web sem construir antes um ecossistema de frameworks."
-        lead="kof.web já existe na JVM: rotas, JSON tipado e servidor HTTP embutido no runtime — sem Spring, sem servlet container, sem annotations. Exceção honesta: o middleware app.use está inalcançável hoje (HTTP 500 com qualquer middleware — #1080 aberto, §935)."
+        lead="kof.web já existe na JVM: rotas, JSON tipado e servidor HTTP embutido no runtime — sem Spring, sem servlet container, sem annotations. Exceção honesta: na 0.7.2 o middleware app.use ainda responde HTTP 500 — a correção (#1080/§935, PR #1092 + bridge kof_web_use) está no main SEM tag, chega na próxima release."
       >
         <div className="grid gap-4 lg:grid-cols-2">
           <CodeBlock

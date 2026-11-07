@@ -75,10 +75,14 @@ $ kof serve app.kf --port 8080`}
               (WEB002). Residual nos dois últimos: TLS, ws/sse, path params. JSON tipado
               (json.decode&lt;User&gt;) nos três targets.
               <br />
-              Aviso honesto: o middleware <span className="font-mono">app.use</span> está
-              inalcançável hoje na JVM — HTTP 500 com qualquer middleware (lambda de retorno nulável
-              não implementa a interface funcional; bug aberto #1080, §935); a fatia que o
-              exercitaria foi removida da árvore até o fix.
+              Aviso honesto: na release atual (0.7.2) o middleware{" "}
+              <span className="font-mono">app.use</span> ainda responde HTTP 500 com qualquer
+              middleware — o bug era a lambda de retorno nulável que não implementava a interface
+              funcional (#1080, §935). A correção JÁ ESTÁ NO MAIN com prova (PR #1092, atribuída ao
+              contribuidor; + a bridge <span className="font-mono">kof_web_use</span> no
+              interpretador) e a fatia de wiring <span className="font-mono">sentinel/Http.kf</span>{" "}
+              pousou junto (sentinela como observador de requests, defensivo, nunca bloqueia) — mas
+              ainda SEM TAG: nada disso está na release que você baixa hoje.
             </Card>
           </div>
         </div>
