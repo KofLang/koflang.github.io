@@ -74,6 +74,12 @@ $ kof serve app.kf --port 8080`}
               também no KofJS (GraalJS HttpServer + KofJsWebQueue, 03/09) e HTTP/1.1 asm no Native
               (WEB002). Residual nos dois últimos: TLS, ws/sse, path params. JSON tipado
               (json.decode&lt;User&gt;) nos três targets.
+              <br />A fila do kof.web fechada no main SEM TAG (chega na 0.7.3):{" "}
+              <span className="font-mono">remoteAddr()</span> no contexto da rota (#1110),{" "}
+              <span className="font-mono">app.listen(host, port)</span> ligando numa única interface
+              — <span className="font-mono">listen(&quot;127.0.0.1&quot;, 8080)</span> (#1114) — e
+              os headers de hardening viraram OPT-IN: um app puro não manda CSP/X-Frame etc.,{" "}
+              <span className="font-mono">app.security()</span> os liga (#1112).
               <br />
               Aviso honesto: na release atual (0.7.2) o middleware{" "}
               <span className="font-mono">app.use</span> ainda responde HTTP 500 com qualquer
