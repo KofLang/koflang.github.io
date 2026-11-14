@@ -111,7 +111,11 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     status: "available",
     note: "Virtual threads na JVM com join implícito; val r = spawn f() / await r com handle tipado. poll/done/cancel/selectAny (0.2.0+). Concórrencia real no JS via async/await (CONC003 fechado). Native via pthread (CONC001 fechado). NATIVE002-stdlib: spawn/await no riscv64/aarch64 (clone + futex). Desde a 0.7.2, `await`/`spawn` sem operando são recusa PARSE041 nomeando a keyword — antes o compilador roubava a expressão da linha seguinte com caras diferentes por alvo (#1002).",
   },
-  { name: "async", status: "in-development", note: "Assincronismo como parte do runtime." },
+  {
+    name: "async",
+    status: "in-development",
+    note: "Assincronismo como parte do runtime (spawn/await já são reais nos alvos; falta o modelo async/await unificado como built-in).",
+  },
   {
     name: "testes",
     status: "available",

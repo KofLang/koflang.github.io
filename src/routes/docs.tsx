@@ -90,7 +90,8 @@ $ kof version`}
               já.
             </Card>
             <Card title="Debugger (kof debug)" status="in-development">
-              MVP DAP sobre stdio no target JVM — DWARF Native e source maps JS parciais.
+              MVP DAP sobre stdio no target JVM — DWARF Native e source maps JS parciais. Faltam
+              variáveis/expressões e breakpoints no Native, e a extensão VS Code (ticket #1157).
             </Card>
             <Card title="Formatador (kof fmt)" status="available">
               Parser real (KofFormatter), idempotente. <span className="font-mono">kof fmt -w</span>{" "}
