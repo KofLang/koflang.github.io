@@ -99,7 +99,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "validação (kof.validation)",
     status: "available",
-    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis/isNis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard), formatCpf/formatCep/formatCnpj (pontuação BR) — 4-5 alvos; violação VAL001. `matches` no nativo é substring literal, não regex do JVM (valor errado em silêncio — #979 aberto, 31/10).",
+    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis/isNis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard), formatCpf/formatCep/formatCnpj (pontuação BR) — 4-5 alvos; violação VAL001. `matches` no Native: na 0.7.2 baixável ainda é busca de substring literal (valor errado em silêncio, #979); o fix pós-release TROCA o valor errado por uma RECUSA honesta VAL001 — padrão comprovadamente literal (sem metacaractere) continua compilando e rodando, padrão dinâmico é recusado; `regex` de verdade no Native segue decisão da mantenedora (STR003).",
   },
   {
     name: "observabilidade (kof.observability)",
