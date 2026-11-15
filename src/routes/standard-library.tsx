@@ -39,7 +39,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "strings (kof.strings)",
     status: "available",
-    note: "API completa + kof.strings: escapeJson/unescapeHtml, word converters (toCamel/Pascal/Snake/Kebab), isAlpha/isNumeric, pad/repeat/capitalize, STRN001/word-converters portados p/ riscv64/aarch64 (5 alvos).",
+    note: "API completa + kof.strings: escapeJson/unescapeHtml, word converters (toCamel/Pascal/Snake/Kebab), isAlpha/isNumeric, pad/repeat/capitalize, STRN001/word-converters portados p/ riscv64/aarch64 (5 alvos). Padrões de texto complexos: use o Kof.expr (card próprio).",
+  },
+  {
+    name: "padrões de texto (Kof.expr)",
+    status: "available",
+    note: 'DSL declarativa (0.7.3): `expr date { capture("day") { exactly(2) digit } "/" capture("month") { exactly(2) digit } }` — classes semânticas `letter`/`digit`/`whitespace`/`word`/`hex` (Unicode 16.0.0), quantificadores (`one_or_more`/`zero_or_more`/`optional`/`exactly(n)`/`between(a,b)`), alternância `one_of`/`none_of`, âncoras `^`/`$` e composição por referência (`expr row { date "-" word }`). O resultado oferece `matches`/`match`/`captures`/`find`/`findAll`/`replace` com CAMPOS TIPADOS por captura. Prova executada nos 4 backends (JVM, Script, Native x86-64 + cross, JS) com o corpus byte-idêntico ao oráculo. Recusas EXPR001–EXPR004, nunca fallback; sujeito acima do orçamento (2.000 chars JVM/JS, 200 Script) lança EXPR-E2. NÃO é regex com nomes bonitos — descreve a INTENÇÃO do padrão, não o mecanismo (a doc `docs/kof-expr.md` tem a seção "Kof.expr vs Regex"); os membros regex da String seguem gated por STR003.',
   },
   {
     name: "arquivos (kof.io)",
@@ -49,12 +54,12 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "JSON",
     status: "available",
-    note: 'Encode/decode tipado; objetos no JVM/JS, arrays tipados incluídos. NATIVE002-stdlib: JSON encode/decode completo no riscv64/aarch64. Caveat da 0.7.2: `json.decode` com shape ERRADO devolve valor errado em silêncio (container vazio no JVM/Script, map com chave 0 no JS); o erro de runtime nomeado JSN006 (#1103) está corrigido no main SEM TAG — e o #1128 já estendeu a checagem aos CAMPOS em qualquer profundidade (`Box(List<Item>)` com `{"items": {}}` nomeia o erro em vez de imprimir 0) — chega na próxima release.',
+    note: 'Encode/decode tipado; objetos no JVM/JS, arrays tipados incluídos. NATIVE002-stdlib: JSON encode/decode completo no riscv64/aarch64. Desde a 0.7.3, `json.decode` com shape ERRADO é erro de runtime nomeado JSN006 (#1103) — incluindo nos CAMPOS em qualquer profundidade (`Box(List<Item>)` com `{"items": {}}` nomeia o erro em vez de imprimir 0; #1128).',
   },
   {
     name: "HTTP (kof.web)",
     status: "available",
-    note: "web.app(), rotas com path params, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM — mas na release 0.7.2 o middleware `app.use` responde HTTP 500 com qualquer middleware (lambda de retorno nulável não implementava a interface funcional — §935/#1080; a correção está no main SEM TAG, com o PR #1092 de contribuidor externo + bridge `kof_web_use`, e chega na 0.7.3). Desde a 0.7.1, TLS DE PRODUÇÃO na JVM: SNI multi-host com `web.secureHost(host, certPem, keyPem)` + `app.listenSecure(port, listOf(secureHost(...)))` (SNI desconhecido = HTTP 421 + WEB007, nunca serve o certificado padrão), hot-reload de certificado `app.reloadTls(certPem, keyPem)` com troca atômica (falha = WEB007 catchable, o estado velho segue servindo) e cliente ACME completo (`acme.jwsEs256`/`newAccount`/`newOrder`/`dns01Txt`/`challenge`/`finalize`, DNS-01, emissão REAL provada contra Pebble 1.0.1 no CI) — ACME fora da JVM recusa WEB008. app.security() (rate-limit→CORS→headers→session→CSRF→auth→RBAC) e OAuth2 resource server na JVM. WEB002 no Native (server HTTP/1.1 base ✅; TLS/ws/sse/path params pendentes). KofJS: servidor GraalJS HttpServer + KofJsWebQueue ✅ (03/09); residual ws/sse/TLS = WEB001. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM. Chegando na 0.7.3 (main SEM TAG): `remoteAddr()` no contexto de rota — o handler lê o peer TCP (String, `\"\"` quando desconhecido; nota de proxy na doc, #1110), `app.listen(host, port)` liga numa ÚNICA interface — `listen(\"127.0.0.1\", 8080)` para serviços locais, a arity 1 segue wildcard byte-idêntica (#1114) — e os headers de hardening (CSP/X-Content-Type-Options/X-Frame-Options/Referrer-Policy) viraram OPT-IN (#1112): um `web.app()` puro não manda nenhum (antes eles até sobrescreviam headers das rotas); `app.security()` os liga por padrão.",
+    note: "web.app(), rotas com path params, servidor embutido no runtime e TLS via web.listenSecure(port) na JVM. Desde a 0.7.3, o middleware `app.use` voltou a funcionar (o #1080 da lambda de retorno nulável foi corrigido — emitter tipando pelo tipo DECLARADO, PR #1092 de contribuidor externo + bridge `kof_web_use` no interpretador) e o sentinela virou middleware observador (`sentinelHttp`, registra e nunca bloqueia). Desde a 0.7.1, TLS DE PRODUÇÃO na JVM: SNI multi-host com `web.secureHost(host, certPem, keyPem)` + `app.listenSecure(port, listOf(secureHost(...)))` (SNI desconhecido = HTTP 421 + WEB007, nunca serve o certificado padrão), hot-reload de certificado `app.reloadTls(certPem, keyPem)` com troca atômica (falha = WEB007 catchable, o estado velho segue servindo) e cliente ACME completo (`acme.jwsEs256`/`newAccount`/`newOrder`/`dns01Txt`/`challenge`/`finalize`, DNS-01, emissão REAL provada contra Pebble 1.0.1 no CI) — ACME fora da JVM recusa WEB008. app.security() (rate-limit→CORS→headers→session→CSRF→auth→RBAC) e OAuth2 resource server na JVM. WEB002 no Native (server HTTP/1.1 base ✅; TLS/ws/sse/path params pendentes). KofJS: servidor GraalJS HttpServer + KofJsWebQueue ✅ (03/09); residual ws/sse/TLS = WEB001. Resposta rica: status(201, body) + headerSet('X', 'y'). WebSocket RFC 6455 (app.ws) + SSE nativo (app.sse) na JVM. Na 0.7.3 também: `remoteAddr()` no contexto de rota (o handler lê o peer TCP; nota de proxy na doc, #1110), `app.listen(host, port)` liga numa ÚNICA interface — `listen(\"127.0.0.1\", 8080)` para serviços locais, a arity 1 segue wildcard byte-idêntica (#1114) — e os headers de hardening (CSP/X-Content-Type-Options/X-Frame-Options/Referrer-Policy) são OPT-IN (#1112): um `web.app()` puro não manda nenhum; `app.security()` os liga por padrão.",
   },
   {
     name: "banco de dados (kof.db)",
@@ -99,7 +104,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "validação (kof.validation)",
     status: "available",
-    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis/isNis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard), formatCpf/formatCep/formatCnpj (pontuação BR) — 4-5 alvos; violação VAL001. `matches` no Native: na 0.7.2 baixável ainda é busca de substring literal (valor errado em silêncio, #979); o fix pós-release TROCA o valor errado por uma RECUSA honesta VAL001 — padrão comprovadamente literal (sem metacaractere) continua compilando e rodando, padrão dinâmico é recusado; `regex` de verdade no Native segue decisão da mantenedora (STR003).",
+    note: "30+ predicados: required/notBlank/isEmail/isUrl/inRange/min/max + isCpf/isCnpj/isCep/isPis/isNis, isIpv4/isIpv6/isMac/isPort, isDomain, Luhn (isCreditCard), formatCpf/formatCep/formatCnpj (pontuação BR) — 4-5 alvos; violação VAL001. `matches` no Native, desde a 0.7.3: RECUSA honesta VAL001 em vez de responder valor errado — um padrão comprovadamente literal (sem metacaractere) continua compilando e rodando (ali a busca literal É o find), um padrão dinâmico é recusado no call site; `regex` de verdade no Native segue decisão da mantenedora (STR003).",
   },
   {
     name: "observabilidade (kof.observability)",
@@ -122,6 +127,11 @@ const capabilities: { name: string; status: Status; note: string }[] = [
     note: 'Blocos test "nome" { } + assert; kof test reporta PASS/FAIL por teste (jvm, native e js).',
   },
   {
+    name: "gRPC (kof.grpc)",
+    status: "available",
+    note: "Cliente gRPC unary em Kof PURO (0.7.3): wire format protobuf verificado byte-a-byte contra vetores do protoc real (grpcio 1.85.1), frame de 5 bytes + status OK=0..UNAUTHENTICATED=16, HPACK literal (encoder+decoder), HTTP/2 (preface/SETTINGS/HEADERS/DATA) e o ciclo unary completo. Interop PROVADA: `GrpcInteropE2ETest` consome um servidor grpcio de referência (status=0, payload decodificado). Codec/frame/HPACK rodam em TODO alvo; só o dial precisa dos sockets da JVM. Gaps nomeados GRPC001–GRPC008 (compressão, Huffman, streaming, TLS, flow control) — nunca fallback silencioso.",
+  },
+  {
     name: "mensageria (kof.mq)",
     status: "available",
     note: "Pub/sub em memória com filas limitadas (subscribe, publish, queue, push, pop). Nos 3 targets (MQ001 fechado).",
@@ -129,7 +139,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "cliente HTTP",
     status: "available",
-    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets. Desde a 0.7.1, https ESTRITO é o default na JVM — verificação de cadeia + hostname sempre; trust-all só via opt-in explícito `http.insecure()` (avisa TLS-TRUST-ALL), e o opt-in recusa HTTP002 no JS/Native por desenho (sem trust-all nessas pontas). No Native: HTTP/1.1 asm com timeout/retry/circuit reais (§259, 17/09); https e DNS por nome são gaps honestos (recusam/throw, nunca silenciam). Em desenvolvimento (no main, SEM tag): `http.send(method, url, body, headers)` devolvendo o builtin `kof.http.Response` — status/header/headers/body sem throw em 4xx/5xx — já fechado nos TRÊS alvos JVM+Script+JS (#1126; a face Script roda no runtime gerado byte-idêntico, a JS na família http da casa). Chega na 0.7.3.",
+    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets. Desde a 0.7.1, https ESTRITO é o default na JVM — verificação de cadeia + hostname sempre; trust-all só via opt-in explícito `http.insecure()` (avisa TLS-TRUST-ALL), e o opt-in recusa HTTP002 no JS/Native por desenho (sem trust-all nessas pontas). No Native: HTTP/1.1 asm com timeout/retry/circuit reais (§259, 17/09); https e DNS por nome são gaps honestos (recusam/throw, nunca silenciam). Na 0.7.3: `http.send(method, url, body, headers)` devolve o builtin `kof.http.Response` — status/header/headers/body sem throw em 4xx/5xx — nos TRÊS alvos JVM+Script+JS (#1126).",
   },
   {
     name: "cache (kof.cache)",

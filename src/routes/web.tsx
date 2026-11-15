@@ -74,21 +74,27 @@ $ kof serve app.kf --port 8080`}
               também no KofJS (GraalJS HttpServer + KofJsWebQueue, 03/09) e HTTP/1.1 asm no Native
               (WEB002). Residual nos dois últimos: TLS, ws/sse, path params. JSON tipado
               (json.decode&lt;User&gt;) nos três targets.
-              <br />A fila do kof.web fechada no main SEM TAG (chega na 0.7.3):{" "}
-              <span className="font-mono">remoteAddr()</span> no contexto da rota (#1110),{" "}
-              <span className="font-mono">app.listen(host, port)</span> ligando numa única interface
-              — <span className="font-mono">listen(&quot;127.0.0.1&quot;, 8080)</span> (#1114) — e
-              os headers de hardening viraram OPT-IN: um app puro não manda CSP/X-Frame etc.,{" "}
-              <span className="font-mono">app.security()</span> os liga (#1112).
               <br />
-              Aviso honesto: na release atual (0.7.2) o middleware{" "}
-              <span className="font-mono">app.use</span> ainda responde HTTP 500 com qualquer
-              middleware — o bug era a lambda de retorno nulável que não implementava a interface
-              funcional (#1080, §935). A correção JÁ ESTÁ NO MAIN com prova (PR #1092, atribuída ao
-              contribuidor; + a bridge <span className="font-mono">kof_web_use</span> no
-              interpretador) e a fatia de wiring <span className="font-mono">sentinel/Http.kf</span>{" "}
-              pousou junto (sentinela como observador de requests, defensivo, nunca bloqueia) — mas
-              ainda SEM TAG: nada disso está na release que você baixa hoje.
+              Na 0.7.3: <span className="font-mono">remoteAddr()</span> no contexto da rota (#1110 —
+              o handler lê o peer TCP), <span className="font-mono">app.listen(host, port)</span>{" "}
+              ligando numa única interface —{" "}
+              <span className="font-mono">listen(&quot;127.0.0.1&quot;, 8080)</span> (#1114) — e os
+              headers de hardening são OPT-IN: um app puro não manda CSP/X-Frame etc.,{" "}
+              <span className="font-mono">app.security()</span> os liga (#1112). O middleware{" "}
+              <span className="font-mono">app.use</span> VOLTOU A FUNCIONAR (o #1080 da lambda de
+              retorno nulável foi corrigido — emitter tipando pelo tipo DECLARADO, PR #1092 do
+              contribuidor + a bridge <span className="font-mono">kof_web_use</span> no
+              interpretador) e a wiring <span className="font-mono">sentinel/Http.kf</span> pousou
+              junto: o sentinela como observador de requests, defensivo, nunca bloqueia.
+            </Card>
+            <Card title="gRPC (kof.grpc)" status="available">
+              Cliente gRPC unary em Kof PURO sobre os sockets do kof.net — wire format protobuf
+              verificado byte-a-byte contra vetores do protoc real (grpcio 1.85.1), HPACK literal,
+              HTTP/2 (preface/SETTINGS/HEADERS/DATA) e o ciclo unary completo. A interoperabilidade
+              é provada: o E2E sobe um servidor grpcio de referência e o programa compilado em Kof o
+              consome (status=0, payload decodificado). Codec/frame/HPACK rodam em TODO alvo; só o
+              dial precisa dos sockets da JVM. Os gaps nomeiam-se sozinhos: GRPC001–GRPC008
+              (compressão, Huffman, streaming, TLS, flow control) — nunca fallback silencioso.
             </Card>
           </div>
         </div>
