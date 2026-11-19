@@ -75,11 +75,11 @@ $ kof serve app.kf --port 8080`}
               (WEB002). Residual nos dois últimos: TLS, ws/sse, path params. JSON tipado
               (json.decode&lt;User&gt;) nos três targets.
               <br />
-              Na 0.7.3: <span className="font-mono">remoteAddr()</span> no contexto da rota (#1110 —
-              o handler lê o peer TCP), <span className="font-mono">app.listen(host, port)</span>{" "}
-              ligando numa única interface —{" "}
-              <span className="font-mono">listen(&quot;127.0.0.1&quot;, 8080)</span> (#1114) — e os
-              headers de hardening são OPT-IN: um app puro não manda CSP/X-Frame etc.,{" "}
+              Desde a 0.7.3: <span className="font-mono">remoteAddr()</span> no contexto da rota
+              (#1110 — o handler lê o peer TCP),{" "}
+              <span className="font-mono">app.listen(host, port)</span> ligando numa única interface
+              — <span className="font-mono">listen(&quot;127.0.0.1&quot;, 8080)</span> (#1114) — e
+              os headers de hardening são OPT-IN: um app puro não manda CSP/X-Frame etc.,{" "}
               <span className="font-mono">app.security()</span> os liga (#1112). O middleware{" "}
               <span className="font-mono">app.use</span> VOLTOU A FUNCIONAR (o #1080 da lambda de
               retorno nulável foi corrigido — emitter tipando pelo tipo DECLARADO, PR #1092 do
