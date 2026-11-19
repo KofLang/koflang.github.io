@@ -34,7 +34,7 @@ export const concluidoEras: RoadmapEra[] = [
       "kof run",
       "kof serve",
       "kof test",
-      "kof debug (MVP, JVM)",
+      "kof debug (DAP no JVM e no Native — 0.6.x)",
       "kof bench",
       "kof.web — rotas e middleware (JVM)",
       "kof.web — WebSocket RFC 6455 + SSE nativo (JVM, 0.2.6-beta)",
@@ -188,7 +188,7 @@ export const concluidoEras: RoadmapEra[] = [
 export const emDesenvolvimento: string[] = [
   "Standard Library (contratos em estabilização)",
   "Package manager além do MVP (registry) — ticket #1162",
-  "Debugger — além do MVP JVM (DAP sobre stdio já no JVM; JS source maps V3 linha ✅, DWARF Native linha ✅ parcial — variáveis/expressões e breakpoints nativos pendentes + VS Code ext) — ticket #1157",
+  "Debugger — paridade entre os alvos e extensão VS Code: o DAP está ENTREGUE nos três alvos instrumentados — JVM (JDWP, Fases 1–3), Native (gdb real sobre o DWARF Kof: breakpoints em `Main.kf:N`, stackTrace/scopes/variables/evaluate por gdb/MI2 e `--attach`; X7-3/4/5, 20/09) e JS (source maps V3, granularidade de linha) — e o editor oficial integra via `kof lsp`; falta o DAP no JS (`kof debug --target js` recusa honrado: o motor GraalJS embutido não tem inspector a anexar e o mapa é por função, não por statement), a extensão VS Code publicada (hoje instalada por `kof editor install vscode`) e os refinamentos do doc nativo (localizações otimizadas, inspeção de memória) — ticket #1157",
   "KofJS — plataforma web no browser (ES Modules via GraalJS); web server base ✅ (HttpServer + KofJsWebQueue); residual ws/sse/TLS/path params (WEB001) — ticket #1158",
   "kof.web no Native — residual WEB002: TLS, path params, keep-alive, ws/sse; no cross o servidor T1 inteiro é NAT007 — ticket #1159",
   "KofJS (alvo 1.0) — residual de WEB, não de banco: `DB001` (16/09), `DB002` (18/09) e `ORM001` (18/09) FECHARAM no JS; o que resta são ws/sse/TLS/path params no servidor/web router (#1158)",

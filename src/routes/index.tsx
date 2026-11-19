@@ -805,8 +805,7 @@ $ kof version`}
             </Card>
             <Card title="Testes (kof test)" status="available" />
             <Card title="Debugger (kof debug)" status="in-development">
-              MVP DAP sobre stdio no target JVM — paridade no Native e extensão VS Code no ticket
-              #1157.
+              DAP entregue — paridade entre os alvos e extensão VS Code no ticket #1157.
             </Card>
             <Card title="Benchmarks (kof bench)" status="available">
               Harness com baselines e gate de regressão no CI.
