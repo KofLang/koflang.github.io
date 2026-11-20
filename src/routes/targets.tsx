@@ -106,8 +106,11 @@ Executable`}</Ascii>
             (GraalJS — sem Node.js nem runtime externo). Classes, herança, List, JSON, exceções,
             kof.io, kof.time, kof.http com fetch async real (spawn + await), servidor web embutido
             (HttpServer via GraalJS + KofJsWebQueue — WEB001 básico fechado 03/09), Long como BigInt
-            e concorrência real via async/await/Promise (CONC003) já funcionam. Residual:
-            ws/sse/TLS/path params (WEB001). A plataforma web no browser é a próxima fase.
+            e concorrência real via async/await/Promise (CONC003) já funcionam. No servidor web:
+            as rotas, o `listen` e os helpers de contexto (param/query/header/body/method/path —
+            WEB001-T1, 13/09) e o SSE handler-scoped (16/09) estão FECHADOS. Residual real:
+            `app.ws` (WebSocket — WEB004) e TLS (WEB002). A plataforma web no browser é a próxima
+            fase.
           </Card>
 
           <Card title="Native — riscv64 / aarch64" status="available">
