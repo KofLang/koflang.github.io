@@ -71,9 +71,18 @@ $ kof serve app.kf --port 8080`}
             <Card title="HTTP e JSON na stdlib" status="available">
               web.app(), rotas com path params, query, headers, app.security()
               (rate-limit/CORS/CSRF/auth/RBAC) e OAuth2 resource server na JVM; servidor embutido
-              também no KofJS (GraalJS HttpServer + KofJsWebQueue, 03/09) e HTTP/1.1 asm no Native
-              (WEB002). Residual nos dois últimos: TLS, ws/sse, path params. JSON tipado
-              (json.decode&lt;User&gt;) nos três targets.
+              também no KofJS (GraalJS HttpServer + KofJsWebQueue, 03/09) e HTTP/1.1 asm no Native,
+              que desde a onda de 20/11 também respeita o{" "}
+              <span className="font-mono">status()</span> e os{" "}
+              <span className="font-mono">headerSet</span> do handler (Set-Cookie repetindo, guarda
+              de CR/LF como na JVM), expõe o contexto (<span className="font-mono">method()</span>/
+              <span className="font-mono">path()</span>) e casa rota por SEGMENTO, capturando{" "}
+              <span className="font-mono">:id</span> via <span className="font-mono">param()</span>.
+              Residual no Native: TLS, keep-alive e ws/sse (WEB002); no cross riscv64/aarch64 o
+              servidor inteiro é NAT007. No KofJS, o residual real é{" "}
+              <span className="font-mono">app.ws</span> (WEB004) e TLS (WEB002) — rotas, SSE
+              handler-scoped e path params já estão fechados. JSON tipado (json.decode&lt;User&gt;)
+              nos três targets.
               <br />
               Desde a 0.7.3: <span className="font-mono">remoteAddr()</span> no contexto da rota
               (#1110 — o handler lê o peer TCP),{" "}
