@@ -139,7 +139,7 @@ const capabilities: { name: string; status: Status; note: string }[] = [
   {
     name: "cliente HTTP",
     status: "available",
-    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets. Desde a 0.7.1, https ESTRITO é o default na JVM — verificação de cadeia + hostname sempre; trust-all só via opt-in explícito `http.insecure()` (avisa TLS-TRUST-ALL), e o opt-in recusa HTTP002 no JS/Native por desenho (sem trust-all nessas pontas). No Native: HTTP/1.1 asm com timeout/retry/circuit reais (§259, 17/09); https e DNS por nome são gaps honestos (recusam/throw, nunca silenciam). Na 0.7.3: `http.send(method, url, body, headers)` devolve o builtin `kof.http.Response` — status/header/headers/body sem throw em 4xx/5xx — nos TRÊS alvos JVM+Script+JS (#1126).",
+    note: "http.get, http.post, http.put, http.delete, http.status, http.timeout nos 3 targets. Desde a 0.7.1, https ESTRITO é o default na JVM — verificação de cadeia + hostname sempre; trust-all só via opt-in explícito `http.insecure()` (avisa TLS-TRUST-ALL), e o opt-in recusa HTTP002 no JS/Native por desenho (sem trust-all nessas pontas). No Native: HTTP/1.1 asm com timeout/retry/circuit reais (§259, 17/09); https e DNS por nome são gaps honestos (recusam/throw, nunca silenciam). Na 0.7.3: `http.send(method, url, body, headers)` devolve o builtin `kof.http.Response` — status/header/headers/body sem throw em 4xx/5xx — nos TRÊS alvos JVM+Script+JS (#1126). No Native x86-64 o `http.send` só teve runtime NO LAB (§1198, sem tag): faltavam os símbolos de resposta e o link quebrava; agora o handle lê o status da MESMA requisição. Riscv64 ainda sem o handle de resposta (nomeado).",
   },
   {
     name: "cache (kof.cache)",
