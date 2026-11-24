@@ -92,20 +92,22 @@ function RoadmapPage() {
               <span className="font-mono">auto-cascade</span>: avaliação automática
               lab→testing→stable→prerelease com guarda fail-closed (só promove o que foi medido). Os
               cortes 0.6.0, 0.6.1, 0.6.2, 0.6.3, 0.6.4, 0.6.5, 0.6.6, 0.6.7, 0.6.8, 0.6.9, 0.6.10,
-              0.7.0, 0.7.1, 0.7.2, 0.7.3 e 0.8.0 já rodaram nesse pipeline — incluindo recusas
-              honestas do gate: a 0.6.3 quando o ES module do runtime saiu com export duplicado
-              (re-cortada no dia seguinte); a 0.6.5, cujas tags só saíram na 3ª tentativa de CI em
-              16/10; a 0.6.10, cujo 1º CI recusou por um teste FLAKE do harness (borrow-race) —
-              root-caused e corrigido no lab com a asserção intacta, nunca waiveada, e verde na 2ª
-              tentativa; e a 0.7.1, que também precisou da 2ª tentativa porque a 1ª recusa foi um
-              bug REAL de sequenciamento (a chain promoveu um commit com VERSION ainda 0.7.0 e o
-              candidato esbarrou nas tags 0.7.0 já existentes) — corrigido propagando o bump às 4
-              branches antes do dispatch. A 0.8.0, no 3º dispatch, recusou duas vezes por motivos
-              também reais: o gate precisava provisionar o cross-toolchain, libpcap e OpenBLAS que
-              as faces novas (Linalg, Pcap, FFI cross, MATH-D) rodam de verdade, e depois a exclusão
-              da família do #1172 passou a carregar a âncora nomeada do issue. Cada recusa virou um
-              fix real, não um retry cego; 0.6.6, 0.6.7, 0.6.8, 0.6.9, a menor 0.7.0, a 0.7.2 e a
-              0.7.3 passaram de primeira, e a 0.8.0 fechou no 3º dispatch com o runner provisionado.
+              0.7.0, 0.7.1, 0.7.2, 0.7.3, 0.8.0 e 0.8.1 já rodaram nesse pipeline — incluindo
+              recusas honestas do gate: a 0.6.3 quando o ES module do runtime saiu com export
+              duplicado (re-cortada no dia seguinte); a 0.6.5, cujas tags só saíram na 3ª tentativa
+              de CI em 16/10; a 0.6.10, cujo 1º CI recusou por um teste FLAKE do harness
+              (borrow-race) — root-caused e corrigido no lab com a asserção intacta, nunca waiveada,
+              e verde na 2ª tentativa; e a 0.7.1, que também precisou da 2ª tentativa porque a 1ª
+              recusa foi um bug REAL de sequenciamento (a chain promoveu um commit com VERSION ainda
+              0.7.0 e o candidato esbarrou nas tags 0.7.0 já existentes) — corrigido propagando o
+              bump às 4 branches antes do dispatch. A 0.8.0, no 3º dispatch, recusou duas vezes por
+              motivos também reais: o gate precisava provisionar o cross-toolchain, libpcap e
+              OpenBLAS que as faces novas (Linalg, Pcap, FFI cross, MATH-D) rodam de verdade, e
+              depois a exclusão da família do #1172 passou a carregar a âncora nomeada do issue.
+              Cada recusa virou um fix real, não um retry cego; 0.6.6, 0.6.7, 0.6.8, 0.6.9, a menor
+              0.7.0, a 0.7.2 e a 0.7.3 passaram de primeira, a 0.8.0 fechou no 3º dispatch com o
+              runner provisionado e a 0.8.1 também fechou no 3º dispatch, com as duas recusas
+              anteriores sendo bugs do próprio CI da release (#1193, #1194), não flake.
             </p>
             <a
               className="mt-4 inline-block font-mono text-xs uppercase tracking-widest text-signal hover:underline"
